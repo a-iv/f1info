@@ -15,8 +15,14 @@ pages_dict = {
     'date_field': 'last_modification_date',
 }
 
+news_dict = {
+    'queryset': News.objects.filter(show=True),
+    'date_field': 'date',
+}
+
 sitemaps = {
     'pages': GenericSitemap(pages_dict),
+    'news': GenericSitemap(news_dict),
 }
 
 if settings.DEBUG:
@@ -35,6 +41,7 @@ urlpatterns += patterns(
     (r'^tinymce/', include('tinymce.urls')),
     (r'^robots.txt$', 'django.views.generic.simple.direct_to_template', {'template': 'robots.txt', 'mimetype': 'text/plain'}),
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
+    (r'^news/', include('easy_news.urls')),
     (r'^', include('pages.urls')),
 #    (r'^accounts/login/$', 'django.contrib.auth.views.login'),
 )

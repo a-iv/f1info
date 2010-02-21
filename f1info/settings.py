@@ -71,6 +71,7 @@ INSTALLED_APPS = (
     'urlmethods',
     'trustedhtml',
     'modelurl',
+    'easy_news',
     'f1info.custom_pages',
 )
 
