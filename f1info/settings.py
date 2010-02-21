@@ -74,6 +74,7 @@ INSTALLED_APPS = (
     'easy_news',
     'hex_storage',
     'photologue',
+    'f1info.custom_trusted',
     'f1info.custom_pages',
 )
 
