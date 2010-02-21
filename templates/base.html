@@ -8,6 +8,7 @@
     <title>{% block seo_title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" media="screen" href="/media/css/style.css" />
     <link rel="shortcut icon" href="/favicon.ico" />
+    {% block head %}{% endblock %}
     {% chunk "end-of-head" %}
 </head>
 <body>

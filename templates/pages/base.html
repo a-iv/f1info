@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% comment %}
+{% load menuproxy_tags %}
+{% block main_menu %}{% show_main_menu 'pages' current_page %}{% endblock %}
+{% block auto_menu %}{% show_auto_menu 'pages' current_page %}{% endblock %}
+{% block full_menu %}{% show_full_menu 'pages' current_page %}{% endblock %}
+{% block breadcrumbs %}{% show_breadcrumbs 'pages' current_page %}{% endblock %}
+{% endcomment %}
+
+{% load pages_tags %}
+{% block seo_description %}{{ current_page.seo.description }}{% endblock %}
+{% block seo_keywords %}{{ current_page.seo.keywords }}{% endblock %}
+{% block seo_title %}{{ current_page.seo.title }}{% endblock %}
+
+{% block title %}
+    {% get_content current_page "long_title" as long_title %}
+    {% if long_title %}
+        {% placeholder long_title with TextInput %}
+    {% else %}
+        {% placeholder title %}
+    {% endif %}
+{% endblock %}
