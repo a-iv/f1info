@@ -1,26 +1,33 @@
+# -*- coding: utf-8 -*-
 
 import os
 
+gettext_noop = lambda s: s
+
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+    ('webmaster', 'webmaster@redsolution.ru'),
 )
 
 MANAGERS = ADMINS
 
-DATABASE_ENGINE = 'sqlite3'    # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'f1info.db'
-DATABASE_USER = ''             # Not used with sqlite3.
-DATABASE_PASSWORD = ''         # Not used with sqlite3.
-DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT = ''             # Set to empty string for default. Not used with sqlite3.
+EMAIL_SUBJECT_PREFIX = '[f1info]'
 
-TIME_ZONE = 'America/Chicago'
+DATABASE_ENGINE = 'postgresql_psycopg2'    # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+DATABASE_NAME = 'f1info'
+DATABASE_USER = 'f1info'             # Not used with sqlite3.
+DATABASE_PASSWORD = 'password'         # Not used with sqlite3.
+DATABASE_HOST = 'localhost'             # Set to empty string for localhost. Not used with sqlite3.
+DATABASE_PORT = '5432'             # Set to empty string for default. Not used with sqlite3.
 
-LANGUAGE_CODE = 'en-us'
+TIME_ZONE = 'Asia/Yekaterinburg'
+
+LANGUAGE_CODE = 'ru'
+
+SITE_ID = 1
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = os.path.join(os.path.dirname(__file__), 'media')
+MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -35,12 +42,12 @@ ADMIN_MEDIA_PREFIX = '/admin_media/'
 # Don't share this with anybody.
 SECRET_KEY = '_7y*-5^h4*^4b0=n%kwtw*1a(fd%!lq8xbx-#nc*8v5ba4-*te'
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE_CLASSES = [
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
-)
+]
 
 ROOT_URLCONF = 'f1info.urls'
 
@@ -58,7 +65,23 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), "templates"),
+    os.path.join(os.path.dirname(os.path.dirname(__file__)), 'templates'),
 )
 
+FIXTURE_DIRS = (
+    os.path.join(os.path.dirname(os.path.dirname(__file__)), 'fixtures'),
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.auth',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.media',
+    'django.core.context_processors.request',
+)
+
+# Server settings
+FORCE_SCRIPT_NAME = ''
+
+CACHE_BACKEND = 'locmem:///?max_entries=5000'
 
