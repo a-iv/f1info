@@ -115,7 +115,7 @@ CONFIG_APP_MEDIA = {
         ('pages', 'pages',),
     ]
 }
-CONFIG_NEED_AUTH = True
+#CONFIG_NEED_AUTH = True
 
 # Pages CMS settings
 PAGE_TAGGING = False
