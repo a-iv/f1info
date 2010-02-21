@@ -72,6 +72,7 @@ INSTALLED_APPS = (
     'trustedhtml',
     'modelurl',
     'easy_news',
+    'hex_storage',
     'f1info.custom_pages',
 )
 
@@ -186,3 +187,5 @@ MODELURL_VIEWS = [
         'context': 'current_page',
     },
 ]
+
+DEFAULT_FILE_STORAGE = 'hex_storage.HexFileSystemStorage'
