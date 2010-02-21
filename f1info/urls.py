@@ -28,6 +28,7 @@ if settings.DEBUG:
 
 urlpatterns += patterns(
     '',
+    (r'^', include('pages_link.urls')), # Before admin.site.root
     (r'^admin/(.*)', admin.site.root),
     (r'^tinymce/', include('tinymce.urls')),
     (r'^robots.txt$', 'django.views.generic.simple.direct_to_template', {'template': 'robots.txt', 'mimetype': 'text/plain'}),

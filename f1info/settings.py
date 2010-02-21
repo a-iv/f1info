@@ -64,6 +64,9 @@ INSTALLED_APPS = (
     'pages',
     'tinymce',
     'chunks',
+    'imagekit',
+    'pages_link',
+    'pages_seo',
 )
 
 TEMPLATE_LOADERS = (
@@ -116,7 +119,22 @@ DEFAULT_PAGE_TEMPLATE = 'pages/index.html'
 PAGE_TEMPLATES = (
 #    ('pages/frontpage.html', gettext_noop('frontpage')),
 )
-
+PAGE_CONNECTED_MODELS = [
+    {
+        'model': 'pages_link.models.PagesImage',
+        'form': 'pages_link.forms.PagesImageForm',
+        'options': {
+            'extra': 5,
+        },
+    },
+    {
+        'model': 'pages_seo.models.PagesSeo',
+        'form': 'pages_seo.forms.PagesSeoForm',
+        'options': {
+            'max_num': 1,
+        },
+    },
+]
 
 # TinyMCE settings
 TINYMCE_JS_URL = '/media/tinymce/jscripts/tiny_mce/tiny_mce.js'

@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 {% load pages_tags %}
 
-{% block seo_description %}{% endblock %}
-{% block seo_keywords %}{% endblock %}
-{% block seo_title %}{% endblock %}
+{% block seo_description %}{{ current_page.seo.description }}{% endblock %}
+{% block seo_keywords %}{{ current_page.seo.keywords }}{% endblock %}
+{% block seo_title %}{{ current_page.seo.title }}{% endblock %}
 
 {% block title %}
     {% get_content current_page "long_title" as long_title %}
@@ -15,5 +15,5 @@
 {% endblock %}
 
 {% block content %}
-    {% placeholder main_content with TinyMCE %}
+    {% placeholder main_content with pages_link.widgets.TinyMCE %}
 {% endblock  %}
