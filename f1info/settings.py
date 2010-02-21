@@ -57,7 +57,13 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.admin',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     'config',
+    'mptt',
+    'pages',
+    'tinymce',
+    'chunks',
 )
 
 TEMPLATE_LOADERS = (
@@ -79,6 +85,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',
     'django.core.context_processors.media',
     'django.core.context_processors.request',
+    'pages.context_processors.media',
 )
 
 # Server settings
@@ -89,3 +96,45 @@ CACHE_BACKEND = 'locmem:///?max_entries=5000'
 # django-config settings
 CONFIG_SITES = ['www.f1info.ru', ]
 CONFIG_REDIRECTS = ['f1info.ru', ]
+CONFIG_APP_MEDIA = {
+    'pages': [
+        ('pages', 'pages', ),
+    ]
+}
+
+
+# Pages CMS settings
+PAGE_TAGGING = False
+PAGE_PERMISSION = False
+PAGE_TINYMCE = True
+PAGE_HIDE_ROOT_SLUG = True
+PAGE_LANGUAGES = (
+    ('ru', gettext_noop('Russian')),
+    ('en', gettext_noop('English')),
+)
+DEFAULT_PAGE_TEMPLATE = 'pages/index.html'
+PAGE_TEMPLATES = (
+#    ('pages/frontpage.html', gettext_noop('frontpage')),
+)
+
+
+# TinyMCE settings
+TINYMCE_JS_URL = '/media/tinymce/jscripts/tiny_mce/tiny_mce.js'
+TINYMCE_JS_ROOT = os.path.join(MEDIA_ROOT, 'tinymce', 'jscripts', 'tiny_mce')
+TINYMCE_DEFAULT_CONFIG = {
+    'mode': 'exact',
+    'theme': 'advanced',
+    'relative_urls': False,
+    'width': 600,
+    'height': 300,
+    'plugins': 'table,advimage,advlink,inlinepopups,preview,media,searchreplace,contextmenu,paste,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras',
+    'theme_advanced_buttons1': 'fullscreen,|,bold,italic,underline,strikethrough,|,sub,sup,|,bullist,numlist,|,outdent,indent,|,formatselect,removeformat',
+    'theme_advanced_buttons2': 'cut,copy,paste,pastetext,pasteword,|,search,replace,|,undo,redo,|,link,unlink,anchor,image,media,charmap,|,visualchars,nonbreaking',
+    'theme_advanced_buttons3': 'visualaid,tablecontrols,|,blockquote,del,ins,|,preview,code',
+    'theme_advanced_toolbar_location': 'top',
+    'theme_advanced_toolbar_align': 'left',
+    'content_css': '/media/css/tinymce.css',
+    'extended_valid_elements': 'noindex',
+    'custom_elements': 'noindex',
+}
+TINYMCE_COMPRESSOR = True
