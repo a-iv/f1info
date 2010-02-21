@@ -57,6 +57,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.admin',
+    'config',
 )
 
 TEMPLATE_LOADERS = (
@@ -85,3 +86,6 @@ FORCE_SCRIPT_NAME = ''
 
 CACHE_BACKEND = 'locmem:///?max_entries=5000'
 
+# django-config settings
+CONFIG_SITES = ['www.f1info.ru', ]
+CONFIG_REDIRECTS = ['f1info.ru', ]
