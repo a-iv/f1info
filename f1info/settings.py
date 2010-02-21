@@ -111,7 +111,7 @@ CONFIG_SITES = ['www.f1info.ru', ]
 CONFIG_REDIRECTS = ['f1info.ru', ]
 CONFIG_APP_MEDIA = {
     'pages': [
-        ('pages', 'pages', ),
+        ('pages', 'pages',),
     ]
 }
 
@@ -134,7 +134,14 @@ PAGE_CONNECTED_MODELS = [
         'model': 'pages_link.models.PagesImage',
         'form': 'pages_link.forms.PagesImageForm',
         'options': {
-            'extra': 5,
+            'extra': 3,
+        },
+    },
+    {
+        'model': 'pages_link.models.PagesFile',
+        'form': 'pages_link.forms.PagesFileForm',
+        'options': {
+            'extra': 3,
         },
     },
     {
