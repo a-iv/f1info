@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load pages_tags %}
+
+{% block seo_description %}{% endblock %}
+{% block seo_keywords %}{% endblock %}
+{% block seo_title %}{% endblock %}
+
+{% block title %}
+    {% get_content current_page "long_title" as long_title %}
+    {% if long_title %}
+        {% placeholder long_title with TextInput %}
+    {% else %}
+        {% placeholder title %}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% placeholder main_content with TinyMCE %}
+{% endblock  %}

@@ -1,0 +1,7 @@
+@import url('base.css');
+
+#redsolution {
+    width: 130px;
+    height: 32px;
+    display: block;
+}
