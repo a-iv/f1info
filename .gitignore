@@ -1,0 +1,17 @@
+*.bat
+*.orig
+*.pyc
+*.sh
+*.sql
+.svn
+.project
+.pydevproject
+.settings
+.installed.cfg
+bin/*
+downloads/*
+eggs/*
+develop-eggs/*
+parts/*
+commit.txt
+media/upload/*
