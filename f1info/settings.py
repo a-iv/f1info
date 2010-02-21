@@ -74,6 +74,7 @@ INSTALLED_APPS = (
     'easy_news',
     'hex_storage',
     'photologue',
+    'filebrowser',
     'f1info.custom_trusted',
     'f1info.custom_admin',
     'f1info.custom_pages',
@@ -203,3 +204,8 @@ DEFAULT_FILE_STORAGE = 'hex_storage.HexFileSystemStorage'
 
 # Photologue
 PHOTOLOGUE_DIR = os.path.join('upload', 'photologue')
+
+#django-filebroser
+FILEBROWSER_URL_WWW = '/media/upload/filebrowser/'
+FILEBROWSER_PATH_SERVER = os.path.join(MEDIA_ROOT, 'upload', 'filebrowser')
+FILEBROWSER_URL_FILEBROWSER_MEDIA = '/media/filebrowser/'
