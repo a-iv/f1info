@@ -1,0 +1,29 @@
+{% extends "photologue/root_gallery.html" %}
+{% comment %}
+{% load menuproxy_tags %}
+{% block main_menu %}{% show_main_menu 'gallery_archive' %}{% endblock %}
+{% block auto_menu %}{% show_auto_menu 'gallery_archive' %}{% endblock %}
+{% block full_menu %}{% show_full_menu 'gallery_archive' %}{% endblock %}
+{% block breadcrumbs %}{% show_breadcrumbs 'gallery_archive' %}{% endblock %}
+{% endcomment %}
+
+{% block title %}Фотогалерея{% endblock %}
+{% block seo_title %}Фотогалерея{% endblock %}
+
+{% block content %}
+    {% if latest %}
+        {% for gallery in latest %}
+            <div class="photo-gallery">
+                <h3><a href="{{ gallery.get_absolute_url }}">{{ gallery.title }}</a></h3>
+                {% for photo in gallery.sample|slice:sample_size %}
+                    <div class="gallery-photo">
+                        <a href="{{ photo.get_absolute_url }}"><img src="{{ photo.get_thumbnail_url }}" alt="{{ photo.title }}"/></a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Галерей не найдено.</p>
+    {% endif %}
+    <div id="gallery-view-all"><a href="{% url pl-gallery-list 1 %}">Посмотреть все галереи »</a></div>
+{% endblock %}

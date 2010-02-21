@@ -1,0 +1,34 @@
+{% extends "photologue/root_photo.html" %}
+{% comment %}
+{% load menuproxy_tags %}
+{% block main_menu %}{% show_main_menu 'gallery_detail' object.public_galleries.0 %}{% endblock %}
+{% block auto_menu %}{% show_auto_menu 'gallery_detail' object.public_galleries.0 %}{% endblock %}
+{% block full_menu %}{% show_full_menu 'gallery_detail' object.public_galleries.0 %}{% endblock %}
+{% block breadcrumbs %}{% show_breadcrumbs 'gallery_detail' object.public_galleries.0 %}{% endblock %}
+{% endcomment %}
+
+{% load photologue_tags %}
+{% block seo_title %}{{ object.title }}{% endblock %}
+{% block title %}{{ object.title }}{% endblock %}
+{% block right_wrapper %}{% endblock %}
+{% block content %}
+    <div class="photo-single">
+    <a name="pic" id="pic"></a>
+    <div id="gallery-back">Вернуться в галарею: <a href="{{ object.public_galleries.0.get_absolute_url }}">{{ object.public_galleries.0.title }}</a></div>
+    {% if object.public_galleries %}
+        <table class="photo-siblings">
+            {% for gallery in object.public_galleries %}
+                <tr>
+                    <td class="prev">{% previous_in_gallery object gallery %}</td>
+                    <td class="zoom-image">
+                        <a href="{{ object.image.url }}"><img src="{{ object.get_display_url }}" alt="{{ object.title }}"/></a>
+                        {% if object.caption %}<p>{{ object.caption }}</p>{% endif %}
+                    </td>
+                    <td class="next">{% next_in_gallery object gallery %}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    
+    {% endif %}
+{% endblock %}

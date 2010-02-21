@@ -1,0 +1,17 @@
+{% extends "photologue/root_photo.html" %}
+
+{% block title %}Последние фотографии{% endblock %}
+{% block meta_title %}Последние фотографии{% endblock %}
+
+{% block content %}
+    {% if latest %}
+        {% for photo in latest %}
+            <div class="gallery-photo">
+                <a href="{{ photo.get_absolute_url }}"><img src="{{ photo.get_thumbnail_url }}" alt="{{ photo.title }}"/></a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Фотографий не найдено.</p>
+    {% endif %}
+    <p id="photo-view-all"><a href="{% url pl-photo-list 1 %}">Просморт всех фотографий.</a></p>
+{% endblock %}

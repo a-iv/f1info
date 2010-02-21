@@ -1,0 +1,24 @@
+{% extends "photologue/root_gallery.html" %}
+{% comment %}
+{% load menuproxy_tags %}
+{% block main_menu %}{% show_main_menu 'gallery_detail' object %}{% endblock %}
+{% block auto_menu %}{% show_auto_menu 'gallery_detail' object %}{% endblock %}
+{% block full_menu %}{% show_full_menu 'gallery_detail' object %}{% endblock %}
+{% block breadcrumbs %}{% show_breadcrumbs 'gallery_detail' object %}{% endblock %}
+{% endcomment %}
+
+{% block seo_title %}{{ object.title }}{% endblock %}
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block content %}
+    
+    {% if object.description %}<p>{{ object.description }}</p>{% endif %}
+    <div class="photo-gallery">
+        {% for photo in object.public reversed %}
+            <div class="gallery-photo">
+                <a href="{{ photo.get_absolute_url }}#pic"><img src="{{ photo.get_thumbnail_url }}" alt="{{ photo.title }}"/></a>
+            </div>
+        {% endfor %}
+    </div>
+    <div id="gallery-date">Опубликовано: {{ object.date_added|date:"j F Y" }}</div>
+{% endblock %}

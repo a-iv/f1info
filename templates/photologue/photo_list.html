@@ -1,0 +1,35 @@
+{% extends "photologue/root_photo.html" %}
+{% comment %}
+{% load menuproxy_tags %}
+{% block main_menu %}{% show_main_menu 'photo_list' %}{% endblock %}
+{% block auto_menu %}{% show_auto_menu 'photo_list' %}{% endblock %}
+{% block full_menu %}{% show_full_menu 'photo_list' %}{% endblock %}
+{% block breadcrumbs %}{% show_breadcrumbs 'photo_list' %}{% endblock %}
+{% endcomment %}
+
+{% block title %}Все фотографии{% endblock %}
+{% block seo_title %}Все фотографии{% endblock %}
+
+{% block content %}
+    {% if object_list %}
+        {% for photo in object_list %}
+            <div class="gallery-photo">
+                <a href="{{ photo.get_absolute_url }}"><img src="{{ photo.get_thumbnail_url }}" alt="{{ photo.title }}"/></a>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Фотографий не найдено</p>
+    {% endif %}
+
+    {% if is_paginated %}
+        <div id="page_controls">
+            <p>
+                Страница: 
+                {% if has_previous %}<a href="{% url pl-photo-list previous %}">&larr;</a> {% endif %}
+                {{ page }} из {{ pages }}
+                {% if has_next %} <a href="{% url pl-photo-list next %}">&rarr;</a>{% endif %}
+            </p>
+        </div>
+        <div  id="photo-view-all">{{ hits }} всего фотографий</div>
+    {% endif %}
+{% endblock %}

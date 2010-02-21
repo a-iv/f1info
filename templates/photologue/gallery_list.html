@@ -1,0 +1,40 @@
+{% extends "photologue/root_gallery.html" %}
+{% comment %}
+{% load menuproxy_tags %}
+{% block main_menu %}{% show_main_menu 'gallery_list' %}{% endblock %}
+{% block auto_menu %}{% show_auto_menu 'gallery_list' %}{% endblock %}
+{% block full_menu %}{% show_full_menu 'gallery_list' %}{% endblock %}
+{% block breadcrumbs %}{% show_breadcrumbs 'gallery_list' %}{% endblock %}
+{% endcomment %}
+
+{% block title %}Все галереи{% endblock %}
+{% block seo_title %}Все галереи{% endblock %}
+
+{% block content %}
+    {% if object_list %}
+        {% for gallery in object_list %}
+            <div class="photo-gallery">
+                <h2><a href="{{ gallery.get_absolute_url }}">{{ gallery.title }}</a></h2>
+                {% for photo in gallery.sample|slice:sample_size %}
+                    <div class="gallery-photo">
+                        <a href="{{ photo.get_absolute_url }}#pic"><img src="{{ photo.get_thumbnail_url }}" alt="{{ photo.title }}"/></a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Галерей не найдено.</p>
+    {% endif %}
+
+    {% if is_paginated %}
+        <div id="page_controls">
+            <p>
+                Страница: 
+                {% if has_previous %}<a href="{% url pl-gallery-list previous %}">&larr;</a> {% endif %}
+                {{ page }} из {{ pages }}
+                {% if has_next %} <a href="{% url pl-gallery-list next %}">&rarr;</a>{% endif %}
+            </p>
+        </div>
+        <div  id="photo-view-all">{{ hits }} всего галерей</div>
+    {% endif %}
+{% endblock %}
