@@ -73,6 +73,7 @@ INSTALLED_APPS = (
     'modelurl',
     'easy_news',
     'hex_storage',
+    'photologue',
     'f1info.custom_pages',
 )
 
@@ -188,4 +189,8 @@ MODELURL_VIEWS = [
     },
 ]
 
+#django-hex-storage
 DEFAULT_FILE_STORAGE = 'hex_storage.HexFileSystemStorage'
+
+# Photologue
+PHOTOLOGUE_DIR = os.path.join('upload', 'photologue')

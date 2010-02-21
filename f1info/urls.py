@@ -1,9 +1,10 @@
-
+# -*- coding: utf-8 -*-
 from django.conf.urls.defaults import patterns, include, handler500, handler404
 from django.conf import settings
 from django.contrib import admin
 from django.contrib.sitemaps import GenericSitemap
 from pages.models import Page
+from easy_news.models import News
 admin.autodiscover()
 
 handler500 # Pyflakes
@@ -42,6 +43,7 @@ urlpatterns += patterns(
     (r'^robots.txt$', 'django.views.generic.simple.direct_to_template', {'template': 'robots.txt', 'mimetype': 'text/plain'}),
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     (r'^news/', include('easy_news.urls')),
+    (r'^photologue/', include('photologue.urls')),
     (r'^', include('pages.urls')),
 #    (r'^accounts/login/$', 'django.contrib.auth.views.login'),
 )
