@@ -47,6 +47,7 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
+    'modelurl.middleware.ModelUrlMiddleware',
 ]
 
 ROOT_URLCONF = 'f1info.urls'
@@ -67,6 +68,10 @@ INSTALLED_APPS = (
     'imagekit',
     'pages_link',
     'pages_seo',
+    'urlmethods',
+    'trustedhtml',
+    'modelurl',
+    'f1info.custom_pages',
 )
 
 TEMPLATE_LOADERS = (
@@ -156,3 +161,27 @@ TINYMCE_DEFAULT_CONFIG = {
     'custom_elements': 'noindex',
 }
 TINYMCE_COMPRESSOR = True
+
+# django-trusted-html
+TRUSTEDHTML_ENABLE_LOG = True
+TRUSTEDHTML_VERIFY_SITES = True
+TRUSTEDHTML_CUT_SITES = ['127.0.0.1:8000', ] + CONFIG_SITES + CONFIG_REDIRECTS
+TRUSTEDHTML_OBJECT_SITES = ['www.youtube.com', 'youtube.com', ]
+
+#django-model-url
+MODELURL_MODELS = [
+    {
+        'model': 'pages.models.Page',
+    },
+]
+
+MODELURL_VIEWS = [
+    {
+        'view': 'django.contrib.admin.site.root',
+        'disable': True,
+    },
+    {
+        'view': 'pages.views.details',
+        'context': 'current_page',
+    },
+]
