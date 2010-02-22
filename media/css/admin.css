@@ -1,0 +1,41 @@
+div.sexy input {
+    background-image: url(../img/text-bg.gif) !important;
+}
+div.sexy div.icon {
+    background-image: url(../img/trigger.gif) !important;
+}
+.form-row {
+    overflow: visible !important;
+}
+.aligned label {
+    width: 96px !important;
+}
+div.sexy {
+    margin-left: 106px;
+    width: 200px;
+}
+
+div.sexy input {
+    width: 203px;
+    margin-top: -2px;
+}
+
+div.sexy div.icon {
+    left: 203px; 
+    margin-top: -2px;
+}
+
+div.sexy div.list-wrapper {
+    width: 220px;
+    margin-top: -2px;
+}
+
+div.sexy a, div.sexy a:visited, div.sexy a:active {
+	width: 220px;
+}
+
+.add-another {
+    display: block;
+    margin-left: 336px !important;
+    margin-top: -18px !important;
+}

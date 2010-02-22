@@ -75,6 +75,7 @@ INSTALLED_APPS = (
     'hex_storage',
     'photologue',
     'filebrowser',
+    'f1info',
     'f1info.custom_trusted',
     'f1info.custom_admin',
     'f1info.custom_pages',
