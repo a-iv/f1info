@@ -12,17 +12,9 @@
     {% chunk "end-of-head" %}
 </head>
 <body>
-    <div id="top">
-        <div id="logo">{% chunk "logo" %}</div>
-    </div>
     <div id="center">
         <h1>{% block title %}{% endblock %}</h1>
-        <div id="content">{% block content %}{% endblock %}</div>
-    </div>
-    <div id="footer">
-        <div id="developer">
-        </div>
-        <div id="copyright">{% chunk "copyright" %}</div>
+        {% block content %}{% endblock %}
     </div>
     {% chunk "end-of-body" %}
 </body>

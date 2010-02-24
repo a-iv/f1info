@@ -1,7 +1,26 @@
 @import url('base.css');
 
-#redsolution {
-    width: 130px;
-    height: 32px;
-    display: block;
+body {
+	font-family: "Trebuchet MS",Verdana,Arial,Helvetica,sans-serif;
+	margin: 0;
+	padding: 0;
+	color: #000;
 }
+
+#center {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	width: 300px;
+	height: 50px;
+	text-align: center;
+	font-size: 10pt;
+	margin: -25px 0 0 -150px;
+}
+
+h1 {
+	margin: 6px 0;
+	font-size: 30pt !important;
+	font-weight: normal;
+}
+
