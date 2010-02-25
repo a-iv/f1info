@@ -15,6 +15,7 @@ class Racer(models.Model):
     first_name = models.CharField(verbose_name=u'Имя', max_length=100)
     nationality = models.CharField(verbose_name=u'Начиональность', max_length=100)
     birthday = models.DateField(verbose_name=u'Дата рождения')
+    comment = models.CharField(verbose_name=u'Комментарий', max_length=200, default='')
 
     def get_heat_count(self):
         u"""Гонок"""
