@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from f1info.models import Racer, Engine, Team, Score, Season, Heat, Result, BestRound
+from f1info.models import Racer, Engine, Team, Tyre, Season, Point
+from f1info.models import GrandPrix, Heat, Result, BestLap
 
 class ModelAdmin(admin.ModelAdmin):
     class Media:
@@ -43,13 +44,26 @@ try:
 except admin.sites.AlreadyRegistered:
     pass
 
-class ScoreInline(admin.TabularInline):
-    model = Score
+class TyreAdmin(ModelAdmin):
+    pass
+
+try:
+    admin.site.register(Tyre, TyreAdmin)
+except admin.sites.AlreadyRegistered:
+    pass
+
+class PointInline(admin.TabularInline):
+    model = Point
+    extra = 10
+
+class GrandPrixInline(admin.TabularInline):
+    model = GrandPrix
     extra = 10
 
 class SeasonAdmin(ModelAdmin):
     inlines = [
-        ScoreInline,
+        PointInline,
+        GrandPrixInline,
     ]
 
 try:
@@ -61,15 +75,15 @@ class ResultInline(admin.TabularInline):
     model = Result
     extra = 20
 
-class BestRoundInline(admin.TabularInline):
-    model = BestRound
+class BestLapInline(admin.TabularInline):
+    model = BestLap
     extra = 1
     max_num = 1
 
 class HeatAdmin(ModelAdmin):
     inlines = [
         ResultInline,
-        BestRoundInline,
+        BestLapInline,
     ]
 
 try:
