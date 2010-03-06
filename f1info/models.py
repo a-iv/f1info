@@ -267,20 +267,20 @@ class Heat(models.Model):
     date = models.DateField(verbose_name=u'Дата', default=datetime.date.today)
     time = models.DecimalField(verbose_name=u'Время заезда', max_digits=8, decimal_places=3)
     round = models.IntegerField(verbose_name=u'Кругов заезда')
+    half_points = models.BooleanField(verbose_name=u'Делить очки пополам', default=False)
 
     def __unicode__(self):
         return u'%s - %s' % (self.grandprix, self.get_type_display())
 
 class Result(models.Model):
     class Meta:
-        ordering = ['delta']
+        ordering = ['position']
         verbose_name = u'Результат'
         verbose_name_plural = u'Результаты'
         unique_together = (
             ('racer', 'heat',),
         )
     heat = models.ForeignKey(Heat, verbose_name=u'Заезд', related_name='results')
-    half_points = models.BooleanField(verbose_name=u'Делить очки пополам')
     position = models.IntegerField(verbose_name=u'Место')
     racer = models.ForeignKey(Racer, verbose_name=u'Гонщик', related_name='results')
     team = models.ForeignKey(Team, verbose_name=u'Команда', related_name='results')
