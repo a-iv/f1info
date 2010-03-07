@@ -3,7 +3,30 @@
 import datetime
 from django.db import models
 
-class Racer(models.Model):
+class VerboseItem(object):
+    def __init__(self, object):
+        self._object = object
+
+    def __getattribute__(self, name):
+        if name.startswith('_'):
+            return super(VerboseItem, self).__getattribute__(name)
+        if name == 'self':
+            return self._object._meta.verbose_name
+        try:
+            return self._object._meta.get_field(name).verbose_name
+        except models.FieldDoesNotExist:
+            return getattr(self._object, name).verbose_name
+
+class VerboseModel(models.Model):
+    class Meta:
+        abstract = True
+
+    def __getattribute__(self, name):
+        if name == 'get_verbose_name':
+            return VerboseItem(self)
+        return super(VerboseModel, self).__getattribute__(name)
+
+class Racer(VerboseModel):
     class Meta:
         ordering = ['family_name', 'first_name', ]
         verbose_name = u'Гонщик'
@@ -13,55 +36,55 @@ class Racer(models.Model):
         )
     family_name = models.CharField(verbose_name=u'Фамилия', max_length=100)
     first_name = models.CharField(verbose_name=u'Имя', max_length=100)
-    nationality = models.CharField(verbose_name=u'Начиональность', max_length=100)
+    nationality = models.CharField(verbose_name=u'Национальность', max_length=100)
     birthday = models.DateField(verbose_name=u'Дата рождения')
     comment = models.CharField(verbose_name=u'Комментарий', max_length=200, default='')
 
     def get_race_count(self):
-        u"""Гонок"""
-        return self.results.filter(racer__type=Heat.RACE).count()
+        return self.results.count() #filter(racer__type=Heat.RACE).
+    get_race_count.verbose_name = u'Гонок'
 
     def get_grand_prix_count(self):
-        u"""Гран-при"""
         return #self.results.count()
+    get_grand_prix_count.verbose_name = u'Гран-при'
 
     def get_last_team(self):
-        u"""Команда"""
-        return #self.results.count()
+        return # self.results.
+    get_last_team.verbose_name = u'Команда'
 
     def get_season_count(self):
-        u"""Сезонов"""
 #        for result in self.results:
         pass
+    get_season_count.verbose_name = u'Сезонов'
 
     def get_win_count(self):
-        u"""Побед"""
         pass
+    get_win_count.verbose_name = u'Побед'
 
     def get_podium_count(self):
-        u"""Подиумов"""
         pass
+    get_podium_count.verbose_name = u'Подиумов'
 
     def get_points_count(self):
-        u"""Очков"""
         pass
+    get_points_count.verbose_name = u'Очков'
 
     def get_poles_count(self):
-        u"""Поул-позишн"""
         pass
+    get_poles_count.verbose_name = u'Поул-позишн'
 
     def get_bestlap_count(self):
-        u"""Быстрейщих кругов"""
         pass
+    get_bestlap_count.verbose_name = u'Быстрейщих кругов'
 
     def get_fail_count(self):
-        u"""Сходов"""
         pass
+    get_fail_count.verbose_name = u'Сходов'
 
     def __unicode__(self):
         return u'%s %s' % (self.family_name, self.first_name)
 
-class Engine(models.Model):
+class Engine(VerboseModel):
     class Meta:
         ordering = ['name']
         verbose_name = u'Двигатель'
@@ -109,7 +132,7 @@ class Engine(models.Model):
         return u'%s' % self.name
 
 
-class Tyre(models.Model):
+class Tyre(VerboseModel):
     class Meta:
         ordering = ['name']
         verbose_name = u'Шина'
@@ -157,7 +180,7 @@ class Tyre(models.Model):
         return u'%s' % self.name
 
 
-class Team(models.Model):
+class Team(VerboseModel):
     class Meta:
         ordering = ['name']
         verbose_name = u'Команда'
@@ -204,7 +227,7 @@ class Team(models.Model):
     def __unicode__(self):
         return '%s' % self.name
 
-class Season(models.Model):
+class Season(VerboseModel):
     class Meta:
         ordering = ['year']
         verbose_name = u'Сезон'
@@ -214,7 +237,7 @@ class Season(models.Model):
     def __unicode__(self):
         return u'%d' % self.year
 
-class Point(models.Model):
+class Point(VerboseModel):
     class Meta:
         ordering = ['place']
         verbose_name = u'Очки'
@@ -229,9 +252,9 @@ class Point(models.Model):
     def __unicode__(self):
         return u''
 
-class GrandPrix(models.Model):
+class GrandPrix(VerboseModel):
     class Meta:
-        #ordering = ['heats__data']
+        ordering = ['heats__date']
         verbose_name = u'Гран-при'
         verbose_name_plural = u'Гран-при'
         unique_together = (
@@ -242,10 +265,10 @@ class GrandPrix(models.Model):
     name = models.CharField(verbose_name=u'Наименование', max_length=100)
 
     def __unicode__(self):
-        return u'%s' % self.name
+        return u'%s: %s' % (self.season, self.name)
 
 
-class Heat(models.Model):
+class Heat(VerboseModel):
     class Meta:
         ordering = ['date']
         verbose_name = u'Заезд'
@@ -272,9 +295,9 @@ class Heat(models.Model):
     def __unicode__(self):
         return u'%s - %s' % (self.grandprix, self.get_type_display())
 
-class Result(models.Model):
+class Result(VerboseModel):
     class Meta:
-        ordering = ['position']
+        ordering = ['heat__date', 'position']
         verbose_name = u'Результат'
         verbose_name_plural = u'Результаты'
         unique_together = (
@@ -293,7 +316,7 @@ class Result(models.Model):
     def __unicode__(self):
         return u'%s' % self.racer
 
-class BestLap(models.Model):
+class BestLap(VerboseModel):
     class Meta:
         ordering = ['heat', 'result', ]
         verbose_name = u'Лучший круг'
