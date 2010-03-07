@@ -15,7 +15,13 @@ class VerboseItem(object):
         try:
             return self._object._meta.get_field(name).verbose_name
         except models.FieldDoesNotExist:
-            return getattr(self._object, name).verbose_name
+            object = getattr(self._object, name)
+            try:
+                return object.verbose_name
+            except AttributeError:
+                if object.__doc__:
+                    return object.__doc__
+                raise
 
 class VerboseModel(models.Model):
     class Meta:
@@ -25,6 +31,14 @@ class VerboseModel(models.Model):
         if name == 'get_verbose_name':
             return VerboseItem(self)
         return super(VerboseModel, self).__getattribute__(name)
+
+
+def get_last(query_set):
+    ordering = []
+    for order in query_set.model._meta.ordering:
+        ordering.insert(0, order)
+    return query_set.order_by(*ordering)[0]
+
 
 class Racer(VerboseModel):
     class Meta:
@@ -40,49 +54,59 @@ class Racer(VerboseModel):
     birthday = models.DateField(verbose_name=u'Дата рождения')
     comment = models.CharField(verbose_name=u'Комментарий', max_length=200, default='')
 
+    def get_last_team(self):
+        u'Последняя команда'
+        return get_last(self.results).team
+
+    def get_last_tyre(self):
+        u'Последние шины'
+        return get_last(self.results).tyre
+
+    def get_last_engine(self):
+        u'Последний двигатель'
+        return get_last(self.results).engine
+
     def get_race_count(self):
-        return self.results.count() #filter(racer__type=Heat.RACE).
-    get_race_count.verbose_name = u'Гонок'
+        u'Гонок'
+        return self.results.filter(heat__type=Heat.RACE).count()
 
     def get_grand_prix_count(self):
-        return #self.results.count()
-    get_grand_prix_count.verbose_name = u'Гран-при'
-
-    def get_last_team(self):
-        return # self.results.
-    get_last_team.verbose_name = u'Команда'
+        u'Гран-при'
+        return GrandPrix.objects.filter(heats__results__racer=self).count()
 
     def get_season_count(self):
-#        for result in self.results:
-        pass
-    get_season_count.verbose_name = u'Сезонов'
+        u'Сезонов'
+        return Season.objects.filter(grandprixs__heats__results__racer=self).count()
 
     def get_win_count(self):
-        pass
-    get_win_count.verbose_name = u'Побед'
+        u'Побед'
+        return self.results.filter(heat__type=Heat.RACE, position=1).count()
 
     def get_podium_count(self):
-        pass
-    get_podium_count.verbose_name = u'Подиумов'
+        u'Подиумов'
+        return self.results.filter(heat__type=Heat.RACE, position__lte=3).count()
 
     def get_points_count(self):
-        pass
-    get_points_count.verbose_name = u'Очков'
+        u'Очков'
+        total = 0
+        for result in self.results.all():
+            total += result.get_points_count()
+        return total
 
     def get_poles_count(self):
-        pass
-    get_poles_count.verbose_name = u'Поул-позишн'
+        u'Поул-позишн'
 
     def get_bestlap_count(self):
-        pass
-    get_bestlap_count.verbose_name = u'Быстрейщих кругов'
+        u'Быстрейщих кругов'
+        return BestLap.objects.filter(result__racer=self).count()
 
     def get_fail_count(self):
-        pass
-    get_fail_count.verbose_name = u'Сходов'
+        u'Сходов'
+        return self.results.exclude(fail='').count()
 
     def __unicode__(self):
         return u'%s %s' % (self.family_name, self.first_name)
+
 
 class Engine(VerboseModel):
     class Meta:
@@ -227,6 +251,7 @@ class Team(VerboseModel):
     def __unicode__(self):
         return '%s' % self.name
 
+
 class Season(VerboseModel):
     class Meta:
         ordering = ['year']
@@ -245,12 +270,13 @@ class Point(VerboseModel):
         unique_together = (
             ('season', 'place',),
         )
-    season = models.ForeignKey(Season, verbose_name=u'Сезон', related_name='seasons')
+    season = models.ForeignKey(Season, verbose_name=u'Сезон', related_name='points')
     place = models.IntegerField(verbose_name=u'Место')
     point = models.IntegerField(verbose_name=u'Очки')
 
     def __unicode__(self):
         return u''
+
 
 class GrandPrix(VerboseModel):
     class Meta:
@@ -261,7 +287,7 @@ class GrandPrix(VerboseModel):
             ('season', 'name',),
         )
 
-    season = models.ForeignKey(Season, verbose_name=u'Сезон', related_name='grandprix')
+    season = models.ForeignKey(Season, verbose_name=u'Сезон', related_name='grandprixs')
     name = models.CharField(verbose_name=u'Наименование', max_length=100)
 
     def __unicode__(self):
@@ -295,6 +321,7 @@ class Heat(VerboseModel):
     def __unicode__(self):
         return u'%s - %s' % (self.grandprix, self.get_type_display())
 
+
 class Result(VerboseModel):
     class Meta:
         ordering = ['heat__date', 'position']
@@ -311,10 +338,17 @@ class Result(VerboseModel):
     tyre = models.ForeignKey(Tyre, verbose_name=u'Шины', related_name='results')
     delta = models.DecimalField(verbose_name=u'Отставание (время)', max_digits=8, decimal_places=3, null=True, blank=True)
     round = models.IntegerField(verbose_name=u'Отставание (кругов)', null=True, blank=True)
-    fail = models.CharField(verbose_name=u'Причина схода', max_length=100, null=True, blank=True)
+    fail = models.CharField(verbose_name=u'Причина схода', max_length=100, default='', blank=True)
+
+    def get_points_count(self):
+        try:
+            return self.heat.grandprix.season.points.get(place=self.position).point
+        except models.ObjectDoesNotExist:
+            return 0
 
     def __unicode__(self):
         return u'%s' % self.racer
+
 
 class BestLap(VerboseModel):
     class Meta:
