@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>{{ object.get_verbose_name.self }}: {{ object }}</h2>
+    
+    <div>{{ object.get_verbose_name.grandprix }}: {{ object.grandprix }}</div>
+    <div>{{ object.get_verbose_name.type }}: {{ object.get_type_display }}</div>
+    <div>{{ object.get_verbose_name.date }}: {{ object.date|date:"d m Y" }}</div>
+    
+    <table>
+        {% for result in object.results.all %}
+            {% if forloop.first %}
+                <tr>
+                    <th>{{ result.get_verbose_name.racer }}</td>
+                    <th>{{ result.get_verbose_name.team }}</td>
+                    <th>{{ result.get_verbose_name.tyre }}</td>
+                    <th>{{ result.get_verbose_name.engine }}</td>
+                    <th>{{ result.get_verbose_name.get_time_display }}</td>
+                    <th>{{ result.get_verbose_name.get_delta_display }}</td>
+                </tr>
+            {% endif %}
+            {% if not result.fail %}
+                <tr>
+                    <td>{{ result.racer }}</td>
+                    <td>{{ result.team }}</td>
+                    <td>{{ result.tyre }}</td>
+                    <td>{{ result.engine }}</td>
+                    <td>{{ result.get_time_display }}</td>
+                    <td>{{ result.get_delta_display }}</td>
+                </tr>
+           {% endif %}
+        {% endfor %}
+    </table>
+
+    <table>
+        {% for result in object.results.all %}
+            {% if forloop.first %}
+                <tr>
+                    <th>{{ result.get_verbose_name.racer }}</td>
+                    <th>{{ result.get_verbose_name.team }}</td>
+                    <th>{{ result.get_verbose_name.tyre }}</td>
+                    <th>{{ result.get_verbose_name.engine }}</td>
+                    <th>{{ result.get_verbose_name.round }}</td>
+                    <th>{{ result.get_verbose_name.fail }}</td>
+                </tr>
+            {% endif %}
+            {% if result.fail %}
+                <tr>
+                    <td>{{ result.racer }}</td>
+                    <td>{{ result.team }}</td>
+                    <td>{{ result.tyre }}</td>
+                    <td>{{ result.engine }}</td>
+                    <td>{{ result.round }}</td>
+                    <td>{{ result.fail }}</td>
+                </tr>
+           {% endif %}
+        {% endfor %}
+    </table>
+{% endblock %}

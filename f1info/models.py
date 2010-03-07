@@ -40,6 +40,21 @@ def get_last(query_set):
     return query_set.order_by(*ordering)[0]
 
 
+def time_to_str(time):
+    millisecond = int((time % 1) * 1000)
+    time = int(time)
+    second = time % 60
+    time = time / 60
+    minute = time % 60
+    hour = time / 60
+    result = ''
+    if hour:
+        result += '%02d:' % hour
+    if minute:
+        result += '%02d:' % minute
+    result += '%02d.%04d' % (second, millisecond)
+    return result
+
 class Racer(VerboseModel):
     class Meta:
         ordering = ['family_name', 'first_name', ]
@@ -337,12 +352,30 @@ class Result(VerboseModel):
     engine = models.ForeignKey(Engine, verbose_name=u'Двигатель', related_name='results')
     tyre = models.ForeignKey(Tyre, verbose_name=u'Шины', related_name='results')
     delta = models.DecimalField(verbose_name=u'Отставание (время)', max_digits=8, decimal_places=3, null=True, blank=True)
-    round = models.IntegerField(verbose_name=u'Отставание (кругов)', null=True, blank=True)
+    round = models.IntegerField(verbose_name=u'Кругов', null=True, blank=True)
     fail = models.CharField(verbose_name=u'Причина схода', max_length=100, default='', blank=True)
+
+    def get_time_display(self):
+        u'Время'
+        if self.delta is None:
+            return ''
+        return time_to_str(self.heat.time + self.delta)
+
+    def get_delta_display(self):
+        u'Отставание'
+        if self.delta == 0:
+            return ''
+        elif self.delta is None:
+            return '+%d %s' % (self.round, u'круга')
+        else:
+            return '+%s' % time_to_str(self.delta)
 
     def get_points_count(self):
         try:
-            return self.heat.grandprix.season.points.get(place=self.position).point
+            value = self.heat.grandprix.season.points.get(place=self.position).point
+            if self.heat.half_points:
+                value /= 2
+            return value
         except models.ObjectDoesNotExist:
             return 0
 
