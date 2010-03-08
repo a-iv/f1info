@@ -52,10 +52,56 @@ def time_to_str(time):
         result += '%02d:' % hour
     if minute:
         result += '%02d:' % minute
-    result += '%02d.%04d' % (second, millisecond)
+    result += '%02d.%03d' % (second, millisecond)
     return result
 
-class Racer(VerboseModel):
+class StatModel(VerboseModel):
+    class Meta:
+        abstract = True
+
+    def get_race_count(self):
+        u'Гонок'
+        return self.results.filter(heat__type=Heat.RACE).count()
+
+    def get_grand_prix_count(self):
+        u'Гран-при'
+        filter = {'heats__results__%s' % self._meta.module_name: self}
+        return GrandPrix.objects.filter(**filter).count()
+
+    def get_season_count(self):
+        u'Сезонов'
+        filter = {'grandprixs__heats__results__%s' % self._meta.module_name: self}
+        return Season.objects.filter(**filter).count()
+
+    def get_win_count(self):
+        u'Побед'
+        return self.results.filter(heat__type=Heat.RACE, position=1).count()
+
+    def get_podium_count(self):
+        u'Подиумов'
+        return self.results.filter(heat__type=Heat.RACE, position__lte=3).count()
+
+    def get_points_count(self):
+        u'Очков'
+        total = 0
+        for result in self.results.all():
+            total += result.get_points_count()
+        return total
+
+    def get_poles_count(self):
+        u'Поул-позишн'
+
+    def get_bestlap_count(self):
+        u'Быстрейщих кругов'
+        filter = {'result__%s' % self._meta.module_name: self}
+        return BestLap.objects.filter(**filter).count()
+
+    def get_fail_count(self):
+        u'Сходов'
+        return self.results.exclude(fail='').count()
+
+
+class Racer(StatModel):
     class Meta:
         ordering = ['family_name', 'first_name', ]
         verbose_name = u'Гонщик'
@@ -81,187 +127,38 @@ class Racer(VerboseModel):
         u'Последний двигатель'
         return get_last(self.results).engine
 
-    def get_race_count(self):
-        u'Гонок'
-        return self.results.filter(heat__type=Heat.RACE).count()
-
-    def get_grand_prix_count(self):
-        u'Гран-при'
-        return GrandPrix.objects.filter(heats__results__racer=self).count()
-
-    def get_season_count(self):
-        u'Сезонов'
-        return Season.objects.filter(grandprixs__heats__results__racer=self).count()
-
-    def get_win_count(self):
-        u'Побед'
-        return self.results.filter(heat__type=Heat.RACE, position=1).count()
-
-    def get_podium_count(self):
-        u'Подиумов'
-        return self.results.filter(heat__type=Heat.RACE, position__lte=3).count()
-
-    def get_points_count(self):
-        u'Очков'
-        total = 0
-        for result in self.results.all():
-            total += result.get_points_count()
-        return total
-
-    def get_poles_count(self):
-        u'Поул-позишн'
-
-    def get_bestlap_count(self):
-        u'Быстрейщих кругов'
-        return BestLap.objects.filter(result__racer=self).count()
-
-    def get_fail_count(self):
-        u'Сходов'
-        return self.results.exclude(fail='').count()
-
     def __unicode__(self):
         return u'%s %s' % (self.family_name, self.first_name)
 
 
-class Engine(VerboseModel):
+class Engine(StatModel):
     class Meta:
         ordering = ['name']
         verbose_name = u'Двигатель'
         verbose_name_plural = u'Двигатели'
     name = models.CharField(verbose_name=u'Название', max_length=100)
 
-    def get_race_count(self):
-        u"""Гонок"""
-        return self.results.filter(racer__type=Heat.RACE).count()
-
-    def get_grand_prix_count(self):
-        u"""Гран-при"""
-        return #self.results.count()
-
-    def get_season_count(self):
-        u"""Сезонов"""
-#        for result in self.results:
-        pass
-
-    def get_win_count(self):
-        u"""Побед"""
-        pass
-
-    def get_podium_count(self):
-        u"""Подиумов"""
-        pass
-
-    def get_points_count(self):
-        u"""Очков"""
-        pass
-
-    def get_poles_count(self):
-        u"""Поул-позишн"""
-        pass
-
-    def get_bestlap_count(self):
-        u"""Быстрейщих кругов"""
-        pass
-
-    def get_fail_count(self):
-        u"""Сходов"""
-        pass
-
     def __unicode__(self):
         return u'%s' % self.name
 
 
-class Tyre(VerboseModel):
+class Tyre(StatModel):
     class Meta:
         ordering = ['name']
         verbose_name = u'Шина'
         verbose_name_plural = u'Шины'
     name = models.CharField(verbose_name=u'Название', max_length=100)
 
-    def get_race_count(self):
-        u"""Гонок"""
-        return self.results.filter(racer__type=Heat.RACE).count()
-
-    def get_grand_prix_count(self):
-        u"""Гран-при"""
-        return #self.results.count()
-
-    def get_season_count(self):
-        u"""Сезонов"""
-#        for result in self.results:
-        pass
-
-    def get_win_count(self):
-        u"""Побед"""
-        pass
-
-    def get_podium_count(self):
-        u"""Подиумов"""
-        pass
-
-    def get_points_count(self):
-        u"""Очков"""
-        pass
-
-    def get_poles_count(self):
-        u"""Поул-позишн"""
-        pass
-
-    def get_bestlap_count(self):
-        u"""Быстрейщих кругов"""
-        pass
-
-    def get_fail_count(self):
-        u"""Сходов"""
-        pass
-
     def __unicode__(self):
         return u'%s' % self.name
 
 
-class Team(VerboseModel):
+class Team(StatModel):
     class Meta:
         ordering = ['name']
         verbose_name = u'Команда'
         verbose_name_plural = u'Команды'
     name = models.CharField(verbose_name=u'Название', max_length=100)
-
-    def get_race_count(self):
-        u"""Гонок"""
-        return self.results.filter(racer__type=Heat.RACE).count()
-
-    def get_grand_prix_count(self):
-        u"""Гран-при"""
-        return #self.results.count()
-
-    def get_season_count(self):
-        u"""Сезонов"""
-#        for result in self.results:
-        pass
-
-    def get_win_count(self):
-        u"""Побед"""
-        pass
-
-    def get_podium_count(self):
-        u"""Подиумов"""
-        pass
-
-    def get_points_count(self):
-        u"""Очков"""
-        pass
-
-    def get_poles_count(self):
-        u"""Поул-позишн"""
-        pass
-
-    def get_bestlap_count(self):
-        u"""Быстрейщих кругов"""
-        pass
-
-    def get_fail_count(self):
-        u"""Сходов"""
-        pass
 
     def __unicode__(self):
         return '%s' % self.name
@@ -332,6 +229,12 @@ class Heat(VerboseModel):
     time = models.DecimalField(verbose_name=u'Время заезда', max_digits=8, decimal_places=3)
     round = models.IntegerField(verbose_name=u'Кругов заезда')
     half_points = models.BooleanField(verbose_name=u'Делить очки пополам', default=False)
+
+    def get_results(self):
+        return self.results.filter(fail='')
+
+    def get_fails(self):
+        return self.results.exclude(fail='')
 
     def __unicode__(self):
         return u'%s - %s' % (self.grandprix, self.get_type_display())
