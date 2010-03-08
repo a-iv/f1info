@@ -32,6 +32,16 @@ racer_info = {
     'queryset' : Racer.objects.all(),
 }
 
+racer_ajax_list = {
+    'queryset' : Racer.objects.all(),
+    'template_name': 'f1info/racer_ajax_list.html',
+}
+
+racer_last_info = {
+    'queryset' : Racer.objects.all(),
+    'template_name': 'f1info/racer_last_info.html',
+}
+
 engine_info = {
     'queryset': Engine.objects.all(),
 }
@@ -83,6 +93,9 @@ urlpatterns += patterns(
     url(r'^season/(?P<object_id>\d{1,9})/$', list_detail.object_detail, season_info, name='season_detail'),
     url(r'^grand_prix/(?P<object_id>\d{1,9})/$', list_detail.object_detail, grand_prix_info, name='grand_prix_detail'),
     url(r'^heat/(?P<object_id>\d{1,9})/$', list_detail.object_detail, heat_info, name='heat_detail'),
+
+    url(r'^racer_ajax_list/$', list_detail.object_list, racer_ajax_list, name='racer_ajax_list'),
+    url(r'^racer_last_info/(?P<object_id>\d{1,9})/$', list_detail.object_detail, racer_last_info, name='racer_last_info'),
 
     (r'^', include('pages_link.urls')), # Before admin.site.root
     (r'^admin/filebrowser/', include('filebrowser.urls')),

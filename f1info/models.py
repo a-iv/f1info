@@ -33,28 +33,6 @@ class VerboseModel(models.Model):
         return super(VerboseModel, self).__getattribute__(name)
 
 
-def get_last(query_set):
-    ordering = []
-    for order in query_set.model._meta.ordering:
-        ordering.insert(0, order)
-    return query_set.order_by(*ordering)[0]
-
-
-def time_to_str(time):
-    millisecond = int((time % 1) * 1000)
-    time = int(time)
-    second = time % 60
-    time = time / 60
-    minute = time % 60
-    hour = time / 60
-    result = ''
-    if hour:
-        result += '%02d:' % hour
-    if minute:
-        result += '%02d:' % minute
-    result += '%02d.%03d' % (second, millisecond)
-    return result
-
 class StatModel(VerboseModel):
     class Meta:
         abstract = True
@@ -99,6 +77,29 @@ class StatModel(VerboseModel):
     def get_fail_count(self):
         u'Сходов'
         return self.results.exclude(fail='').count()
+
+
+def get_last(query_set):
+    ordering = []
+    for order in query_set.model._meta.ordering:
+        ordering.insert(0, order)
+    return query_set.order_by(*ordering)[0]
+
+
+def time_to_str(time):
+    millisecond = int((time % 1) * 1000)
+    time = int(time)
+    second = time % 60
+    time = time / 60
+    minute = time % 60
+    hour = time / 60
+    result = ''
+    if hour:
+        result += '%02d:' % hour
+    if minute:
+        result += '%02d:' % minute
+    result += '%02d.%03d' % (second, millisecond)
+    return result
 
 
 class Racer(StatModel):
