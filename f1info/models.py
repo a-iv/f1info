@@ -279,7 +279,7 @@ class Season(VerboseModel):
 
 class Point(VerboseModel):
     class Meta:
-        ordering = ['place']
+        ordering = ['season', 'place']
         verbose_name = u'Очки'
         verbose_name_plural = u'Очки'
         unique_together = (
@@ -295,7 +295,7 @@ class Point(VerboseModel):
 
 class GrandPrix(VerboseModel):
     class Meta:
-        ordering = ['heats__date']
+#        ordering = ['heats__date']
         verbose_name = u'Гран-при'
         verbose_name_plural = u'Гран-при'
         unique_together = (
@@ -385,7 +385,7 @@ class Result(VerboseModel):
 
 class BestLap(VerboseModel):
     class Meta:
-        ordering = ['heat', 'result', ]
+        ordering = ['heat__date', 'result', ]
         verbose_name = u'Лучший круг'
         verbose_name_plural = u'Лучшие круги'
         unique_together = (
