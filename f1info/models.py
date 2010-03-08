@@ -177,14 +177,14 @@ class Season(VerboseModel):
 
 class Point(VerboseModel):
     class Meta:
-        ordering = ['season', 'place']
+        ordering = ['season', 'position']
         verbose_name = u'Очки'
         verbose_name_plural = u'Очки'
         unique_together = (
-            ('season', 'place',),
+            ('season', 'position',),
         )
     season = models.ForeignKey(Season, verbose_name=u'Сезон', related_name='points')
-    place = models.IntegerField(verbose_name=u'Место')
+    position = models.IntegerField(verbose_name=u'Место')
     point = models.IntegerField(verbose_name=u'Очки')
 
     def __unicode__(self):
@@ -228,7 +228,7 @@ class Heat(VerboseModel):
     type = models.CharField(verbose_name=u'Тип', max_length=1, choices=TYPE)
     date = models.DateField(verbose_name=u'Дата', default=datetime.date.today)
     time = models.DecimalField(verbose_name=u'Время заезда', max_digits=8, decimal_places=3)
-    round = models.IntegerField(verbose_name=u'Кругов заезда')
+    laps = models.IntegerField(verbose_name=u'Кругов заезда')
     half_points = models.BooleanField(verbose_name=u'Делить очки пополам', default=False)
 
     def get_results(self):
@@ -256,7 +256,7 @@ class Result(VerboseModel):
     engine = models.ForeignKey(Engine, verbose_name=u'Двигатель', related_name='results')
     tyre = models.ForeignKey(Tyre, verbose_name=u'Шины', related_name='results')
     delta = models.DecimalField(verbose_name=u'Отставание (время)', max_digits=8, decimal_places=3, null=True, blank=True)
-    round = models.IntegerField(verbose_name=u'Кругов', null=True, blank=True)
+    laps = models.IntegerField(verbose_name=u'Кругов заезда', null=True, blank=True)
     fail = models.CharField(verbose_name=u'Причина схода', max_length=100, default='', blank=True)
 
     def get_time_display(self):
@@ -270,13 +270,13 @@ class Result(VerboseModel):
         if self.delta == 0:
             return ''
         elif self.delta is None:
-            return '+%d %s' % (self.round, u'круга')
+            return '+%d %s' % (self.laps, u'круга')
         else:
             return '+%s' % time_to_str(self.delta)
 
     def get_points_count(self):
         try:
-            value = self.heat.grandprix.season.points.get(place=self.position).point
+            value = self.heat.grandprix.season.points.get(position=self.position).point
             if self.heat.half_points:
                 value /= 2
             return value
