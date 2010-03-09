@@ -63,7 +63,7 @@ class StatModel(VerboseModel):
 
     @add_verbose_name(u'Поул-позишн')
     def get_poles_count(self):
-        pass
+        return self.results.filter(heat__type=Heat.QUAL, position=1).count()
 
     @add_verbose_name(u'Быстрейщих кругов')
     def get_bestlap_count(self):
@@ -106,24 +106,41 @@ class Racer(StatModel):
         unique_together = (
             ('family_name', 'first_name',),
         )
-    family_name = models.CharField(verbose_name=u'Фамилия', max_length=100)
     first_name = models.CharField(verbose_name=u'Имя', max_length=100)
+    family_name = models.CharField(verbose_name=u'Фамилия', max_length=100)
     nationality = models.CharField(verbose_name=u'Национальность', max_length=100)
     birthday = models.DateField(verbose_name=u'Дата рождения')
     comment = models.CharField(verbose_name=u'Комментарий', max_length=200, default='', blank=True)
     photo = models.ImageField(verbose_name=u'Фото', upload_to='upload/racer/photo', null=True, blank=True)
 
+    @add_verbose_name(u'Возраст')
+    def get_age(self):
+        today = datetime.date.today()
+        delta = today.year - self.birthday.year - 1
+        if datetime.date(self.birthday.year, today.month, today.day) > self.birthday:
+            delta += 1
+        return  delta
+
     @add_verbose_name(u'Последняя команда')
     def get_last_team(self):
-        return get_last(self.results).team
+        try:
+            return get_last(self.results).team
+        except IndexError:
+            pass
 
     @add_verbose_name(u'Последние шины')
     def get_last_tyre(self):
-        return get_last(self.results).tyre
+        try:
+            return get_last(self.results).tyre
+        except IndexError:
+            pass
 
     @add_verbose_name(u'Последний двигатель')
     def get_last_engine(self):
-        return get_last(self.results).engine
+        try:
+            return get_last(self.results).engine
+        except IndexError:
+            pass
 
     def __unicode__(self):
         return u'%s %s' % (self.family_name, self.first_name)
@@ -214,10 +231,11 @@ class Heat(VerboseModel):
             ('grandprix', 'type',),
         )
     RACE = 'R'
+    QUAL = 'Q'
     TYPE = (
         ('1', u'Тренировачные заезды 1',),
         ('2', u'Тренировачные заезды 2',),
-        ('Q', u'Квалификация',),
+        (QUAL, u'Квалификация',),
         ('3', u'Тренировачные заезды 3',),
         ('W', u'Warm-up',),
         (RACE, u'Гонка',),
