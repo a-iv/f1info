@@ -110,7 +110,8 @@ class Racer(StatModel):
     first_name = models.CharField(verbose_name=u'Имя', max_length=100)
     nationality = models.CharField(verbose_name=u'Национальность', max_length=100)
     birthday = models.DateField(verbose_name=u'Дата рождения')
-    comment = models.CharField(verbose_name=u'Комментарий', max_length=200, default='')
+    comment = models.CharField(verbose_name=u'Комментарий', max_length=200, default='', blank=True)
+    photo = models.ImageField(verbose_name=u'Фото', upload_to='upload/racer/photo', null=True, blank=True)
 
     @add_verbose_name(u'Последняя команда')
     def get_last_team(self):
@@ -189,13 +190,14 @@ class Point(VerboseModel):
 
 class GrandPrix(VerboseModel):
     class Meta:
-#        ordering = ['heats__date']
+        ordering = ['season', 'index']
         verbose_name = u'Гран-при'
         verbose_name_plural = u'Гран-при'
         unique_together = (
             ('season', 'name',),
         )
 
+    index = models.IntegerField(verbose_name=u'Индекс', null=True)
     season = models.ForeignKey(Season, verbose_name=u'Сезон', related_name='grandprixs')
     name = models.CharField(verbose_name=u'Наименование', max_length=100)
 
