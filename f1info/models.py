@@ -3,79 +3,75 @@
 import datetime
 from django.db import models
 
-class VerboseItem(object):
-    def __init__(self, object):
-        self._object = object
-
-    def __getattribute__(self, name):
-        if name.startswith('_'):
-            return super(VerboseItem, self).__getattribute__(name)
-        if name == 'self':
-            return self._object._meta.verbose_name
-        try:
-            return self._object._meta.get_field(name).verbose_name
-        except models.FieldDoesNotExist:
-            object = getattr(self._object, name)
-            try:
-                return object.verbose_name
-            except AttributeError:
-                if object.__doc__:
-                    return object.__doc__
-                raise
-
 class VerboseModel(models.Model):
     class Meta:
         abstract = True
 
-    def __getattribute__(self, name):
-        if name == 'get_verbose_name':
-            return VerboseItem(self)
-        return super(VerboseModel, self).__getattribute__(name)
+    def get_verbose_name(self):
+        result = {}
+        for field in self._meta.fields:
+            result[field.name] = field.verbose_name
+        for name in dir(self):
+            if not name.startswith('_'):
+                try:
+                    value = getattr(self, name)
+                    if callable(value):
+                        result[name] = value.verbose_name
+                except AttributeError:
+                    pass
+        result['self'] = self._meta.verbose_name
+        return result
 
+def add_verbose_name(name):
+    def wrapper(func):
+        func.verbose_name = name
+        return func
+    return wrapper
 
 class StatModel(VerboseModel):
     class Meta:
         abstract = True
 
+    @add_verbose_name(u'Гонок')
     def get_race_count(self):
-        u'Гонок'
         return self.results.filter(heat__type=Heat.RACE).count()
 
+    @add_verbose_name(u'Гран-при')
     def get_grand_prix_count(self):
-        u'Гран-при'
         filter = {'heats__results__%s' % self._meta.module_name: self}
         return GrandPrix.objects.filter(**filter).count()
 
+    @add_verbose_name(u'Сезонов')
     def get_season_count(self):
-        u'Сезонов'
         filter = {'grandprixs__heats__results__%s' % self._meta.module_name: self}
         return Season.objects.filter(**filter).count()
 
+    @add_verbose_name(u'Побед')
     def get_win_count(self):
-        u'Побед'
         return self.results.filter(heat__type=Heat.RACE, position=1).count()
 
+    @add_verbose_name(u'Гонок')
     def get_podium_count(self):
-        u'Подиумов'
         return self.results.filter(heat__type=Heat.RACE, position__lte=3).count()
 
+    @add_verbose_name(u'Очков')
     def get_points_count(self):
-        u'Очков'
         total = 0
         for result in self.results.all():
             total += result.get_points_count()
         return total
 
+    @add_verbose_name(u'Поул-позишн')
     def get_poles_count(self):
-        u'Поул-позишн'
+        pass
 
+    @add_verbose_name(u'Быстрейщих кругов')
     def get_bestlap_count(self):
-        u'Быстрейщих кругов'
         filter = {'result__%s' % self._meta.module_name: self}
         return BestLap.objects.filter(**filter).count()
 
+    @add_verbose_name(u'Сходов')
     def get_fail_count(self):
-        u'Сходов'
         return self.results.exclude(fail='').count()
 
 
@@ -116,16 +112,16 @@ class Racer(StatModel):
     birthday = models.DateField(verbose_name=u'Дата рождения')
     comment = models.CharField(verbose_name=u'Комментарий', max_length=200, default='')
 
+    @add_verbose_name(u'Последняя команда')
     def get_last_team(self):
-        u'Последняя команда'
         return get_last(self.results).team
 
+    @add_verbose_name(u'Последние шины')
     def get_last_tyre(self):
-        u'Последние шины'
         return get_last(self.results).tyre
 
+    @add_verbose_name(u'Последний двигатель')
     def get_last_engine(self):
-        u'Последний двигатель'
         return get_last(self.results).engine
 
     def __unicode__(self):
