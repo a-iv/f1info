@@ -52,7 +52,7 @@ class StatModel(VerboseModel):
 
     @add_verbose_name(u'Гонок')
     def get_podium_count(self):
-        return self.results.filter(heat__type=Heat.RACE, position__lte=3).count()
+        return self.results.filter(heat__type=Heat.RACE, position__gte=1, position__lte=3).count()
 
     @add_verbose_name(u'Очков')
     def get_points_count(self):
@@ -235,15 +235,15 @@ class Heat(VerboseModel):
     TYPE = (
         ('1', u'Тренировачные заезды 1',),
         ('2', u'Тренировачные заезды 2',),
-        (QUAL, u'Квалификация',),
         ('3', u'Тренировачные заезды 3',),
+        (QUAL, u'Квалификация',),
         ('W', u'Warm-up',),
         (RACE, u'Гонка',),
     )
     grandprix = models.ForeignKey(GrandPrix, verbose_name=u'Гран-при', related_name='heats')
     type = models.CharField(verbose_name=u'Тип', max_length=1, choices=TYPE)
-    date = models.DateField(verbose_name=u'Дата', default=datetime.date.today)
-    time = models.DecimalField(verbose_name=u'Время заезда', max_digits=8, decimal_places=3)
+    date = models.DateTimeField(verbose_name=u'Дата', default=datetime.datetime.now)
+    time = models.DecimalField(verbose_name=u'Время победителя', max_digits=8, decimal_places=3)
     laps = models.IntegerField(verbose_name=u'Кругов заезда')
     half_points = models.BooleanField(verbose_name=u'Делить очки пополам', default=False)
 
