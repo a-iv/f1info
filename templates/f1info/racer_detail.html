@@ -1,23 +1,80 @@
 {% extends "base.html" %}
 
-{% block content %}
-    <h2>{{ object.first_name }} {{ object.family_name }}</h2>
-    {% if object.photo %}
-    	<div><img src="{{ object.photo.url }}" alt="{{ object }}" /> </div>
-	{% endif %}
-    <div>{{ object.get_verbose_name.nationality }}: {{ object.nationality }}</div>
-    <div>{{ object.get_verbose_name.birthday }}: {{ object.birthday }}</div>
-    <div>{{ object.get_verbose_name.comment }}: {{ object.comment }}</div>
+{% block head %}
+	<script type="text/javascript" src="/media/js/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript">
+	<!--
+	    $(function () {
+	        $('td:even').addClass('left');
+	    });
+    //-->
+	</script>
+{% endblock %}
 
-    <div>{{ object.get_verbose_name.get_age }}: {{ object.get_age }}</div>
-    <div>{{ object.get_verbose_name.get_last_team }}: {{ object.get_last_team }}</div>
-    <div>{{ object.get_verbose_name.get_race_count }}: {{ object.get_race_count }}</div>
-    <div>{{ object.get_verbose_name.get_grand_prix_count }}: {{ object.get_grand_prix_count }}</div>
-    <div>{{ object.get_verbose_name.get_season_count }}: {{ object.get_season_count }}</div>
-    <div>{{ object.get_verbose_name.get_win_count }}: {{ object.get_win_count }}</div>
-    <div>{{ object.get_verbose_name.get_podium_count }}: {{ object.get_podium_count }}</div>
-    <div>{{ object.get_verbose_name.get_points_count }}: {{ object.get_points_count }}</div>
-    <div>{{ object.get_verbose_name.get_poles_count }}: {{ object.get_poles_count }}</div>
-    <div>{{ object.get_verbose_name.get_bestlap_count }}: {{ object.get_bestlap_count }}</div>
-    <div>{{ object.get_verbose_name.get_fail_count }}: {{ object.get_fail_count }}</div>
+{% block content %}   
+    {% if object.photo %}
+    	<div id="driver-img"><img src="{{ object.photo.url }}" alt="{{ object }}" /> </div>
+	{% endif %}
+<div id="driver-details">
+    <h1>{{ object.first_name }} {{ object.family_name }}</h1>
+    <h3>{{ object.comment }}</h3>
+	<table>
+	    <tr>
+	    	<td>{{ object.get_verbose_name.nationality }}</td> 
+	    	<td>{{ object.nationality }}</td>
+    	</tr>
+    	<tr>
+		    <td>{{ object.get_verbose_name.birthday }}</td>
+		    <td>{{ object.birthday }}</td>
+	    </tr>
+	    <tr>
+		    <td>{{ object.get_verbose_name.get_age }}</td>
+		    <td>{{ object.get_age }}</td>
+	    </tr>
+	    <tr>
+		    <td>&nbsp;</td>
+		    <td>&nbsp;</td>
+	    </tr>	    
+	    <tr>
+		    <td>{{ object.get_verbose_name.get_last_team }}</td>
+		    <td>{{ object.get_last_team }}</td>
+	    </tr>
+		<tr>
+	    	<td>{{ object.get_verbose_name.get_season_count }}</td>
+	    	<td>{{ object.get_season_count }}</td>
+	    </tr>	    
+	    <tr>
+		    <td>{{ object.get_verbose_name.get_grand_prix_count }}</td>
+		    <td>{{ object.get_grand_prix_count }}</td>
+	    </tr>	    
+	    <tr>
+		    <td>{{ object.get_verbose_name.get_race_count }}</td>
+		    <td>{{ object.get_race_count }}</td>
+	    </tr>
+	    <tr>
+	    	<td>{{ object.get_verbose_name.get_win_count }}</td>
+	    	<td>{{ object.get_win_count }}</td>
+	    </tr>
+	    <tr>
+	    	<td>{{ object.get_verbose_name.get_podium_count }}</td>
+	    	<td>{{ object.get_podium_count }}</td>
+	    </tr>
+	    <tr>
+	    	<td>{{ object.get_verbose_name.get_poles_count }}</td>
+	    	<td>{{ object.get_poles_count }}</td>
+	    </tr>
+	    <tr>
+	    	<td>{{ object.get_verbose_name.get_bestlap_count }}</td>
+	    	<td>{{ object.get_bestlap_count }}</td>
+	    </tr>
+	    <tr>
+	    	<td>{{ object.get_verbose_name.get_points_count }}</td>
+	    	<td>{{ object.get_points_count }}</td>
+	    </tr>
+	    <tr>
+	    	<td>{{ object.get_verbose_name.get_fail_count }}</td>
+	    	<td>{{ object.get_fail_count }}</td>
+	    </tr>
+    </table>
+</div>
 {% endblock %}

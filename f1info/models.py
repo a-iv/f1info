@@ -50,7 +50,7 @@ class StatModel(VerboseModel):
     def get_win_count(self):
         return self.results.filter(heat__type=Heat.RACE, position=1).count()
 
-    @add_verbose_name(u'Гонок')
+    @add_verbose_name(u'Подиумов')
     def get_podium_count(self):
         return self.results.filter(heat__type=Heat.RACE, position__gte=1, position__lte=3).count()
 
