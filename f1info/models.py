@@ -36,7 +36,7 @@ class StatModel(VerboseModel):
     def get_race_count(self):
         return self.results.filter(heat__type=Heat.RACE).count()
 
-    @add_verbose_name(u'Гран-при')
+    @add_verbose_name(u'Гран-При')
     def get_grand_prix_count(self):
         filter = {'heats__results__%s' % self._meta.module_name: self}
         return GrandPrix.objects.filter(**filter).count()
@@ -57,7 +57,7 @@ class StatModel(VerboseModel):
     @add_verbose_name(u'Очков')
     def get_points_count(self):
         total = 0
-        for result in self.results.all():
+        for result in self.results.filter(heat__type=Heat.RACE):
             total += result.get_points_count()
         return total
 
@@ -65,7 +65,7 @@ class StatModel(VerboseModel):
     def get_poles_count(self):
         return self.results.filter(heat__type=Heat.QUAL, position=1).count()
 
-    @add_verbose_name(u'Быстрейщих кругов')
+    @add_verbose_name(u'Быстрейших кругов')
     def get_bestlap_count(self):
         filter = {'result__%s' % self._meta.module_name: self}
         return BestLap.objects.filter(**filter).count()
@@ -230,14 +230,18 @@ class Heat(VerboseModel):
         unique_together = (
             ('grandprix', 'type',),
         )
+    FP1 = '1'
+    FP2 = '2'
+    FP3 = '3'
+    WARM = 'W'    
     RACE = 'R'
     QUAL = 'Q'
     TYPE = (
-        ('1', u'Тренировачные заезды 1',),
-        ('2', u'Тренировачные заезды 2',),
-        ('3', u'Тренировачные заезды 3',),
+        (FP1, u'Тренировачные заезды 1',),
+        (FP2, u'Тренировачные заезды 2',),
+        (FP3, u'Тренировачные заезды 3',),
         (QUAL, u'Квалификация',),
-        ('W', u'Warm-up',),
+        (WARM, u'Warm-up',),
         (RACE, u'Гонка',),
     )
     grandprix = models.ForeignKey(GrandPrix, verbose_name=u'Гран-при', related_name='heats')
