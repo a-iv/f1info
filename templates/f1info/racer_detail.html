@@ -25,7 +25,7 @@
     	</tr>
     	<tr>
 		    <td>{{ object.get_verbose_name.birthday }}</td>
-		    <td>{{ object.birthday }}</td>
+		    <td>{{ object.birthday|date:"d.m.Y" }}</td>
 	    </tr>
 	    <tr>
 		    <td>{{ object.get_verbose_name.get_age }}</td>

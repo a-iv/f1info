@@ -39,6 +39,12 @@ td.left {
 	width: 160px;
 }
 
+th {
+	font-size: 8pt;
+	text-align: left;
+	padding-right: 10px;
+}
+
 .drivers-leftcol {
 	float: left;
 	width: 300px;

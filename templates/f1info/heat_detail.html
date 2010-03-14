@@ -5,25 +5,27 @@
     
     <div>{{ object.get_verbose_name.grandprix }}: {{ object.grandprix }}</div>
     <div>{{ object.get_verbose_name.type }}: {{ object.get_type_display }}</div>
-    <div>{{ object.get_verbose_name.date }}: {{ object.date|date:"d m Y" }}</div>
+    <div>{{ object.get_verbose_name.date }}: {{ object.date|date:"d.m.Y" }}</div>
     
     {% for result in object.get_results %}
         {% if forloop.first %}
             <table>
                 <tr>
+                    <th>{{ result.get_verbose_name.position }}</td>
                     <th>{{ result.get_verbose_name.racer }}</td>
                     <th>{{ result.get_verbose_name.team }}</td>
-                    <th>{{ result.get_verbose_name.tyre }}</td>
                     <th>{{ result.get_verbose_name.engine }}</td>
+                    <th>{{ result.get_verbose_name.tyre }}</td>
                     <th>{{ result.get_verbose_name.get_time_display }}</td>
                     <th>{{ result.get_verbose_name.get_delta_display }}</td>
                 </tr>
         {% endif %}
         <tr>
+            <td>{{ result.position }}</td>
             <td>{{ result.racer }}</td>
             <td>{{ result.team }}</td>
-            <td>{{ result.tyre }}</td>
             <td>{{ result.engine }}</td>
+            <td>{{ result.tyre }}</td>
             <td>{{ result.get_time_display }}</td>
             <td>{{ result.get_delta_display }}</td>
         </tr>

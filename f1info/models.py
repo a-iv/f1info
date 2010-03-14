@@ -100,11 +100,11 @@ def time_to_str(time):
 
 class Racer(StatModel):
     class Meta:
-        ordering = ['family_name', 'first_name', ]
+        ordering = ['first_name', 'family_name', ]
         verbose_name = u'Гонщик'
         verbose_name_plural = u'Гонщики'
         unique_together = (
-            ('family_name', 'first_name',),
+            ('first_name', 'family_name', ),
         )
     first_name = models.CharField(verbose_name=u'Имя', max_length=100)
     family_name = models.CharField(verbose_name=u'Фамилия', max_length=100)
@@ -143,7 +143,7 @@ class Racer(StatModel):
             pass
 
     def __unicode__(self):
-        return u'%s %s' % (self.family_name, self.first_name)
+        return u'%s %s' % (self.first_name, self.family_name)
 
 
 class Engine(StatModel):
@@ -270,7 +270,7 @@ class Result(VerboseModel):
             ('racer', 'heat',),
         )
     heat = models.ForeignKey(Heat, verbose_name=u'Заезд', related_name='results')
-    position = models.IntegerField(verbose_name=u'Место')
+    position = models.IntegerField(verbose_name=u'Поз.')
     racer = models.ForeignKey(Racer, verbose_name=u'Гонщик', related_name='results')
     team = models.ForeignKey(Team, verbose_name=u'Команда', related_name='results')
     engine = models.ForeignKey(Engine, verbose_name=u'Двигатель', related_name='results')
