@@ -120,7 +120,7 @@ class Racer(StatModel):
     slug = models.SlugField(verbose_name=u'Слаг', max_length=50)
     first_name = models.CharField(verbose_name=u'Имя', max_length=100)
     family_name = models.CharField(verbose_name=u'Фамилия', max_length=100)
-    nation_name = models.ForeignKey(Nation, verbose_name=u'Национальность', related_name='racer')
+    nation_name = models.ForeignKey(Nation, verbose_name=u'Национальность', related_name='racer', null=True, blank=True)
     birthday = models.DateField(verbose_name=u'Дата рождения')
     comment = models.CharField(verbose_name=u'Комментарий', max_length=200, default='', blank=True)
     photo = models.ImageField(verbose_name=u'Фото', upload_to='upload/racer/photo', null=True, blank=True)
