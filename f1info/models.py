@@ -98,6 +98,17 @@ def time_to_str(time):
     return result
 
 
+class Nation(StatModel):
+    class Meta:
+        ordering = ['name']
+        verbose_name = u'Нация'
+        verbose_name_plural = u'Нации'
+    name = models.CharField(verbose_name=u'Название', max_length=100)
+    photo = models.ImageField(verbose_name=u'Флаг', upload_to='upload/racer/photo', null=True, blank=True)
+
+    def __unicode__(self):
+        return '%s' % self.name
+
 class Racer(StatModel):
     class Meta:
         ordering = ['first_name', 'family_name', ]
@@ -106,9 +117,11 @@ class Racer(StatModel):
         unique_together = (
             ('first_name', 'family_name', ),
         )
+    slug = models.SlugField(verbose_name=u'Слаг', max_length=50)
     first_name = models.CharField(verbose_name=u'Имя', max_length=100)
     family_name = models.CharField(verbose_name=u'Фамилия', max_length=100)
-    nationality = models.CharField(verbose_name=u'Национальность', max_length=100)
+    nation_name = models.ForeignKey(Nation, verbose_name=u'Национальность', related_name='racer')
+    #nationality = models.CharField(verbose_name=u'Национальность', max_length=100)
     birthday = models.DateField(verbose_name=u'Дата рождения')
     comment = models.CharField(verbose_name=u'Комментарий', max_length=200, default='', blank=True)
     photo = models.ImageField(verbose_name=u'Фото', upload_to='upload/racer/photo', null=True, blank=True)
@@ -177,7 +190,6 @@ class Team(StatModel):
 
     def __unicode__(self):
         return '%s' % self.name
-
 
 class Season(VerboseModel):
     class Meta:

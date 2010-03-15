@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from f1info.models import Racer, Engine, Team, Tyre, Season, Point
+from f1info.models import Racer, Engine, Team, Tyre, Season, Point, Nation
 from f1info.models import GrandPrix, Heat, Result, BestLap
 
 class ModelAdmin(admin.ModelAdmin):
@@ -41,6 +41,14 @@ class TeamAdmin(ModelAdmin):
 
 try:
     admin.site.register(Team, TeamAdmin)
+except admin.sites.AlreadyRegistered:
+    pass
+
+class NationAdmin(ModelAdmin):
+    pass
+
+try:
+    admin.site.register(Nation, NationAdmin)
 except admin.sites.AlreadyRegistered:
     pass
 
