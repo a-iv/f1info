@@ -8,7 +8,7 @@ class Migration:
     
     def forwards(self, orm):
         
-        # Deleting unique_together for [family_name, first_name] on racer.
+        # Deleting unique_together for [family_name, first_name] on racer
         db.delete_unique('f1info_racer', ['family_name', 'first_name'])
         
         # Adding model 'Nation'
