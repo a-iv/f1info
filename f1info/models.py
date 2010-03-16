@@ -119,7 +119,7 @@ class Racer(StatModel):
         )
     first_name = models.CharField(verbose_name=u'Имя', max_length=100)
     family_name = models.CharField(verbose_name=u'Фамилия', max_length=100)
-    slug = models.SlugField(verbose_name=u'Слаг', max_length=100, null=True)
+    slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
     country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='racers', null=True, blank=True)
     birthday = models.DateField(verbose_name=u'Дата рождения')
     comment = models.CharField(verbose_name=u'Комментарий', max_length=200, default='', blank=True)
@@ -164,7 +164,7 @@ class Engine(StatModel):
         verbose_name = u'Двигатель'
         verbose_name_plural = u'Двигатели'
     name = models.CharField(verbose_name=u'Название', max_length=100)
-    slug = models.SlugField(verbose_name=u'Слаг', max_length=100, null=True)
+    slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
     def __unicode__(self):
         return u'%s' % self.name
@@ -176,7 +176,7 @@ class Tyre(StatModel):
         verbose_name = u'Шина'
         verbose_name_plural = u'Шины'
     name = models.CharField(verbose_name=u'Название', max_length=100)
-    slug = models.SlugField(verbose_name=u'Слаг', max_length=100, null=True)
+    slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
     def __unicode__(self):
         return u'%s' % self.name
@@ -188,7 +188,7 @@ class Team(StatModel):
         verbose_name = u'Команда'
         verbose_name_plural = u'Команды'
     name = models.CharField(verbose_name=u'Название', max_length=100)
-    slug = models.SlugField(verbose_name=u'Слаг', max_length=100, null=True)
+    slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
     def __unicode__(self):
         return '%s' % self.name
@@ -231,7 +231,7 @@ class GrandPrix(VerboseModel):
     index = models.IntegerField(verbose_name=u'Индекс', null=True)
     season = models.ForeignKey(Season, verbose_name=u'Сезон', related_name='grandprixs')
     name = models.CharField(verbose_name=u'Наименование', max_length=100)
-    slug = models.SlugField(verbose_name=u'Слаг', max_length=100, null=True)
+    slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
     def __unicode__(self):
         return u'%s: %s' % (self.season, self.name)
@@ -265,7 +265,7 @@ class Heat(VerboseModel):
     time = models.DecimalField(verbose_name=u'Время победителя', max_digits=8, decimal_places=3)
     laps = models.IntegerField(verbose_name=u'Кругов заезда')
     half_points = models.BooleanField(verbose_name=u'Делить очки пополам', default=False)
-    slug = models.SlugField(verbose_name=u'Слаг', max_length=100, null=True)
+    slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
     def get_results(self):
         return self.results.filter(fail='')
