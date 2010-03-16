@@ -8,44 +8,32 @@ class Migration:
     
     def forwards(self, orm):
         
-        # Deleting unique_together for [family_name, first_name] on racer.
-        db.delete_unique('f1info_racer', ['family_name', 'first_name'])
-        
-        # Adding model 'Nation'
-        db.create_table('f1info_nation', (
-            ('id', orm['f1info.nation:id']),
-            ('name', orm['f1info.nation:name']),
-            ('photo', orm['f1info.nation:photo']),
+        # Adding model 'Country'
+        db.create_table('f1info_country', (
+            ('id', orm['f1info.country:id']),
+            ('name', orm['f1info.country:name']),
+            ('photo', orm['f1info.country:photo']),
         ))
-        db.send_create_signal('f1info', ['Nation'])
+        db.send_create_signal('f1info', ['Country'])
         
-        # Adding field 'Racer.nation_name'
-        db.add_column('f1info_racer', 'nation_name', orm['f1info.racer:nation_name'])
+        # Adding field 'Racer.country'
+        db.add_column('f1info_racer', 'country', orm['f1info.racer:country'])
         
         # Deleting field 'Racer.nationality'
         db.delete_column('f1info_racer', 'nationality')
-        
-        # Creating unique_together for [first_name, family_name] on Racer.
-        db.create_unique('f1info_racer', ['first_name', 'family_name'])
         
     
     
     def backwards(self, orm):
         
-        # Deleting unique_together for [first_name, family_name] on Racer.
-        db.delete_unique('f1info_racer', ['first_name', 'family_name'])
+        # Deleting model 'Country'
+        db.delete_table('f1info_country')
         
-        # Deleting model 'Nation'
-        db.delete_table('f1info_nation')
-        
-        # Deleting field 'Racer.nation_name'
-        db.delete_column('f1info_racer', 'nation_name_id')
+        # Deleting field 'Racer.country'
+        db.delete_column('f1info_racer', 'country_id')
         
         # Adding field 'Racer.nationality'
         db.add_column('f1info_racer', 'nationality', orm['f1info.racer:nationality'])
-        
-        # Creating unique_together for [family_name, first_name] on racer.
-        db.create_unique('f1info_racer', ['family_name', 'first_name'])
         
     
     
@@ -57,6 +45,11 @@ class Migration:
             'lap': ('django.db.models.fields.IntegerField', [], {}),
             'result': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'bests'", 'to': "orm['f1info.Result']"}),
             'time': ('django.db.models.fields.DecimalField', [], {'max_digits': '8', 'decimal_places': '3'})
+        },
+        'f1info.country': {
+            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'photo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'})
         },
         'f1info.engine': {
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -79,11 +72,6 @@ class Migration:
             'time': ('django.db.models.fields.DecimalField', [], {'max_digits': '8', 'decimal_places': '3'}),
             'type': ('django.db.models.fields.CharField', [], {'max_length': '1'})
         },
-        'f1info.nation': {
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'photo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'})
-        },
         'f1info.point': {
             'Meta': {'unique_together': "(('season', 'position'),)"},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -92,13 +80,13 @@ class Migration:
             'season': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'points'", 'to': "orm['f1info.Season']"})
         },
         'f1info.racer': {
-            'Meta': {'unique_together': "(('first_name', 'family_name'),)"},
+            'Meta': {'unique_together': "(('family_name', 'first_name'),)"},
             'birthday': ('django.db.models.fields.DateField', [], {}),
             'comment': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '200', 'blank': 'True'}),
+            'country': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'racers'", 'blank': 'True', 'null': 'True', 'to': "orm['f1info.Country']"}),
             'family_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'nation_name': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'racer'", 'blank': 'True', 'null': 'True', 'to': "orm['f1info.Nation']"}),
             'photo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'})
         },
         'f1info.result': {

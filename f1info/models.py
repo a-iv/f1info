@@ -98,13 +98,13 @@ def time_to_str(time):
     return result
 
 
-class Nation(StatModel):
+class Country(models.Model):
     class Meta:
         ordering = ['name']
-        verbose_name = u'Нация'
-        verbose_name_plural = u'Нации'
+        verbose_name = u'Страна'
+        verbose_name_plural = u'Страны'
     name = models.CharField(verbose_name=u'Название', max_length=100)
-    photo = models.ImageField(verbose_name=u'Флаг', upload_to='upload/racer/photo', null=True, blank=True)
+    photo = models.ImageField(verbose_name=u'Флаг', upload_to='upload/country/photo', null=True, blank=True)
 
     def __unicode__(self):
         return '%s' % self.name
@@ -115,15 +115,15 @@ class Racer(StatModel):
         verbose_name = u'Гонщик'
         verbose_name_plural = u'Гонщики'
         unique_together = (
-            ('first_name', 'family_name', ),
+            ('family_name', 'first_name',),
         )
     first_name = models.CharField(verbose_name=u'Имя', max_length=100)
     family_name = models.CharField(verbose_name=u'Фамилия', max_length=100)
-    nation_name = models.ForeignKey(Nation, verbose_name=u'Национальность', related_name='racer', null=True, blank=True)
+    country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='racers', null=True, blank=True)
     birthday = models.DateField(verbose_name=u'Дата рождения')
     comment = models.CharField(verbose_name=u'Комментарий', max_length=200, default='', blank=True)
     photo = models.ImageField(verbose_name=u'Фото', upload_to='upload/racer/photo', null=True, blank=True)
-      
+
     @add_verbose_name(u'Возраст')
     def get_age(self):
         today = datetime.date.today()
@@ -243,7 +243,7 @@ class Heat(VerboseModel):
     FP1 = '1'
     FP2 = '2'
     FP3 = '3'
-    WARM = 'W'    
+    WARM = 'W'
     RACE = 'R'
     QUAL = 'Q'
     TYPE = (
