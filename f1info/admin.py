@@ -20,30 +20,6 @@ class ModelAdmin(admin.ModelAdmin):
             ),
         }
 
-class RacerAdmin(ModelAdmin):
-    pass
-
-try:
-    admin.site.register(Racer, RacerAdmin)
-except admin.sites.AlreadyRegistered:
-    pass
-
-class EngineAdmin(ModelAdmin):
-    pass
-
-try:
-    admin.site.register(Engine, EngineAdmin)
-except admin.sites.AlreadyRegistered:
-    pass
-
-class TeamAdmin(ModelAdmin):
-    pass
-
-try:
-    admin.site.register(Team, TeamAdmin)
-except admin.sites.AlreadyRegistered:
-    pass
-
 class CountryAdmin(ModelAdmin):
     pass
 
@@ -52,8 +28,32 @@ try:
 except admin.sites.AlreadyRegistered:
     pass
 
-class TyreAdmin(ModelAdmin):
+class RacerAdmin(ModelAdmin):
+    prepopulated_fields = {'slug': ('first_name', 'family_name',)}
+
+try:
+    admin.site.register(Racer, RacerAdmin)
+except admin.sites.AlreadyRegistered:
     pass
+
+class EngineAdmin(ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
+
+try:
+    admin.site.register(Engine, EngineAdmin)
+except admin.sites.AlreadyRegistered:
+    pass
+
+class TeamAdmin(ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
+
+try:
+    admin.site.register(Team, TeamAdmin)
+except admin.sites.AlreadyRegistered:
+    pass
+
+class TyreAdmin(ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
 
 try:
     admin.site.register(Tyre, TyreAdmin)
@@ -65,6 +65,7 @@ class PointInline(admin.TabularInline):
     extra = 10
 
 class GrandPrixInline(admin.TabularInline):
+    prepopulated_fields = {'slug': ('season', 'name',)}
     model = GrandPrix
     extra = 10
 
@@ -89,6 +90,7 @@ class BestLapInline(admin.TabularInline):
     max_num = 1
 
 class HeatAdmin(ModelAdmin):
+    prepopulated_fields = {'slug': ('grandprix', 'type',)}
     inlines = [
         ResultInline,
         BestLapInline,
