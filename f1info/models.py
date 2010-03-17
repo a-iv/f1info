@@ -133,6 +133,19 @@ class Racer(StatModel):
             delta += 1
         return  delta
 
+    @add_verbose_name(u'Последний Гран-При')
+    def get_last_grandprix(self):
+        try:
+            return get_last(self.results).heat.grandprix.name
+        except IndexError:
+            pass
+        
+    def get_last_year(self):
+        try:
+            return get_last(self.results).heat.grandprix.season
+        except IndexError:
+            pass
+
     @add_verbose_name(u'Последняя команда')
     def get_last_team(self):
         try:
