@@ -28,34 +28,25 @@
             <td>{{ result.tyre }}</td>
             <td>{{ result.get_time_display }}</td>
             <td>{{ result.get_delta_display }}</td>
+            <td></td>
         </tr>
-        {% if forloop.last %}
-            </table>
-        {% endif %}
     {% endfor %}
 
     {% for result in object.get_fails %}
-        {% if forloop.first %}
-            <table>
-                <tr>
-                    <th>{{ result.get_verbose_name.racer }}</td>
-                    <th>{{ result.get_verbose_name.team }}</td>
-                    <th>{{ result.get_verbose_name.tyre }}</td>
-                    <th>{{ result.get_verbose_name.engine }}</td>
-                    <th>{{ result.get_verbose_name.round }}</td>
-                    <th>{{ result.get_verbose_name.fail }}</td>
-                </tr>
-        {% endif %}
         <tr>
+            {% if result.is_classified %}
+                <td>{{ result.position }}</td>
+            {% else %}
+                <td>nc</td>
+            {% endif %}
             <td>{{ result.racer }}</td>
             <td>{{ result.team }}</td>
-            <td>{{ result.tyre }}</td>
             <td>{{ result.engine }}</td>
-            <td>{{ result.round }}</td>
+            <td>{{ result.tyre }}</td>
+            <td>{{ result.get_time_display }}</td>
+            <td>{{ result.get_delta_display }}</td>
             <td>{{ result.fail }}</td>
         </tr>
-        {% if forloop.last %}
-            </table>
-        {% endif %}
     {% endfor %}
+    </table>
 {% endblock %}

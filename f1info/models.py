@@ -294,6 +294,12 @@ class Result(VerboseModel):
     delta = models.DecimalField(verbose_name=u'Отставание (время)', max_digits=8, decimal_places=3, null=True, blank=True)
     laps = models.IntegerField(verbose_name=u'Кругов заезда', null=True, blank=True)
     fail = models.CharField(verbose_name=u'Причина схода', max_length=100, default='', blank=True)
+    
+    def is_classified(self):
+        u'Классифицируется'
+        if self.laps is None:
+            return True
+        return self.heat.laps / 10 + 1 >= self.laps
 
     def get_time_display(self):
         u'Время'
