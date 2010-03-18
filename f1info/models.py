@@ -242,6 +242,31 @@ class Season(VerboseModel):
         verbose_name = u'Сезон'
         verbose_name_plural = u'Сезоны'
     year = models.IntegerField(verbose_name=u'Год')
+    
+    def get_racer_table(self):
+        racers = []
+        for racer in Racer.objects.filter(results__heat__grandprix__season=self):
+            if racer not in racers:
+                setattr(racer, 'counted_total', 0)
+                setattr(racer, 'counted_results', [])
+                racers.append(racer)
+        for grandprix in self.grandprixs.all():
+            for heat in grandprix.heats.filter(type=Heat.RACE):
+                left_racers = racers[:]
+                for result in heat.results.all():
+                    racer = racers[racers.index(result.racer)]
+                    points = result.get_points_count()
+                    racer.counted_total += points
+                    if points:
+                        racer.counted_results.append(points)
+                    else:
+                        racer.counted_results.append('-')
+                    left_racers.remove(racer)
+                for racer in left_racers:
+                    racer.counted_results.append('')
+        racers.sort(cmp=lambda a, b: int(b.counted_total - a.counted_total))
+        return racers
+
 
     def __unicode__(self):
         return u'%d' % self.year

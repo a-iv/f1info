@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>{{ object.get_verbose_name.self }}: {{ object }}</h2>
+    
+    <ul>
+    {% for grandprix in object.grandprixs.all %}
+        <li><a href="{% url grand_prix_detail grandprix.id %}">{{ grandprix.name }}</a></li>
+    {% endfor %}
+    </ul>
+    
+    <table>
+        {% for racer in object.get_racer_table %}
+            {% if racer.counted_total %}
+                <tr>
+                    <td><a href="{% url racer_detail racer.id %}">{{ racer }}</a></td>
+                    {% for result in racer.counted_results %}
+                        <td>{{ result }}</td>
+                    {% endfor %}
+                    <td>{{ racer.counted_total }}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+    </table>
+
+{% endblock %}
