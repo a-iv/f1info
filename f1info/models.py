@@ -81,7 +81,12 @@ def get_first(query_set):
 def get_last(query_set):
     ordering = []
     for order in query_set.model._meta.ordering:
-        ordering.insert(0, order)
+        if order.startswith('-'):
+            order = order[1:]
+        else:
+            order = '-' + order
+        ordering.append(order)
+    print ordering
     return query_set.order_by(*ordering)[0]
 
 
