@@ -82,7 +82,7 @@ except admin.sites.AlreadyRegistered:
 
 class ResultInline(admin.TabularInline):
     model = Result
-    extra = 20
+    extra = 24
     exclude = ['_points_count']
 
 class BestLapInline(admin.TabularInline):
