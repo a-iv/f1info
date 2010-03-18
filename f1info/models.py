@@ -333,7 +333,7 @@ class Result(VerboseModel):
         try:
             value = self.heat.grandprix.season.points.get(position=self.position).point
             if self.heat.half_points:
-                value /= 2
+                value /= 2.0
             return value
         except models.ObjectDoesNotExist:
             return 0
