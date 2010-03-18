@@ -1,3 +1,4 @@
+#import rpdb2; rpdb2.start_embedded_debugger('1')
 
 from f1info.settings import *
 DEBUG=True

@@ -2,6 +2,7 @@
 
 import datetime
 from django.db import models
+#from f1info.fields import ResultField
 
 class VerboseModel(models.Model):
     class Meta:
@@ -39,12 +40,20 @@ class StatModel(VerboseModel):
     @add_verbose_name(u'Гран-При')
     def get_grand_prix_count(self):
         filter = {'heats__results__%s' % self._meta.module_name: self}
-        return GrandPrix.objects.filter(**filter).count()
+        grand_prixs = []
+        for grand_prix in GrandPrix.objects.filter(**filter):
+            if grand_prix not in grand_prixs:
+                grand_prixs.append(grand_prix)
+        return len(grand_prixs)
 
     @add_verbose_name(u'Сезонов')
     def get_season_count(self):
         filter = {'grandprixs__heats__results__%s' % self._meta.module_name: self}
-        return Season.objects.filter(**filter).count()
+        seasons = []
+        for season in Season.objects.filter(**filter):
+            if season not in seasons:
+                seasons.append(season)
+        return len(seasons)
 
     @add_verbose_name(u'Побед')
     def get_win_count(self):
@@ -354,7 +363,10 @@ class Result(VerboseModel):
         try:
             value = self.heat.grandprix.season.points.get(position=self.position).point
             if self.heat.half_points:
-                value /= 2.0
+                if value / 2 * 2 == value:
+                    value /= 2
+                else:
+                    value /= 2.0
             return value
         except models.ObjectDoesNotExist:
             return 0
