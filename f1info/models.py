@@ -111,7 +111,7 @@ class Country(models.Model):
 
 class Racer(StatModel):
     class Meta:
-        ordering = ['first_name', 'family_name', ]
+        ordering = ['family_name', 'first_name', ]
         verbose_name = u'Гонщик'
         verbose_name_plural = u'Гонщики'
         unique_together = (
@@ -168,7 +168,7 @@ class Racer(StatModel):
             pass
 
     def __unicode__(self):
-        return u'%s %s' % (self.first_name, self.family_name)
+        return u'%s %s' % (self.family_name, self.first_name)
 
 
 class Engine(StatModel):
