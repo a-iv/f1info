@@ -49,4 +49,10 @@
         </tr>
     {% endfor %}
     </table>
+    
+    {% for best in object.bests.all %}
+        {{ best.result.racer }}
+        {{ best.lap }}
+        {{ best.get_time_display }}
+    {% endfor %}
 {% endblock %}

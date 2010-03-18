@@ -75,6 +75,9 @@ class StatModel(VerboseModel):
         return self.results.exclude(fail='').count()
 
 
+def get_first(query_set):
+    return query_set.all()[0]
+
 def get_last(query_set):
     ordering = []
     for order in query_set.model._meta.ordering:
@@ -133,6 +136,13 @@ class Racer(StatModel):
             delta += 1
         return  delta
 
+    @add_verbose_name(u'Первый Гран-При')
+    def get_first_grandprix(self):
+        try:
+            return get_first(self.results).heat.grandprix.name
+        except IndexError:
+            pass
+
     @add_verbose_name(u'Последний Гран-При')
     def get_last_grandprix(self):
         try:
@@ -140,6 +150,12 @@ class Racer(StatModel):
         except IndexError:
             pass
         
+    def get_first_year(self):
+        try:
+            return get_first(self.results).heat.grandprix.season
+        except IndexError:
+            pass
+    
     def get_last_year(self):
         try:
             return get_last(self.results).heat.grandprix.season
@@ -234,7 +250,7 @@ class Point(VerboseModel):
 
 class GrandPrix(VerboseModel):
     class Meta:
-        ordering = ['season', 'index']
+        ordering = ['season__year', 'index']
         verbose_name = u'Гран-при'
         verbose_name_plural = u'Гран-при'
         unique_together = (
@@ -354,6 +370,12 @@ class BestLap(VerboseModel):
     result = models.ForeignKey(Result, verbose_name=u'Результат', related_name='bests')
     lap = models.IntegerField(verbose_name=u'Круг')
     time = models.DecimalField(verbose_name=u'Время круга', max_digits=8, decimal_places=3)
+
+    def get_time_display(self):
+        u'Время'
+        if self.time is None:
+            return ''
+        return time_to_str(self.time)
 
     def __unicode__(self):
         return u''

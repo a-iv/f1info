@@ -35,6 +35,10 @@
 		    <td>&nbsp;</td>
 		    <td>&nbsp;</td>
 	    </tr>	    
+        <tr>
+            <td>{{ object.get_verbose_name.get_first_grandprix }}</td>
+            <td>{{ object.get_first_grandprix }} {{ object.get_first_year }}</td>
+        </tr>
 	    <tr>
 		    <td>{{ object.get_verbose_name.get_last_grandprix }}</td>
 		    <td>{{ object.get_last_grandprix }} {{ object.get_last_year }}</td>
