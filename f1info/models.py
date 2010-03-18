@@ -88,15 +88,18 @@ def get_first(query_set):
     return query_set.all()[0]
 
 def get_last(query_set):
-    ordering = []
-    for order in query_set.model._meta.ordering:
-        if order.startswith('-'):
-            order = order[1:]
-        else:
-            order = '-' + order
-        ordering.append(order)
-    print ordering
-    return query_set.order_by(*ordering)[0]
+    if query_set.model._meta.ordering:
+        ordering = []
+        for order in query_set.model._meta.ordering:
+            if order.startswith('-'):
+                order = order[1:]
+            else:
+                order = '-' + order
+            ordering.append(order)
+        return query_set.order_by(*ordering)[0]
+    else:
+        count = query_set.count()
+        return query_set.all()[count - 1]
 
 
 def time_to_str(time):
@@ -163,13 +166,13 @@ class Racer(StatModel):
             return get_last(self.results).heat.grandprix.name
         except IndexError:
             pass
-        
+
     def get_first_year(self):
         try:
             return get_first(self.results).heat.grandprix.season
         except IndexError:
             pass
-    
+
     def get_last_year(self):
         try:
             return get_last(self.results).heat.grandprix.season
@@ -242,7 +245,7 @@ class Season(VerboseModel):
         verbose_name = u'Сезон'
         verbose_name_plural = u'Сезоны'
     year = models.IntegerField(verbose_name=u'Год')
-    
+
     def get_racer_table(self):
         racers = []
         for racer in Racer.objects.filter(results__heat__grandprix__season=self):
@@ -362,7 +365,9 @@ class Result(VerboseModel):
     delta = models.DecimalField(verbose_name=u'Отставание (время)', max_digits=8, decimal_places=3, null=True, blank=True)
     laps = models.IntegerField(verbose_name=u'Кругов заезда', null=True, blank=True)
     fail = models.CharField(verbose_name=u'Причина схода', max_length=100, default='', blank=True)
-    
+
+    _points_count = models.FloatField(default=0)
+
     def is_classified(self):
         u'Классифицируется'
         if self.laps is None:
@@ -384,17 +389,23 @@ class Result(VerboseModel):
         else:
             return '+%s' % time_to_str(self.delta)
 
-    def get_points_count(self):
+    def _get_points_count(self):
+        if self.heat.type != Heat.RACE:
+            return 0
         try:
             value = self.heat.grandprix.season.points.get(position=self.position).point
             if self.heat.half_points:
-                if value / 2 * 2 == value:
-                    value /= 2
-                else:
-                    value /= 2.0
+                value /= 2.0
             return value
         except models.ObjectDoesNotExist:
             return 0
+
+    def get_points_count(self):
+        return self._points_count
+
+    def save(self, *args, **kwargs):
+        self._points_count = self._get_points_count()
+        super(Result, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return u'%s' % self.racer

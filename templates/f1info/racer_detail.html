@@ -73,7 +73,7 @@
 	    </tr>
 	    <tr>
 	    	<td>{{ object.get_verbose_name.get_points_count }}</td>
-	    	<td>{{ object.get_points_count }}</td>
+	    	<td>{{ object.get_points_count|floatformat }}</td>
 	    </tr>
 	    <tr>
 	    	<td>{{ object.get_verbose_name.get_fail_count }}</td>
