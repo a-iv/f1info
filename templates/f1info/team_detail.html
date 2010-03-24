@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block head %}
+	<script type="text/javascript" src="/media/js/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript">
+	<!--
+	    $(function () {
+	        $('td:even').addClass('left');
+	    });
+    //-->
+	</script>
+{% endblock %}
+
+{% block content %}   
+<div id="team-details">
+    <h1>{{ object }}</h1>
+    
+	<table>
+	<!-- 
+	    <tr>
+	    	<td>{{ object.get_verbose_name.country }}</td> 
+	    	<td><img src="{{ object.country.photo.url }}" alt="{{ object.country }}" /> {{ object.country }}</td>
+    	</tr>    
+        <tr>
+            <td>{{ object.get_verbose_name.get_first_grandprix }}</td>
+            <td>{{ object.get_first_grandprix }} {{ object.get_first_year }}</td>
+        </tr>
+	    <tr>
+		    <td>{{ object.get_verbose_name.get_last_grandprix }}</td>
+		    <td>{{ object.get_last_grandprix }} {{ object.get_last_year }}</td>
+	    </tr>
+	     -->
+		<tr>
+	    	<td>{{ object.get_verbose_name.get_season_count }}</td>
+	    	<td>{{ object.get_season_count }}</td>
+	    </tr>	  
+	    <tr>
+		    <td>{{ object.get_verbose_name.get_grand_prix_count }}</td>
+		    <td>{{ object.get_grand_prix_count }}</td>
+	    </tr>	    
+	    <tr>
+		    <td>{{ object.get_verbose_name.get_race_count }}</td>
+		    <td>{{ object.get_race_count }}</td>
+	    </tr>
+	    <tr>
+	    	<td>{{ object.get_verbose_name.get_win_count }}</td>
+	    	<td>{{ object.get_win_count }}</td>
+	    </tr>
+	    <tr>
+	    	<td>{{ object.get_verbose_name.get_podium_count }}</td>
+	    	<td>{{ object.get_podium_count }}</td>
+	    </tr>
+	    <tr>
+	    	<td>{{ object.get_verbose_name.get_poles_count }}</td>
+	    	<td>{{ object.get_poles_count }}</td>
+	    </tr>
+	    <tr>
+	    	<td>{{ object.get_verbose_name.get_bestlap_count }}</td>
+	    	<td>{{ object.get_bestlap_count }}</td>
+	    </tr>
+	    <tr>
+	    	<td>{{ object.get_verbose_name.get_points_count }}</td>
+	    	<td>{{ object.get_points_count|floatformat }}</td>
+	    </tr>
+	    <tr>
+	    	<td>{{ object.get_verbose_name.get_fail_count }}</td>
+	    	<td>{{ object.get_fail_count }}</td>
+	    </tr>
+    </table>
+</div>
+{% endblock %}
