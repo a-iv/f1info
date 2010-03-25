@@ -7,11 +7,35 @@ from f1info.models import *
 class Migration:
     
     def forwards(self, orm):
-        "Write your forwards migration here"
+        
+        # Adding field 'Team.founder'
+        db.add_column('f1info_team', 'founder', orm['f1info.team:founder'])
+        
+        # Adding field 'Engine.country'
+        db.add_column('f1info_engine', 'country', orm['f1info.engine:country'])
+        
+        # Adding field 'Tyre.country'
+        db.add_column('f1info_tyre', 'country', orm['f1info.tyre:country'])
+        
+        # Adding field 'Team.country'
+        db.add_column('f1info_team', 'country', orm['f1info.team:country'])
+        
     
     
     def backwards(self, orm):
-        "Write your backwards migration here"
+        
+        # Deleting field 'Team.founder'
+        db.delete_column('f1info_team', 'founder')
+        
+        # Deleting field 'Engine.country'
+        db.delete_column('f1info_engine', 'country_id')
+        
+        # Deleting field 'Tyre.country'
+        db.delete_column('f1info_tyre', 'country_id')
+        
+        # Deleting field 'Team.country'
+        db.delete_column('f1info_team', 'country_id')
+        
     
     
     models = {
