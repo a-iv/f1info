@@ -82,6 +82,61 @@ class StatModel(VerboseModel):
     @add_verbose_name(u'Сходов')
     def get_fail_count(self):
         return self.results.exclude(fail='').count()
+    
+    @add_verbose_name(u'Возраст')
+    def get_age(self):
+        today = datetime.date.today()
+        delta = today.year - self.birthday.year - 1
+        if datetime.date(self.birthday.year, today.month, today.day) > self.birthday:
+            delta += 1
+        return  delta
+
+    @add_verbose_name(u'Первый Гран-При')
+    def get_first_grandprix(self):
+        try:
+            return get_first(self.results).heat.grandprix.name
+        except IndexError:
+            pass
+
+    @add_verbose_name(u'Последний Гран-При')
+    def get_last_grandprix(self):
+        try:
+            return get_last(self.results).heat.grandprix.name
+        except IndexError:
+            pass
+
+    def get_first_year(self):
+        try:
+            return get_first(self.results).heat.grandprix.season
+        except IndexError:
+            pass
+
+    def get_last_year(self):
+        try:
+            return get_last(self.results).heat.grandprix.season
+        except IndexError:
+            pass
+
+    @add_verbose_name(u'Последняя команда')
+    def get_last_team(self):
+        try:
+            return get_last(self.results).team
+        except IndexError:
+            pass
+
+    @add_verbose_name(u'Последние шины')
+    def get_last_tyre(self):
+        try:
+            return get_last(self.results).tyre
+        except IndexError:
+            pass
+
+    @add_verbose_name(u'Последний двигатель')
+    def get_last_engine(self):
+        try:
+            return get_last(self.results).engine
+        except IndexError:
+            pass
 
 
 def get_first(query_set):
@@ -145,61 +200,6 @@ class Racer(StatModel):
     comment = models.CharField(verbose_name=u'Комментарий', max_length=200, default='', blank=True)
     photo = models.ImageField(verbose_name=u'Фото', upload_to='upload/racer/photo', null=True, blank=True)
 
-    @add_verbose_name(u'Возраст')
-    def get_age(self):
-        today = datetime.date.today()
-        delta = today.year - self.birthday.year - 1
-        if datetime.date(self.birthday.year, today.month, today.day) > self.birthday:
-            delta += 1
-        return  delta
-
-    @add_verbose_name(u'Первый Гран-При')
-    def get_first_grandprix(self):
-        try:
-            return get_first(self.results).heat.grandprix.name
-        except IndexError:
-            pass
-
-    @add_verbose_name(u'Последний Гран-При')
-    def get_last_grandprix(self):
-        try:
-            return get_last(self.results).heat.grandprix.name
-        except IndexError:
-            pass
-
-    def get_first_year(self):
-        try:
-            return get_first(self.results).heat.grandprix.season
-        except IndexError:
-            pass
-
-    def get_last_year(self):
-        try:
-            return get_last(self.results).heat.grandprix.season
-        except IndexError:
-            pass
-
-    @add_verbose_name(u'Последняя команда')
-    def get_last_team(self):
-        try:
-            return get_last(self.results).team
-        except IndexError:
-            pass
-
-    @add_verbose_name(u'Последние шины')
-    def get_last_tyre(self):
-        try:
-            return get_last(self.results).tyre
-        except IndexError:
-            pass
-
-    @add_verbose_name(u'Последний двигатель')
-    def get_last_engine(self):
-        try:
-            return get_last(self.results).engine
-        except IndexError:
-            pass
-
     def __unicode__(self):
         return u'%s %s' % (self.family_name, self.first_name)
 
@@ -210,6 +210,7 @@ class Engine(StatModel):
         verbose_name = u'Двигатель'
         verbose_name_plural = u'Двигатели'
     name = models.CharField(verbose_name=u'Название', max_length=100)
+    country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='engines', null=True, blank=True)
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
     def __unicode__(self):
@@ -222,6 +223,7 @@ class Tyre(StatModel):
         verbose_name = u'Шина'
         verbose_name_plural = u'Шины'
     name = models.CharField(verbose_name=u'Название', max_length=100)
+    country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='tyres', null=True, blank=True)
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
     def __unicode__(self):
@@ -234,6 +236,8 @@ class Team(StatModel):
         verbose_name = u'Команда'
         verbose_name_plural = u'Команды'
     name = models.CharField(verbose_name=u'Название', max_length=100)
+    founder = models.CharField(verbose_name=u'Основатель', max_length=100)
+    country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='teams', null=True, blank=True)
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
     def __unicode__(self):
