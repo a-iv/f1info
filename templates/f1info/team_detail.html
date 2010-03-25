@@ -21,6 +21,10 @@
 	    	<td><img src="{{ object.country.photo.url }}" alt="{{ object.country }}" /> {{ object.country }}</td>
     	</tr>    
         <tr>
+            <td>{{ object.get_verbose_name.founder }}</td>
+            <td>{{ object.founder }}</td>
+        </tr>
+        <tr>
             <td>{{ object.get_verbose_name.get_first_grandprix }}</td>
             <td>{{ object.get_first_grandprix }} {{ object.get_first_year }}</td>
         </tr>
