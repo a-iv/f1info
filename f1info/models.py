@@ -306,7 +306,9 @@ class GrandPrix(VerboseModel):
     index = models.IntegerField(verbose_name=u'Индекс', null=True)
     season = models.ForeignKey(Season, verbose_name=u'Сезон', related_name='grandprixs')
     name = models.CharField(verbose_name=u'Наименование', max_length=100)
+    abbr = models.CharField(verbose_name=u'Сокращённо', max_length=3, default='', blank=True)
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
+    country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='grandprixs', null=True, blank=True)
 
     def __unicode__(self):
         return u'%s: %s' % (self.season, self.name)
