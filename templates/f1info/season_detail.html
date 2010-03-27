@@ -10,20 +10,21 @@
     </ul>
     
     <h3>Личный зачет</h3>
-    <table>
+    <table class="season">
    		<tr>
-   		<th>Гонщик</th>
-   		{% for grandprix in object.grandprixs.all %}
-        	<th>
-        		<img src="{{ grandprix.country.photo.url }}" />
-        		<a href="{% url grand_prix_detail grandprix.id %}">{{ grandprix.abbr }}</a>
-       		</th>
-    	{% endfor %}
+	   		<th>Гонщик</th>
+	   		{% for grandprix in object.grandprixs.all %}
+	        	<th>
+	        		<img src="{{ grandprix.country.photo.url }}" />
+	        		<a href="{% url grand_prix_detail grandprix.id %}">{{ grandprix.abbr }}</a>
+	       		</th>
+	    	{% endfor %}
+	    	<th>TOTAL</th>
     	</tr>
         {% for racer in object.get_racer_table %}
             {% if racer.counted_total %}
                 <tr>
-                    <td><a href="{% url racer_detail racer.id %}">{{ racer }}</a></td>
+                    <td class="driver"><a href="{% url racer_detail racer.id %}">{{ racer }}</a></td>
                     {% for result in racer.counted_results %}
                         <td>
                             {% if not result%}

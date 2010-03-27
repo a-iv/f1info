@@ -6,9 +6,8 @@ body {
 	font-size: 9pt;
 }
 
-#center {
-
-}
+a { color: #427BAD; }
+a:hover { color: #cc0000; }
 
 h1, h3 { font-weight: normal; margin: 2px 0 8px 0;  }
 h1 { font-size: 20pt;}
@@ -27,27 +26,45 @@ h3 { font-size: 12pt; color: #666; }
 
 table {
 	line-height: 15pt;
+	border-spacing: 0;
+	empty-cells: hide;
+}
+
+/*********** Результы ***********/
+
+th {
+	font-size: 8pt;
+	text-align: left;
+	padding: 0 15px;
 }
 
 td { 
-	padding-right: 15px;
+	padding: 0 15px;
 	border-bottom: 1px solid #eee;
 }
+
+td.center {
+	text-align: center;
+}
+
+/*********** ГОНЩИКИ ***********/
 
 td.left {
 	font-weight: bold;
 	width: 160px;
 }
 
-th {
-	font-size: 8pt;
-	text-align: left;
-	padding-right: 10px;
-}
-
 th img {
 	display: block;
 	margin: 0 auto;
+}
+
+table.season td {
+	text-align: center;
+}
+
+td.driver {
+	text-align: left !important;
 }
 
 .drivers-leftcol {
@@ -59,4 +76,3 @@ th img {
 	float: right;
 	width: 250px;
 }
-

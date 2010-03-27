@@ -201,7 +201,7 @@ class Racer(StatModel):
     photo = models.ImageField(verbose_name=u'Фото', upload_to='upload/racer/photo', null=True, blank=True)
 
     def __unicode__(self):
-        return u'%s %s' % (self.family_name, self.first_name)
+        return u'%s %s' % (self.first_name, self.family_name)
 
 
 class Engine(StatModel):
@@ -363,7 +363,7 @@ class Result(VerboseModel):
             ('racer', 'heat',),
         )
     heat = models.ForeignKey(Heat, verbose_name=u'Заезд', related_name='results')
-    position = models.IntegerField(verbose_name=u'Поз.')
+    position = models.IntegerField(verbose_name=u'Поз')
     racer = models.ForeignKey(Racer, verbose_name=u'Гонщик', related_name='results')
     team = models.ForeignKey(Team, verbose_name=u'Команда', related_name='results')
     engine = models.ForeignKey(Engine, verbose_name=u'Двигатель', related_name='results')
