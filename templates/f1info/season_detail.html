@@ -9,7 +9,17 @@
     {% endfor %}
     </ul>
     
+    <h3>Личный зачет</h3>
     <table>
+   		<tr>
+   		<th>Гонщик</th>
+   		{% for grandprix in object.grandprixs.all %}
+        	<th>
+        		<img src="{{ grandprix.country.photo.url }}" />
+        		<a href="{% url grand_prix_detail grandprix.id %}">{{ grandprix.abbr }}</a>
+       		</th>
+    	{% endfor %}
+    	</tr>
         {% for racer in object.get_racer_table %}
             {% if racer.counted_total %}
                 <tr>

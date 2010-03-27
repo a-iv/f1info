@@ -45,6 +45,11 @@ th {
 	padding-right: 10px;
 }
 
+th img {
+	display: block;
+	margin: 0 auto;
+}
+
 .drivers-leftcol {
 	float: left;
 	width: 300px;
