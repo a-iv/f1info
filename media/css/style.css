@@ -69,7 +69,17 @@ table.season th {
 }
 
 table.season tr:hover {
-	background: #ecf5fc;
+	background: #faf5d8;
+}
+
+table.season td a {
+	color: #333;
+	font-weight: bold;
+}
+
+table.season td a:hover {
+	color: #666;
+	text-decoration: none;
 }
 
 td.driver {
