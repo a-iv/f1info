@@ -89,6 +89,10 @@ td.driver {
 	text-align: left !important;
 }
 
+td.total {
+	font-weight: bold;
+}
+
 .drivers-leftcol {
 	float: left;
 	width: 300px;
