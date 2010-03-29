@@ -68,6 +68,10 @@ table.season th {
 	padding: 0 10px;
 }
 
+table.season tr:hover {
+	background: #ecf5fc;
+}
+
 td.driver {
 	text-align: left !important;
 }
