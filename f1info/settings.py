@@ -129,13 +129,6 @@ PAGE_TEMPLATES = (
 )
 PAGE_CONNECTED_MODELS = [
     {
-        'model': 'pages_link.models.PagesImage',
-        'form': 'pages_link.forms.PagesImageForm',
-        'options': {
-            'extra': 3,
-        },
-    },
-    {
         'model': 'pages_seo.models.PagesSeo',
         'form': 'pages_seo.forms.PagesSeoForm',
         'options': {
