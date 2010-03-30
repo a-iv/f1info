@@ -1,6 +1,8 @@
 {% extends 'pages/base.html' %}
-{% load pages_tags %}
+{% load pages_tags markup %}
 
 {% block content %}
-    {% placeholder main_content with markItUpMarkdown %}
+    {% if False %}{% placeholder main_content with markItUpMarkdown %}{% endif %}
+    {% get_content current_page "main_content" as main_content %}
+    {{ main_content|markdown }}
 {% endblock  %}

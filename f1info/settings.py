@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.sites',
     'django.contrib.sitemaps',
+    'django.contrib.markup',
     'config',
     'mptt',
     'pages',
