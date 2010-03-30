@@ -68,8 +68,29 @@ table.season th {
 	padding: 0 10px;
 }
 
+table.season tr:hover {
+	background: #fcf4e1;
+}
+
+table.season td a {
+	color: #333;
+	font-weight: bold;
+}
+
+table.season td a:hover {
+	color: #cc0000;
+}
+
+table.season tr:first-child {
+	background: #fff !important;
+}
+
 td.driver {
 	text-align: left !important;
+}
+
+td.total {
+	font-weight: bold;
 }
 
 .drivers-leftcol {
