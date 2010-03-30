@@ -100,7 +100,6 @@ urlpatterns += patterns(
     (r'^', include('pages_link.urls')), # Before admin.site.root
     (r'^admin/filebrowser/', include('filebrowser.urls')),
     (r'^admin/(.*)', admin.site.root),
-    (r'^tinymce/', include('tinymce.urls')),
     (r'^robots.txt$', 'django.views.generic.simple.direct_to_template', {'template': 'robots.txt', 'mimetype': 'text/plain'}),
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     (r'^news/', include('easy_news.urls')),

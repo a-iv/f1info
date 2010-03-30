@@ -47,7 +47,6 @@ MIDDLEWARE_CLASSES = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.doc.XViewMiddleware',
-    'modelurl.middleware.ModelUrlMiddleware',
 ]
 
 ROOT_URLCONF = 'f1info.urls'
@@ -63,21 +62,16 @@ INSTALLED_APPS = (
     'config',
     'mptt',
     'pages',
-    'tinymce',
     'chunks',
     'imagekit',
-    'pages_link',
+    #'pages_link',
     'pages_seo',
-    'urlmethods',
-    'trustedhtml',
-    'modelurl',
     'easy_news',
     'hex_storage',
     'photologue',
     'filebrowser',
     'south',
     'f1info',
-    'f1info.custom_trusted',
     'f1info.custom_admin',
     'f1info.custom_pages',
 )
@@ -122,7 +116,7 @@ CONFIG_APP_MEDIA = {
 # Pages CMS settings
 PAGE_TAGGING = False
 PAGE_PERMISSION = False
-PAGE_TINYMCE = True
+PAGE_TINYMCE = False
 PAGE_HIDE_ROOT_SLUG = True
 PAGE_LANGUAGES = (
     ('ru', gettext_noop('Russian')),
@@ -153,51 +147,6 @@ PAGE_CONNECTED_MODELS = [
         'options': {
             'max_num': 1,
         },
-    },
-]
-
-# TinyMCE settings
-TINYMCE_JS_URL = '/media/tinymce/jscripts/tiny_mce/tiny_mce.js'
-TINYMCE_JS_ROOT = os.path.join(MEDIA_ROOT, 'tinymce', 'jscripts', 'tiny_mce')
-TINYMCE_DEFAULT_CONFIG = {
-    'mode': 'exact',
-    'theme': 'advanced',
-    'relative_urls': False,
-    'width': 600,
-    'height': 300,
-    'plugins': 'table,advimage,advlink,inlinepopups,preview,media,searchreplace,contextmenu,paste,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras',
-    'theme_advanced_buttons1': 'fullscreen,|,bold,italic,underline,strikethrough,|,sub,sup,|,bullist,numlist,|,outdent,indent,|,formatselect,removeformat',
-    'theme_advanced_buttons2': 'cut,copy,paste,pastetext,pasteword,|,search,replace,|,undo,redo,|,link,unlink,anchor,image,media,charmap,|,visualchars,nonbreaking',
-    'theme_advanced_buttons3': 'visualaid,tablecontrols,|,blockquote,del,ins,|,preview,code',
-    'theme_advanced_toolbar_location': 'top',
-    'theme_advanced_toolbar_align': 'left',
-    'content_css': '/media/css/tinymce.css',
-    'extended_valid_elements': 'noindex',
-    'custom_elements': 'noindex',
-}
-TINYMCE_COMPRESSOR = True
-
-# django-trusted-html
-TRUSTEDHTML_ENABLE_LOG = True
-TRUSTEDHTML_VERIFY_SITES = True
-TRUSTEDHTML_CUT_SITES = ['127.0.0.1:8000', ] + CONFIG_SITES + CONFIG_REDIRECTS
-TRUSTEDHTML_OBJECT_SITES = ['www.youtube.com', 'youtube.com', ]
-
-#django-model-url
-MODELURL_MODELS = [
-    {
-        'model': 'pages.models.Page',
-    },
-]
-
-MODELURL_VIEWS = [
-    {
-        'view': 'django.contrib.admin.site.root',
-        'disable': True,
-    },
-    {
-        'view': 'pages.views.details',
-        'context': 'current_page',
     },
 ]
 
