@@ -97,7 +97,6 @@ urlpatterns += patterns(
     url(r'^racer_ajax_list/$', list_detail.object_list, racer_ajax_list, name='racer_ajax_list'),
     url(r'^racer_last_info/(?P<object_id>\d{1,9})/$', list_detail.object_detail, racer_last_info, name='racer_last_info'),
 
-    (r'^', include('pages_link.urls')), # Before admin.site.root
     (r'^admin/filebrowser/', include('filebrowser.urls')),
     (r'^admin/(.*)', admin.site.root),
     (r'^robots.txt$', 'django.views.generic.simple.direct_to_template', {'template': 'robots.txt', 'mimetype': 'text/plain'}),

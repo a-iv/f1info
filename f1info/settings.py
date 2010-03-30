@@ -136,13 +136,6 @@ PAGE_CONNECTED_MODELS = [
         },
     },
     {
-        'model': 'pages_link.models.PagesFile',
-        'form': 'pages_link.forms.PagesFileForm',
-        'options': {
-            'extra': 3,
-        },
-    },
-    {
         'model': 'pages_seo.models.PagesSeo',
         'form': 'pages_seo.forms.PagesSeoForm',
         'options': {
