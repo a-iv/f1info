@@ -9,12 +9,18 @@ body {
 a { color: #427BAD; }
 a:hover { color: #cc0000; }
 
-h1, h3 { font-weight: normal; margin: 2px 0 8px 0;  }
+h1, h2, h3 { font-weight: normal; margin: 10px 0;  }
 h1 { font-size: 20pt;}
+h2 { font-size: 17pt; color: #222; }
 h3 { font-size: 12pt; color: #666; }
 
 #driver-img {
 	float: left;
+}
+
+#heat-details {
+	line-height: 16pt;
+	font-size: 10pt;
 }
 
 #driver-details {
@@ -27,7 +33,6 @@ h3 { font-size: 12pt; color: #666; }
 table {
 	line-height: 15pt;
 	border-spacing: 0;
-	empty-cells: hide;
 }
 
 /*********** Результы ***********/

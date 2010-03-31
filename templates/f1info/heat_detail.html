@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block content %}
-    <h2>{{ object.get_verbose_name.self }}: {{ object }}</h2>
-    
-    <div>{{ object.get_verbose_name.grandprix }}: {{ object.grandprix }}</div>
-    <div>{{ object.get_verbose_name.type }}: {{ object.get_type_display }}</div>
+{% block content %}  
+    <h2>{{ object.get_verbose_name.grandprix }} {{ object.grandprix.name }} {{ object.grandprix.season.year }}</h2>
     <div>{{ object.get_verbose_name.date }}: {{ object.date|date:"d.m.Y" }}</div>
+    <div>{{ object.grandprix.tracklen.track }}</div>
+    <div>{{ object.grandprix.tracklen.length }}</div>
+    <h3>{{ object.get_type_display }}</h3>
     
     {% for result in object.get_results %}
         {% if forloop.first %}
@@ -35,9 +35,9 @@
     {% for result in object.get_fails %}
         <tr>
             {% if result.is_classified %}
-                <td>{{ result.position }}</td>
+                <td class="center">{{ result.position }}</td>
             {% else %}
-                <td>nc</td>
+                <td class="center">nc</td>
             {% endif %}
             <td>{{ result.racer }}</td>
             <td>{{ result.team }}</td>
