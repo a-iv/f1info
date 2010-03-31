@@ -294,6 +294,34 @@ class Point(VerboseModel):
         return u''
 
 
+class Track(VerboseModel):
+    class Meta:
+        ordering = ['name']
+        verbose_name = u'Трасса'
+        verbose_name_plural = u'Трассы'
+    name = models.CharField(verbose_name=u'Трасса', max_length=100)
+    slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
+
+    def __unicode__(self):
+        return u'%s' % (self.name,)
+
+
+class TrackLen(VerboseModel):
+    class Meta:
+        ordering = ['length']
+        verbose_name = u'Длина трассы'
+        verbose_name_plural = u'Длины трассы'
+    track = models.ForeignKey(Track, null=True)
+    length = models.IntegerField(verbose_name=u'Длина трассы', default=0, blank=True)
+    photo = models.ImageField(verbose_name=u'Схема', upload_to='upload/track/img', null=True, blank=True)
+
+    def __unicode__(self):
+        if self.track:
+            return u'%s: %s' % (self.track, self.length)
+        else:
+            return u'delete me'
+    
+
 class GrandPrix(VerboseModel):
     class Meta:
         ordering = ['season__year', 'index']
@@ -309,6 +337,7 @@ class GrandPrix(VerboseModel):
     abbr = models.CharField(verbose_name=u'Сокращённо', max_length=3, default='', blank=True)
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
     country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='grandprixs', null=True, blank=True)
+    tracklen = models.ForeignKey(TrackLen, verbose_name=u'Трасса', related_name='tracks', null=True, blank=True)
 
     def __unicode__(self):
         return u'%s: %s' % (self.season, self.name)

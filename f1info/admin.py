@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 from f1info.models import Racer, Engine, Team, Tyre, Season, Point, Country
-from f1info.models import GrandPrix, Heat, Result, BestLap
+from f1info.models import GrandPrix, Heat, Result, BestLap, Track, TrackLen
 
 class ModelAdmin(admin.ModelAdmin):
     class Media:
@@ -57,6 +57,22 @@ class TyreAdmin(ModelAdmin):
 
 try:
     admin.site.register(Tyre, TyreAdmin)
+except admin.sites.AlreadyRegistered:
+    pass
+
+class TrackLenInline(admin.TabularInline):
+    model = TrackLen
+    extra = 5
+
+
+class TrackAdmin(ModelAdmin):
+    prepopulated_fields = {'slug': ('name',)}
+    inlines = [
+         TrackLenInline,
+    ]
+
+try:
+    admin.site.register(Track, TrackAdmin)
 except admin.sites.AlreadyRegistered:
     pass
 
