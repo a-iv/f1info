@@ -147,3 +147,8 @@ PHOTOLOGUE_DIR = os.path.join('upload', 'photologue')
 FILEBROWSER_URL_WWW = '/media/upload/filebrowser/'
 FILEBROWSER_PATH_SERVER = os.path.join(MEDIA_ROOT, 'upload', 'filebrowser')
 FILEBROWSER_URL_FILEBROWSER_MEDIA = '/media/filebrowser/'
+
+try:
+    from localsettings import *
+except ImportError:
+    pass
