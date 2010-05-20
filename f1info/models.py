@@ -198,6 +198,7 @@ class Racer(StatModel):
     country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='racers', null=True, blank=True)
     birthday = models.DateField(verbose_name=u'Дата рождения')
     comment = models.CharField(verbose_name=u'Комментарий', max_length=200, default='', blank=True)
+    website = models.CharField(verbose_name=u'Веб-сайт', max_length=200, null=True, blank=True)
     photo = models.ImageField(verbose_name=u'Фото', upload_to='upload/racer/photo', null=True, blank=True)
 
     def __unicode__(self):
@@ -211,6 +212,7 @@ class Engine(StatModel):
         verbose_name_plural = u'Двигатели'
     name = models.CharField(verbose_name=u'Название', max_length=100)
     country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='engines', null=True, blank=True)
+    website = models.CharField(verbose_name=u'Веб-сайт', max_length=200, default='', blank=True)
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
     def __unicode__(self):
@@ -238,6 +240,7 @@ class Team(StatModel):
     name = models.CharField(verbose_name=u'Название', max_length=100)
     founder = models.CharField(verbose_name=u'Основатель', max_length=100)
     country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='teams', null=True, blank=True)
+    website = models.CharField(verbose_name=u'Веб-сайт', max_length=200, default='', blank=True)
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
     def __unicode__(self):
