@@ -17,7 +17,7 @@
 	{% endif %}
 <div id="driver-details">
     <h1>{{ object.first_name }} {{ object.family_name }}</h1>
-    <h3>{{ object.comment }}</h3>
+    <h3>{{ object.en_name }}</h3>
 	<table>
 	    <tr>
 	    	<td>{{ object.get_verbose_name.country }}</td> 
@@ -78,6 +78,10 @@
 	    <tr>
 	    	<td>{{ object.get_verbose_name.get_fail_count }}</td>
 	    	<td>{{ object.get_fail_count }}</td>
+	    </tr>
+	    <tr>
+	    	<td>{{ object.get_verbose_name.website }}</td>
+	    	<td><a href="http://{{ object.website }}">{{ object.website }}</a></td>
 	    </tr>
     </table>
 </div>

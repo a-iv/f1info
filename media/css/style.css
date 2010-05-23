@@ -26,9 +26,13 @@ h3 { font-size: 12pt; color: #666; }
 #driver-details {
 	float: left;
 	margin-left: 15px;
-	font-size: 9pt;
-	
+	font-size: 9pt;	
 }
+
+#driver-details h1 { margin: 0; }
+#driver-details h3 { margin: 0; font-size: 10pt; }
+#driver-details table { margin-top: 10px; }
+#driver-details td { padding: 0; }
 
 table {
 	line-height: 15pt;
