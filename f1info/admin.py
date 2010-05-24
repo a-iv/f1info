@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 from f1info.models import Racer, Engine, Team, Tyre, Season, Point, Country
-from f1info.models import GrandPrix, Heat, Result, BestLap, Track, TrackLen
+from f1info.models import GrandPrix, Heat, Result, BestLap, Track, TrackLen, GPName
 
 class ModelAdmin(admin.ModelAdmin):
     class Media:
@@ -57,6 +57,14 @@ class TyreAdmin(ModelAdmin):
 
 try:
     admin.site.register(Tyre, TyreAdmin)
+except admin.sites.AlreadyRegistered:
+    pass
+
+class GPNameAdmin(ModelAdmin):
+    prepopulated_fields = {'name': ('name',)}
+
+try:
+    admin.site.register(GPName, GPNameAdmin)
 except admin.sites.AlreadyRegistered:
     pass
 

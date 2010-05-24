@@ -166,9 +166,11 @@ def time_to_str(time):
     hour = time / 60
     result = ''
     if hour:
-        result += '%02d:' % hour
+        if hour < 10:
+            result += '%2d:' % hour
     if minute:
-        result += '%02d:' % minute
+        if minute < 10:
+            result += '%2d:' % minute
     result += '%02d.%03d' % (second, millisecond)
     return result
 
@@ -310,7 +312,7 @@ class Track(VerboseModel):
     website = models.CharField(verbose_name=u'Веб-сайт', max_length=100, null=True, blank=True)
 
     def __unicode__(self):
-        return u'%s' % (self.name,)
+        return u'%s' % (self.name)
 
 
 class TrackLen(VerboseModel):
@@ -328,6 +330,15 @@ class TrackLen(VerboseModel):
         else:
             return u'delete me'
     
+class GPName(VerboseModel):
+    class Meta:
+        ordering = ['name']
+        verbose_name = u'Гран-При'
+        verbose_name_plural = u'Гран-При'
+    name = models.CharField(verbose_name=u'Название', max_length=100, null=True, blank=True, default='')
+
+    def __unicode__(self):
+        return u'%s' % self.name
 
 class GrandPrix(VerboseModel):
     class Meta:
@@ -340,7 +351,7 @@ class GrandPrix(VerboseModel):
 
     index = models.IntegerField(verbose_name=u'Индекс', null=True)
     season = models.ForeignKey(Season, verbose_name=u'Сезон', related_name='grandprixs')
-    name = models.CharField(verbose_name=u'Наименование', max_length=100)
+    name = models.ForeignKey(GPName, verbose_name=u'Гран-При', related_name='grandprixs', null=True, blank=True)
     abbr = models.CharField(verbose_name=u'Сокращённо', max_length=3, default='', blank=True)
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
     country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='grandprixs', null=True, blank=True)
