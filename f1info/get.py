@@ -141,15 +141,16 @@ def race(opener, url):
 
 #Starting grid
 def qual(opener, url):
-    
     soup = readurl(opener, 'qual', url)
     table = soup.find('table', id='ctl00_CPH_Main_TBL_Grille')
+    wtime = 0
+    
+    
     for p in table.findAll('p'):
-        
         temp = plain(p)
         parts = temp.split('.')
         pos = parts[0]
-        for strong in p.findAll('strong'):
+        if p.find('strong'):
             if len(p) > 8: 
                 href = p.contents[2]['href']
                 racer = getRacer(href)
@@ -171,7 +172,7 @@ def qual(opener, url):
                     etc = float(tparts[3])
                 except:
                     etc = 0
-                
+            #    wtime = str(60*mins + seconds + etc/1000)
                 
             else:                 
                 href = p.contents[2]['href']
@@ -195,69 +196,77 @@ def qual(opener, url):
                 except:
                     etc = 0
             wtime = str(60*mins + seconds + etc/1000)
+        else:
+            continue
+        print pos, racer, team, engine, wtime
             
-                
-          
-        href = p.contents[1]['href']
-        racer = getRacer(href)
-        parts = racer.split(' ')
-        first_name = parts[0]
-        fname = []
-        for i in range(1,len(parts)):
-            fname_parts = (parts[i] + ' ').capitalize()            
-            fname.append(fname_parts)
-        family_name =  plain(fname)
-        en_name = first_name + ' ' + family_name
-        team = plain(p.contents[3])
-        if len(p) < 8: 
-            engine = team
-            time = plain(p.contents[5])
-            if time: 
+            
+    for p in table.findAll('p'):
+        temp = plain(p)
+        parts = temp.split('.')
+        pos = parts[0]
+        if p.find('strong'):
+            continue
+        
+        else: 
+            href = p.contents[1]['href']
+            racer = getRacer(href)
+            parts = racer.split(' ')
+            first_name = parts[0]
+            fname = []
+            for i in range(1,len(parts)):
+                fname_parts = (parts[i] + ' ').capitalize()            
+                fname.append(fname_parts)
+            family_name =  plain(fname)
+            en_name = first_name + ' ' + family_name
+            team = plain(p.contents[3])
+            if len(p) < 8: 
+                engine = team
+                time = plain(p.contents[5])
+                if time: 
+                    tparts = time.split("'")
+                    mins = int(tparts[0])
+                    seconds = int(tparts[1])
+                    try:
+                        etc = float(tparts[3])
+                    except:
+                        etc = 0
+                    qtime = str(60*mins + seconds + etc/1000)
+                    delta = Decimal(wtime, 3) - Decimal(qtime, 3)
+                    
+                else:
+                    mins = None
+                    seconds = None
+                    etc = None
+                    qq = None
+               
+            elif len(p): 
+                engine = plain(p.contents[5])
+                time = plain(p.contents[7])
                 tparts = time.split("'")
-                mins = int(tparts[0])
-                seconds = int(tparts[1])
-                try:
-                    etc = float(tparts[3])
-                except:
-                    etc = 0
-                qtime = str(60*mins + seconds + etc/1000)
-                delta = wtime - qtime
-                qq = Decimal(delta, 3)
-                
-            else:
-                mins = None
-                seconds = None
-                etc = None
-                qq = None
-           
-        elif len(p): 
-            engine = plain(p.contents[5])
-            time = plain(p.contents[7])
-            tparts = time.split("'")
-            if time:
-                tparts = time.split("'")
-                mins = int(tparts[0])
-                seconds = int(tparts[1])
-                try:
-                    etc = float(tparts[3])
-                except:
-                    etc = 0
-                
-                qtime = str(60*mins + seconds + etc/1000)
-                delta = wtime - qtime
-                qq = Decimal(delta, 3)
-                
-            else:
-                mins = None
-                seconds = None
-                etc = None
-                qq = None
-                
+                if time:
+                    tparts = time.split("'")
+                    mins = int(tparts[0])
+                    seconds = int(tparts[1])
+                    try:
+                        etc = float(tparts[3])
+                    except:
+                        etc = 0
+                    
+                    qtime = str(60*mins + seconds + etc/1000)
+                    delta = Decimal(wtime, 3) - Decimal(qtime, 3)
+                    
+                else:
+                    mins = None
+                    seconds = None
+                    etc = None
+                    qq = None
+                    
         #global wtime
         
         #qtime = str(60*mins + seconds + etc/1000)
         #qq = Decimal(qtime, 3)
-    print pos, racer, team, engine, delta
+        print pos, racer, team, engine, delta
         
 #        qual = Heat()
 #        qual.grandprix = GrandPrix.objects.get(name='test')
@@ -624,7 +633,7 @@ def main():
     #index(SITE + '/en/saisons.aspx')
     #year('http://statsf1.com/en/1999.aspx')
     #race('http://statsf1.com/en/1993/europe/classement.aspx')
-    qual(opener, 'http://statsf1.com/en/2010/monaco/grille.aspx')
+    qual(opener, 'http://statsf1.com/en/1997/europe/grille.aspx')
     #abcracer(opener, 'http://statsf1.com/en/pilotes.aspx')
     #racer(opener, 'http://statsf1.com/en/sebastien-buemi.aspx')
     #abcteam(opener, 'http://statsf1.com/en/constructeurs.aspx')
