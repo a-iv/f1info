@@ -51,10 +51,19 @@ def index(opener, url):
 
 def year(opener, url):
     soup = readurl(opener, 'YEAR', url)
+    divname = soup.find('div', 'NavigCenter')
+    h1 = divname.find('h1')
+    season = plain(h1)
     table = soup.find('table', id='ctl00_CPH_Main_TBL_GPSaison')
+    point = Point()
+    point.season = Season.objects.get(year=season)
+    point.position = 1
+    point.point = 10
+    point.save()
     for a in table.findAll('a'):
         href = a['href']
         grandprix(opener, SITE + href)
+        
         
 
 def grandprix(opener, url):
@@ -87,7 +96,11 @@ def grandprix(opener, url):
     # [u'70', u'laps', u'x', u'4.649', u'km', u'-', u'325.430', u'km']
 
     laps = int(parts[0])
-    km = float(parts[3]) * 1000
+    len = parts[3]
+    lparts = len.split('.')
+    temp_km = lparts[0] + lparts[1]
+    km = int(temp_km)
+#    print km
     
 #    print index
 #    print name
@@ -108,12 +121,14 @@ def grandprix(opener, url):
     #bestlap(SITE + besthref)
     
     
-    fail = Track()
-    fail.tracklen = TrackLen.objects.get(length=km)
+    #print track
+    #print km
     test = TrackLen()
-    test.track = Track.objects.get(name=track, tracklen=fail.tracklen)
-#    print test.track
-#    print fail.tracklen
+    test.track = Track.objects.get(name=track)
+    fail = Track()
+    fail.tracklen = TrackLen.objects.get(track=test.track, length=km)
+    #print test.track
+    #print fail.tracklen
     
     
     grandprix = GrandPrix()
@@ -127,12 +142,7 @@ def grandprix(opener, url):
     grandprix.save()
     
     
-    # DOESN'T WORK!!!
-    point = Point()
-    point.season = Season.objects.get(year=season)
-    point.position = 1
-    point.point = 10
-    point.save()
+
         
 
     
@@ -623,8 +633,11 @@ def tracklen(opener, url):
     lenall = []
     for table in maintable.findAll('table', cellpadding="0"):
         for tr in table.findAll('tr')[1:]:
-            length_float = float(plain(tr.contents[4]))*1000
-            length = int(length_float)
+            length_str = plain(tr.contents[4])
+            lparts = length_str.split('.')
+            temp_km = lparts[0] + lparts[1]
+            length_int = int(temp_km)
+            length = int(length_int)
             if length == 'L (km)':
                 continue
             lenall.append(length)
@@ -701,7 +714,7 @@ def main():
     index(opener, SITE + '/en/saisons.aspx')
     #year('http://statsf1.com/en/1999.aspx')
     #race('http://statsf1.com/en/1993/europe/classement.aspx')
-    #grandprix(opener, 'http://statsf1.com/en/2010/espagne.aspx')
+    #grandprix(opener, 'http://statsf1.com/en/1950/indianapolis.aspx')
     #gplist(opener, 'http://statsf1.com/en/grands-prix.aspx')
     #qual(opener, 'http://statsf1.com/en/2010/monaco/grille.aspx')
     #abcracer(opener, 'http://statsf1.com/en/pilotes.aspx')
