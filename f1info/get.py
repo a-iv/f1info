@@ -80,48 +80,48 @@ def year(opener, url):
     h1 = divname.find('h1')
     season = int(plain(h1))
     table = soup.find('table', id='ctl00_CPH_Main_TBL_GPSaison')
-    if season >= 1950 and season <= 1959:
-        for i in range(1, len(pts50)+1):
-            point = Point()
-            point.season = Season.objects.get(year=season)
-            point.position = i
-            point.point = getPts50(i)
-            point.save()
-    if season == 1960:
-        for i in range(1, len(pts60)+1):
-            point = Point()
-            point.season = Season.objects.get(year=season)
-            point.position = i
-            point.point = getPts60(i)
-            point.save()
-    if season >= 1961 and season <= 1990:
-        for i in range(1, len(pts61)+1):
-            point = Point()
-            point.season = Season.objects.get(year=season)
-            point.position = i
-            point.point = getPts61(i)
-            point.save()
-    if season >= 1991 and season <= 2002:
-        for i in range(1, len(pts91)+1):
-            point = Point()
-            point.season = Season.objects.get(year=season)
-            point.position = i
-            point.point = getPts91(i)
-            point.save()    
-    if season >= 2003 and season <= 2009:
-        for i in range(1, len(pts03)+1):
-            point = Point()
-            point.season = Season.objects.get(year=season)
-            point.position = i
-            point.point = getPts03(i)
-            point.save()
-    if year == 2010:
-        for i in range(1, len(pts10)+1):
-            point = Point()
-            point.season = Season.objects.get(year=season)
-            point.position = i
-            point.point = getPts10(i)
-            point.save()
+#    if season >= 1950 and season <= 1959:
+#        for i in range(1, len(pts50)+1):
+#            point = Point()
+#            point.season = Season.objects.get(year=season)
+#            point.position = i
+#            point.point = getPts50(i)
+#            point.save()
+#    if season == 1960:
+#        for i in range(1, len(pts60)+1):
+#            point = Point()
+#            point.season = Season.objects.get(year=season)
+#            point.position = i
+#            point.point = getPts60(i)
+#            point.save()
+#    if season >= 1961 and season <= 1990:
+#        for i in range(1, len(pts61)+1):
+#            point = Point()
+#            point.season = Season.objects.get(year=season)
+#            point.position = i
+#            point.point = getPts61(i)
+#            point.save()
+#    if season >= 1991 and season <= 2002:
+#        for i in range(1, len(pts91)+1):
+#            point = Point()
+#            point.season = Season.objects.get(year=season)
+#            point.position = i
+#            point.point = getPts91(i)
+#            point.save()    
+#    if season >= 2003 and season <= 2009:
+#        for i in range(1, len(pts03)+1):
+#            point = Point()
+#            point.season = Season.objects.get(year=season)
+#            point.position = i
+#            point.point = getPts03(i)
+#            point.save()
+#    if year == 2010:
+#        for i in range(1, len(pts10)+1):
+#            point = Point()
+#            point.season = Season.objects.get(year=season)
+#            point.position = i
+#            point.point = getPts10(i)
+#            point.save()
                
 
     for a in table.findAll('a'):
@@ -194,38 +194,36 @@ def grandprix(opener, url):
     
     #print track
     #print km
-    test = TrackLen()
-    test.track = Track.objects.get(name=track)
-    fail = Track()
-    fail.tracklen = TrackLen.objects.get(track=test.track, length=km)
+#    test = TrackLen()
+#    test.track = Track.objects.get(name=track)
+#    fail = Track()
+#    fail.tracklen = TrackLen.objects.get(track=test.track, length=km)
     #print test.track
     #print fail.tracklen
     
     
-    grandprix = GrandPrix()
-    grandprix.index = index
-    try:
-        grandprix.season = Season.objects.get(year=season)
-    except:
-        grandprix.season = Season.objects.get(year=season_t)
-    grandprix.name = GPName.objects.get(name=name)
-    grandprix.abbr = ''
-    grandprix.slug = slug
-    try:
-        grandprix.country = Country.objects.get(name=country)
-    except:
-        grandprix.country = Country.objects.get(name='Unknown')
-    grandprix.tracklen = fail.tracklen
-    grandprix.save()
+#    grandprix = GrandPrix()
+#    grandprix.index = index
+#    try:
+#        grandprix.season = Season.objects.get(year=season)
+#    except:
+#        grandprix.season = Season.objects.get(year=season_t)
+#    grandprix.name = GPName.objects.get(name=name)
+#    grandprix.abbr = ''
+#    grandprix.slug = slug
+#    try:
+#        grandprix.country = Country.objects.get(name=country)
+#    except:
+#        grandprix.country = Country.objects.get(name='Unknown')
+#    grandprix.tracklen = fail.tracklen
+#    grandprix.save()
 
     # Going to Starting grid
     grid = soup.find('a', id='ctl00_CPH_Main_HL_Grille')
     gridhref = grid['href']
+    
     qual(opener, SITE + gridhref)
     
-
-        
-
     
 def gplist(opener, url):
     soup = readurl(opener, 'GPLIST', url)
@@ -302,8 +300,8 @@ def qual(opener, url):
         slug_t = plain(a)
         slpart = slug_t.split(' ')
         slug = (plain('-'.join(slpart[0:]))+'-q').lower() 
-        gpname = plain(slpart[0:-1])
-        season = slpart[-1]
+        gpname = plain(' '.join(slpart[0:-1]))
+        season = int(slpart[-1])
         print gpname, season
     
     for p in table.findAll('p'):
@@ -317,11 +315,10 @@ def qual(opener, url):
                 parts = racer.split(' ')
                 en_parts = []
                 for i in range(0,len(parts)-1):
-                    f_parts = plain(parts[i]).capitalize() + ' '            
-                    en_parts.append(f_parts)
-                en_fname = plain(en_parts) + ' '
-                en_parts_f = plain(parts[-1]).capitalize()
-                en_name = en_fname + en_parts_f
+                    first_parts = plain(parts[i]).capitalize() + ' '            
+                    en_parts.append(first_parts)
+                first_name = plain(en_parts)
+                family_name = plain(parts[-1]).capitalize()
                 team = plain(p.contents[4])
                 engine = plain(p.contents[6])
                 time = plain(p.contents[8])
@@ -345,11 +342,10 @@ def qual(opener, url):
                 parts = racer.split(' ')
                 en_parts = []
                 for i in range(0,len(parts)-1):
-                    f_parts = plain(parts[i]).capitalize() + ' '            
-                    en_parts.append(f_parts)
-                en_fname = plain(en_parts) + ' '
-                en_parts_f = plain(parts[-1]).capitalize()
-                en_name = en_fname + en_parts_f
+                    first_parts = plain(parts[i]).capitalize() + ' '            
+                    en_parts.append(first_parts)
+                first_name = plain(en_parts)
+                family_name = plain(parts[-1]).capitalize()
                 team = plain(p.contents[4])
                 engine = team
                 time = plain(p.contents[6])
@@ -368,30 +364,34 @@ def qual(opener, url):
             wtime = str(60*mins + seconds + etc)
         else:
             continue
-        print pos, en_name, team, engine, wtime
+        #print pos, en_name, team, engine, wtime
         
-#        test = GrandPrix()
-#        test.name = GPName.objects.get(name=gpname)
-#        test.season = Season.objects.get(year=season)
-#        
-#        q = Heat()
-#        q.grandprix = GrandPrix.objects.get(name=test.name, season=test.season)
-#        q.type = 'Q'
-#        q.date = datetime.datetime(int(2010), int(05), int(01))
-#        q.time = wtime
-#        q.laps = 0
-#        q.slug = slug
-#        q.save()
-#        
-#        qual = Result()
-#        qual.heat = Heat.objects.get(grandprix=q.grandprix)
-#        qual.position = 1
-#        qual.racer = Racer.objects.get(en_name=en_name)
-#        qual.team = Team.objects.get(name=team)
-#        qual.engine = Engine.objects.get(name=engine)
-#        qual.tyre = Tyre.objects.get(name='Bridgestone')
-#        qual.delta = 0
-#        qual.save()
+        test = GrandPrix()
+        test.name = GPName.objects.get(name=gpname)
+        test.season = Season.objects.get(year=season)
+        
+        q = Heat()
+        q.grandprix = GrandPrix.objects.get(name=test.name, season=test.season)
+        q.type = 'Q'
+        q.date = datetime.datetime(int(season), int(05), int(01))
+        q.time = wtime
+        q.laps = 0
+        q.slug = slug
+        q.save()
+        
+        r = Racer()
+        r.first_name = first_name
+        r.family_name = family_name
+        
+        qual = Result()
+        qual.heat = Heat.objects.get(grandprix=q.grandprix)
+        qual.position = 1
+        qual.racer = Racer.objects.get(first_name=r.first_name, family_name=r.family_name)
+        qual.team = Team.objects.get(name=team)
+        qual.engine = Engine.objects.get(name=engine)
+        qual.tyre = Tyre.objects.get(name='Bridgestone')
+        qual.delta = 0
+        qual.save()
             
     for p in table.findAll('p'):
         temp = plain(p)
@@ -406,11 +406,10 @@ def qual(opener, url):
             parts = racer.split(' ')
             en_parts = []
             for i in range(0,len(parts)-1):
-                f_parts = plain(parts[i]).capitalize() + ' '
-                en_parts.append(f_parts)
-            en_fname = plain(en_parts) + ' '
-            en_parts_f = plain(parts[-1]).capitalize()
-            en_name = en_fname + en_parts_f
+                first_parts = plain(parts[i]).capitalize() + ' '            
+                en_parts.append(first_parts)
+            first_name = plain(en_parts)
+            family_name = plain(parts[-1]).capitalize()
             team = plain(p.contents[3])
             if len(p) < 8: 
                 engine = team
@@ -462,17 +461,21 @@ def qual(opener, url):
         
         #qtime = str(60*mins + seconds + etc/1000)
         #qq = Decimal(qtime, 3)
-        print pos, en_name, team, engine, delta
+        #print pos, en_name, team, engine, delta
   
-#        qual = Result()
-#        qual.heat = Heat.objects.get(grandprix=q.grandprix)
-#        qual.position = pos
-#        qual.racer = Racer.objects.get(en_name=en_name)
-#        qual.team = Team.objects.get(name=team)
-#        qual.engine = Engine.objects.get(name=engine)
-#        qual.tyre = Tyre.objects.get(name='Bridgestone')
-#        qual.delta = delta
-#        qual.save()
+        r = Racer()
+        r.first_name = first_name
+        r.family_name = family_name
+        
+        qual = Result()
+        qual.heat = Heat.objects.get(grandprix=q.grandprix)
+        qual.position = pos
+        qual.racer = Racer.objects.get(first_name=r.first_name, family_name=r.family_name)
+        qual.team = Team.objects.get(name=team)
+        qual.engine = Engine.objects.get(name=engine)
+        qual.tyre = Tyre.objects.get(name='Bridgestone')
+        qual.delta = delta
+        qual.save()
 
         
         
@@ -507,7 +510,7 @@ def abcracer(opener, url):
     soup = readurl(opener, 'ABCRACER', url)
     div = soup.find('div', 'Alpha')
     for a in div.findAll('a'):
-        if len(plain(a)) == 1:
+        if plain(a) == 'F2':
             href = a['href']
             racerlist(opener, SITE + href)
             
@@ -533,12 +536,12 @@ def racer(opener, url):
     h1 = divname.find('h1')
     racer = plain(h1)
     parts = racer.split(' ')
-    first_name = parts[0]
-    fname = []
-    for i in range(1,len(parts)):
-        fname_parts = (parts[i] + ' ').capitalize()            
-        fname.append(fname_parts)
-    family_name =  plain(fname)
+    en_parts = []
+    for i in range(0,len(parts)-1):
+        first_parts = plain(parts[i]).capitalize() + ' '            
+        en_parts.append(first_parts)
+    first_name = plain(en_parts)
+    family_name = plain(parts[-1]).capitalize()
     en_name = first_name + ' ' + family_name
     slug = family_name.lower()
     slug_details = first_name.lower() + '_' + family_name.lower()
@@ -562,24 +565,24 @@ def racer(opener, url):
         month = MONTH.index(parts[3]) + 1
         year = int(parts[4])
         
-#    racer = Racer()
-#    racer.first_name = first_name
-#    racer.family_name = family_name
-#    racer.en_name = en_name
-#    if not Racer.objects.filter(family_name=family_name).count():
-#        racer.slug = slug
-#    else:
-#        racer.slug = slug_details
-#    racer.website = website
-#    racer.photo = 'upload/drivers/' + slug + '.jpg'
-#    racer.country = Country.objects.get(name=nation)
-#    racer.birthday = datetime.date(int(year), int(month), int(day))
-#    racer.save()
+    racer = Racer()
+    racer.first_name = first_name
+    racer.family_name = family_name
+    racer.en_name = en_name
+    if not Racer.objects.filter(family_name=family_name).count():
+        racer.slug = slug
+    else:
+        racer.slug = slug_details
+    racer.website = website
+    racer.photo = 'upload/drivers/' + slug + '.jpg'
+    racer.country = Country.objects.get(name=nation)
+    racer.birthday = datetime.date(int(year), int(month), int(day))
+    racer.save()
 
-    print 'Driver:', first_name, family_name
-    print 'Nation:', nation
-    print 'Date of birth:', datetime.date(year, month, day)
-    print 'Website:', website
+#    print 'Driver:', first_name, family_name
+#    print 'Nation:', nation
+#    print 'Date of birth:', datetime.date(year, month, day)
+#    print 'Website:', website
 
 
 #Teams
@@ -823,11 +826,11 @@ def main():
 
 
     #index(opener, SITE + '/en/saisons.aspx')
-    #year(opener, 'http://statsf1.com/en/2003.aspx')
+    year(opener, 'http://statsf1.com/en/1998.aspx')
     #race('http://statsf1.com/en/1993/europe/classement.aspx')
     #grandprix(opener, 'http://statsf1.com/en/1950/indianapolis.aspx')
     #gplist(opener, 'http://statsf1.com/en/grands-prix.aspx')
-    qual(opener, 'http://statsf1.com/en/1957/allemagne/grille.aspx')
+    #qual(opener, 'http://statsf1.com/en/2009/abou-dhabi/grille.aspx')
     #abcracer(opener, 'http://statsf1.com/en/pilotes.aspx')
     #racer(opener, 'http://statsf1.com/en/sebastien-buemi.aspx')
     #abcteam(opener, 'http://statsf1.com/en/constructeurs.aspx')
