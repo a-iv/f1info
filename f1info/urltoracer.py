@@ -942,4 +942,5 @@ urls = { '/en/carlo-abate.aspx' : 'Carlo ABATE',
 '/en/emilio-zapico.aspx' : 'Emilio ZAPICO',
 '/en/ricardo-zonta.aspx' : 'Ricardo ZONTA',
 '/en/renzo-zorzi.aspx' : 'Renzo ZORZI',
-'/en/ricardo-zunino.aspx' : 'Ricardo ZUNINO', }
+'/en/ricardo-zunino.aspx' : 'Ricardo ZUNINO',
+'/en/xavier-perrot.aspx' : 'Xavier PERROT', }
