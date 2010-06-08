@@ -128,7 +128,6 @@ def year(opener, url):
         href = a['href']
         grandprix(opener, SITE + href)
         
-        
 
 def grandprix(opener, url):
     soup = readurl(opener, 'GRANDPRIX', url)
@@ -156,13 +155,13 @@ def grandprix(opener, url):
     
     # <td style="text-align:center;font-weight:bold;">  13 may...
     track = plain(td.contents[1])
-    date = cut(td.contents[0])
+    #date = cut(td.contents[0])
     # u'13 may 1950 -'
-    dparts = date.split(' ')
+    #dparts = date.split(' ')
     # [u'13', u'may', u'1950', u'-']
-    day = int(dparts[0])
-    month = MONTH.index(dparts[1]) + 1
-    year = int(dparts[2])
+    #day = int(dparts[0])
+    #month = MONTH.index(dparts[1]) + 1
+    #year = int(dparts[2])
 
     info = cut(td.contents[3])
     # u'70 laps x 4.649 km - 325.430 km'
@@ -198,10 +197,7 @@ def grandprix(opener, url):
 #    test.track = Track.objects.get(name=track)
 #    fail = Track()
 #    fail.tracklen = TrackLen.objects.get(track=test.track, length=km)
-    #print test.track
-    #print fail.tracklen
-    
-    
+#    
 #    grandprix = GrandPrix()
 #    grandprix.index = index
 #    try:
@@ -219,10 +215,27 @@ def grandprix(opener, url):
 #    grandprix.save()
 
     # Going to Starting grid
+    
+    
+    
     grid = soup.find('a', id='ctl00_CPH_Main_HL_Grille')
     gridhref = grid['href']
     
     qual(opener, SITE + gridhref)
+    
+
+def getdate(opener, url):
+    soup = readurl(opener, 'GRANDPRIX', url)
+    meteo = soup.find('img', id='ctl00_CPH_Main_IMG_Meteo')
+    td = meteo.parent.nextSibling.nextSibling
+    date = cut(td.contents[0])
+    dparts = date.split(' ')
+    day = int(dparts[0])
+    month = MONTH.index(dparts[1]) + 1
+    year = int(dparts[2])
+    gpdate = datetime.datetime(int(year), int(month), int(day))
+    return gpdate
+    
     
     
 def gplist(opener, url):
@@ -235,8 +248,7 @@ def gplist(opener, url):
             gplist = GPName()
             gplist.name = link
             gplist.save()
-            
-        
+
         
 #Race
 def race(opener, url):
@@ -288,12 +300,45 @@ def race(opener, url):
             res = result
         print pos, num, racer, team, engine, lap, res
 
+
+
+def entrans(opener, url):
+    soup = readurl(opener, 'entrans', url)
+    tbody = soup.find('tbody')
+    result = {}
+    for tr in tbody.findAll('tr'):
+        num = plain(tr.contents[1])
+        rac = tr.contents[2]
+        racer_a = rac.find('a')
+        href = racer_a['href']
+        racer = getRacer(href)
+        parts = racer.split(' ')
+        en_parts = []
+        for i in range(0,len(parts)-1):
+            first_parts = plain(parts[i]).capitalize() + ' '            
+            en_parts.append(first_parts)
+        first_name = plain(en_parts)
+        family_name = plain(parts[-1]).capitalize()
+        team = plain(tr.contents[4])
+        engine = plain(tr.contents[6])
+        if engine == 'Pratt &amp; Whitney':
+                    engine = 'Pratt & Whitney'
+        tyre = plain(tr.contents[8])
+        
+        result[(first_name, family_name, team, engine)] = (num, tyre)
+    return result 
+
 #Starting grid
 def qual(opener, url):
     soup = readurl(opener, 'qual', url)
+    entr = soup.find('a', id='ctl00_CPH_Main_Entete_HL_Engages')
+    entrans_href = entr['href']
     table = soup.find('table', id='ctl00_CPH_Main_TBL_Grille')
     wtime = 0
     slug = 0
+    num = 0
+    tyre = None
+    result = entrans(opener, SITE + entrans_href)
     divname = soup.find('div', 'NavigCenter')
     h1 = divname.find('h1')
     for a in h1.find('a'):
@@ -303,6 +348,8 @@ def qual(opener, url):
         gpname = plain(' '.join(slpart[0:-1]))
         season = int(slpart[-1])
         print gpname, season
+    re = h1.find('a')
+    gp_link = re['href']
     
     for p in table.findAll('p'):
         temp = plain(p)
@@ -364,7 +411,12 @@ def qual(opener, url):
             wtime = str(60*mins + seconds + etc)
         else:
             continue
-        #print pos, en_name, team, engine, wtime
+        
+        try:
+            num, tyre = result[(first_name, family_name, team, engine)]
+        except IndexError:
+            num, tyre = 0, None
+        print pos, num, first_name, family_name, team, engine, tyre, wtime
         
         test = GrandPrix()
         test.name = GPName.objects.get(name=gpname)
@@ -373,7 +425,7 @@ def qual(opener, url):
         q = Heat()
         q.grandprix = GrandPrix.objects.get(name=test.name, season=test.season)
         q.type = 'Q'
-        q.date = datetime.datetime(int(season), int(05), int(01))
+        q.date = getdate(opener, SITE + gp_link)
         q.time = wtime
         q.laps = 0
         q.slug = slug
@@ -386,10 +438,11 @@ def qual(opener, url):
         qual = Result()
         qual.heat = Heat.objects.get(grandprix=q.grandprix)
         qual.position = 1
+        qual.num = num
         qual.racer = Racer.objects.get(first_name=r.first_name, family_name=r.family_name)
         qual.team = Team.objects.get(name=team)
         qual.engine = Engine.objects.get(name=engine)
-        qual.tyre = Tyre.objects.get(name='Bridgestone')
+        qual.tyre = Tyre.objects.get(name=tyre)
         qual.delta = 0
         qual.save()
             
@@ -435,6 +488,8 @@ def qual(opener, url):
                
             elif len(p): 
                 engine = plain(p.contents[5])
+                if engine == 'Pratt &amp; Whitney':
+                    engine = 'Pratt & Whitney'
                 time = plain(p.contents[7])
                 tparts = time.split("'")
                 if time:
@@ -457,11 +512,14 @@ def qual(opener, url):
                 else:
                     delta = None
                     
-        #global wtime
+        qtime = str(60*mins + seconds + etc/1000)
+        qq = Decimal(qtime, 3)
         
-        #qtime = str(60*mins + seconds + etc/1000)
-        #qq = Decimal(qtime, 3)
-        #print pos, en_name, team, engine, delta
+        try:
+            num, tyre = result[(first_name, family_name, team, engine)]
+        except IndexError:
+            num, tyre = 0, None
+        #print pos, num, first_name, family_name, team, engine, tyre, delta
   
         r = Racer()
         r.first_name = first_name
@@ -470,10 +528,11 @@ def qual(opener, url):
         qual = Result()
         qual.heat = Heat.objects.get(grandprix=q.grandprix)
         qual.position = pos
+        qual.num = num
         qual.racer = Racer.objects.get(first_name=r.first_name, family_name=r.family_name)
         qual.team = Team.objects.get(name=team)
         qual.engine = Engine.objects.get(name=engine)
-        qual.tyre = Tyre.objects.get(name='Bridgestone')
+        qual.tyre = Tyre.objects.get(name=tyre)
         qual.delta = delta
         qual.save()
 
@@ -510,7 +569,7 @@ def abcracer(opener, url):
     soup = readurl(opener, 'ABCRACER', url)
     div = soup.find('div', 'Alpha')
     for a in div.findAll('a'):
-        if plain(a) == 'F2':
+        if len(plain(a)) == 1 or plain(a) == 'F2':
             href = a['href']
             racerlist(opener, SITE + href)
             
@@ -525,7 +584,7 @@ def racerlist(opener, url):
 #            parts = driver.split(' ')
 #            first_name = plain(parts[-1])
 #            fname = first_name[0] + '.'
-#            family_name = plain(' '.join(parts[0:-1]))   
+#            family_name = plain(' '.join(parts[0:-1]))
             racer(opener, SITE + href)
 #            print fname, family_name
             
@@ -802,6 +861,23 @@ def nation(opener, url):
                 #team.country = Country.objects.get(name=country_name)
                 #team.save()
 
+def gpnation(opener, url):
+    soup = readurl(opener, 'GPNATION', url)
+    table = soup.find('table', id='ctl00_CPH_Main_GV_GrandPrix')
+    for tr in table.findAll('tr'):
+        link = tr.contents[1]       
+        for a in link.findAll('a'):      
+            gpnation = plain(a)
+            print gpnation
+            filename = 'upload/flags/' + gpnation.lower() + '.png'
+            if not Country.objects.filter(name=gpnation).count():
+                #Country.objects.create(name=nation_name, photo=None)
+                country = Country()
+                country.name = gpnation
+                country.photo = filename
+                country.save()
+            
+
 def main():
     realm = 'Squid proxy-caching web server'
     host = 'proxy.hq.redsolution.ru:3128'
@@ -826,11 +902,12 @@ def main():
 
 
     #index(opener, SITE + '/en/saisons.aspx')
-    year(opener, 'http://statsf1.com/en/1998.aspx')
+    year(opener, 'http://statsf1.com/en/1969.aspx')
     #race('http://statsf1.com/en/1993/europe/classement.aspx')
     #grandprix(opener, 'http://statsf1.com/en/1950/indianapolis.aspx')
     #gplist(opener, 'http://statsf1.com/en/grands-prix.aspx')
-    #qual(opener, 'http://statsf1.com/en/2009/abou-dhabi/grille.aspx')
+    #entrans(opener, 'http://statsf1.com/en/2010/bahrein/engages.aspx')
+    #qual(opener, 'http://statsf1.com/en/1971/pays-bas/grille.aspx')
     #abcracer(opener, 'http://statsf1.com/en/pilotes.aspx')
     #racer(opener, 'http://statsf1.com/en/sebastien-buemi.aspx')
     #abcteam(opener, 'http://statsf1.com/en/constructeurs.aspx')
@@ -841,6 +918,7 @@ def main():
     #track(opener, 'http://statsf1.com/en/circuit-yeongam.aspx')
     #tracklen(opener, 'http://statsf1.com/en/circuit-monaco.aspx')
     #abcnation(opener, 'http://statsf1.com/en/nations.aspx')
+    #gpnation(opener, 'http://statsf1.com/en/grands-prix.aspx')
 
 if __name__ == '__main__':
     main()

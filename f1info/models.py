@@ -375,12 +375,14 @@ class Heat(VerboseModel):
     WARM = 'W'
     RACE = 'R'
     QUAL = 'Q'
+    GRID = 'G'
     TYPE = (
         (FP1, u'Тренировачные заезды 1',),
         (FP2, u'Тренировачные заезды 2',),
         (FP3, u'Тренировачные заезды 3',),
         (QUAL, u'Квалификация',),
         (WARM, u'Warm-up',),
+        (GRID, u'Стартовая решетка',),
         (RACE, u'Гонка',),
     )
     grandprix = models.ForeignKey(GrandPrix, verbose_name=u'Гран-при', related_name='heats')
@@ -411,6 +413,7 @@ class Result(VerboseModel):
         )
     heat = models.ForeignKey(Heat, verbose_name=u'Заезд', related_name='results')
     position = models.IntegerField(verbose_name=u'Поз')
+    num = models.IntegerField(verbose_name=u'№', null=True, blank=True)
     racer = models.ForeignKey(Racer, verbose_name=u'Гонщик', related_name='results')
     team = models.ForeignKey(Team, verbose_name=u'Команда', related_name='results')
     engine = models.ForeignKey(Engine, verbose_name=u'Двигатель', related_name='results')

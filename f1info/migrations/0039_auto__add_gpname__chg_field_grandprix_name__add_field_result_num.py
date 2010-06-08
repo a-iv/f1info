@@ -8,14 +8,40 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         
-        # Deleting field 'GPName.slug'
-        db.delete_column('f1info_gpname', 'slug')
+        # Adding model 'GPName'
+        db.create_table('f1info_gpname', (
+            ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('name', self.gf('django.db.models.fields.CharField')(default='', max_length=100, null=True, blank=True)),
+        ))
+        db.send_create_signal('f1info', ['GPName'])
+
+        # Renaming column for 'GrandPrix.name' to match new field type.
+        db.rename_column('f1info_grandprix', 'name', 'name_id')
+        # Changing field 'GrandPrix.name'
+        db.alter_column('f1info_grandprix', 'name_id', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, null=True, to=orm['f1info.GPName']))
+
+        # Adding index on 'GrandPrix', fields ['name']
+        db.create_index('f1info_grandprix', ['name_id'])
+
+        # Adding field 'Result.num'
+        db.add_column('f1info_result', 'num', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True), keep_default=False)
 
 
     def backwards(self, orm):
         
-        # Adding field 'GPName.slug'
-        db.add_column('f1info_gpname', 'slug', self.gf('django.db.models.fields.SlugField')(unique=True, max_length=100, null=True, db_index=True), keep_default=False)
+        # Deleting model 'GPName'
+        db.delete_table('f1info_gpname')
+
+        # Renaming column for 'GrandPrix.name' to match new field type.
+        db.rename_column('f1info_grandprix', 'name_id', 'name')
+        # Changing field 'GrandPrix.name'
+        db.alter_column('f1info_grandprix', 'name', self.gf('django.db.models.fields.CharField')(max_length=100))
+
+        # Removing index on 'GrandPrix', fields ['name']
+        db.delete_index('f1info_grandprix', ['name_id'])
+
+        # Deleting field 'Result.num'
+        db.delete_column('f1info_result', 'num')
 
 
     models = {
@@ -98,6 +124,7 @@ class Migration(SchemaMigration):
             'heat': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'results'", 'to': "orm['f1info.Heat']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'laps': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
+            'num': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'position': ('django.db.models.fields.IntegerField', [], {}),
             'racer': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'results'", 'to': "orm['f1info.Racer']"}),
             'team': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'results'", 'to': "orm['f1info.Team']"}),

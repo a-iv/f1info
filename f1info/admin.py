@@ -91,7 +91,7 @@ class PointInline(admin.TabularInline):
 class GrandPrixInline(admin.TabularInline):
     prepopulated_fields = {'slug': ('season', 'name',)}
     model = GrandPrix
-    extra = 10
+    extra = 5
 
 class SeasonAdmin(ModelAdmin):
     inlines = [
@@ -106,7 +106,7 @@ except admin.sites.AlreadyRegistered:
 
 class ResultInline(admin.TabularInline):
     model = Result
-    extra = 24
+    extra = 5
     exclude = ['_points_count']
 
 class BestLapInline(admin.TabularInline):
