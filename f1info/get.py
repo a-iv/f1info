@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from beautifulsoup import BeautifulSoup, Tag
 import re
 import os
@@ -322,11 +324,13 @@ def entrans(opener, url):
         team = plain(tr.contents[4])
         engine = plain(tr.contents[6])
         if engine == 'Pratt &amp; Whitney':
-                    engine = 'Pratt & Whitney'
+            engine = 'Pratt & Whitney'
+        elif engine == 'K&#252;chen':
+            engine = 'Kuchen'
         tyre = plain(tr.contents[8])
         if tyre == '?':
             tyre = 'Unknown'
-        print racer
+        print racer, engine
         result[(first_name, family_name, team, engine)] = (num, tyre)
     return result 
 
@@ -492,6 +496,8 @@ def qual(opener, url):
                 engine = plain(p.contents[5])
                 if engine == 'Pratt &amp; Whitney':
                     engine = 'Pratt & Whitney'
+                elif engine == 'K&#252;chen':
+                    engine = 'Kuchen'
                 time = plain(p.contents[7])
                 tparts = time.split("'")
                 if time:
@@ -904,11 +910,11 @@ def main():
 
 
     #index(opener, SITE + '/en/saisons.aspx')
-    year(opener, 'http://statsf1.com/en/1958.aspx')
+    year(opener, 'http://statsf1.com/en/1950.aspx')
     #race('http://statsf1.com/en/1993/europe/classement.aspx')
     #grandprix(opener, 'http://statsf1.com/en/1950/indianapolis.aspx')
     #gplist(opener, 'http://statsf1.com/en/grands-prix.aspx')
-    #entrans(opener, 'http://statsf1.com/en/1958/maroc/engages.aspx')
+    #entrans(opener, 'http://statsf1.com/en/1952/suisse/engages.aspx')
     #qual(opener, 'http://statsf1.com/en/1958/allemagne/grille.aspx')
     #abcracer(opener, 'http://statsf1.com/en/pilotes.aspx')
     #racer(opener, 'http://statsf1.com/en/sebastien-buemi.aspx')
