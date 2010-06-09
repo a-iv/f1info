@@ -326,7 +326,7 @@ def entrans(opener, url):
         tyre = plain(tr.contents[8])
         if tyre == '?':
             tyre = 'Unknown'
-        #print racer
+        print racer
         result[(first_name, family_name, team, engine)] = (num, tyre)
     return result 
 
@@ -904,12 +904,12 @@ def main():
 
 
     #index(opener, SITE + '/en/saisons.aspx')
-    year(opener, 'http://statsf1.com/en/1967.aspx')
+    year(opener, 'http://statsf1.com/en/1958.aspx')
     #race('http://statsf1.com/en/1993/europe/classement.aspx')
     #grandprix(opener, 'http://statsf1.com/en/1950/indianapolis.aspx')
     #gplist(opener, 'http://statsf1.com/en/grands-prix.aspx')
-    #entrans(opener, 'http://statsf1.com/en/1969/allemagne/engages.aspx')
-    #qual(opener, 'http://statsf1.com/en/1971/pays-bas/grille.aspx')
+    #entrans(opener, 'http://statsf1.com/en/1958/maroc/engages.aspx')
+    #qual(opener, 'http://statsf1.com/en/1958/allemagne/grille.aspx')
     #abcracer(opener, 'http://statsf1.com/en/pilotes.aspx')
     #racer(opener, 'http://statsf1.com/en/sebastien-buemi.aspx')
     #abcteam(opener, 'http://statsf1.com/en/constructeurs.aspx')
