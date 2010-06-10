@@ -251,58 +251,6 @@ def gplist(opener, url):
             gplist.name = link
             gplist.save()
 
-        
-#Race
-def race(opener, url):
-    soup = readurl(opener, 'race', url)
-    tbody = soup.find('tbody')
-    for tr in tbody.findAll('tr')[0:1]:
-        result = plain(tr.contents[7])
-        rparts = result.split(' ')
-        tmp_hours = rparts[0]
-        hparts = tmp_hours.split('h')
-        hours = int(hparts[0])
-        tmp_minutes = rparts[1]
-        mparts = tmp_minutes.split('m')
-        minutes = int(mparts[0])
-        tmp_etc = rparts[2]
-        sparts = tmp_etc.split('s')
-        etc = float(sparts[0])
-        wintime = float(hours*3600 + minutes*60 + etc)
-    print 'Winner time:', wintime        
-    for tr in tbody.findAll('tr'):
-        #try:
-        #    num = int(tr.contents[2].contents[0])
-        #except:
-        #    continue
-        #try:        
-        #    pos = int(tr.contents[1].contents[0])
-        #except:
-        #    pos += 1        
-        pos = tr.contents[1].contents[0]
-        num = tr.contents[2].contents[0]
-        racer = plain(tr.contents[3])
-        team = plain(tr.contents[4])
-        engine = plain(tr.contents[5])
-        lap = tr.contents[6].contents[0]
-        result = plain(tr.contents[7])
-        rparts = result.split(' ')
-        if (len(rparts) > 4):
-            tmp_hours = rparts[0]
-            hparts = tmp_hours.split('h')
-            hours = int(hparts[0])
-            tmp_minutes = rparts[1]
-            mparts = tmp_minutes.split('m')
-            minutes = int(mparts[0])
-            tmp_etc = rparts[2]
-            sparts = tmp_etc.split('s')
-            etc = float(sparts[0])
-            res = abs(wintime - float(hours*3600 + minutes*60 + etc))
-        else:
-            res = result
-        print pos, num, racer, team, engine, lap, res
-
-
 
 def entrans(opener, url):
     soup = readurl(opener, 'entrans', url)
@@ -316,7 +264,7 @@ def entrans(opener, url):
         racer = getRacer(href)
         parts = racer.split(' ')
         en_parts = []
-        for i in range(0,len(parts)-1):
+        for i in range(0, len(parts) - 1):
             first_parts = plain(parts[i]).capitalize() + ' '            
             en_parts.append(first_parts)
         first_name = plain(en_parts)
@@ -330,9 +278,85 @@ def entrans(opener, url):
         tyre = plain(tr.contents[8])
         if tyre == '?':
             tyre = 'Unknown'
-        print racer, engine
-        result[(first_name, family_name, team, engine)] = (num, tyre)
-    return result 
+        #print racer
+        #result[(first_name, family_name, team, engine)] = (num, tyre)
+        result[(first_name, family_name, team, engine)] = tyre
+    return result
+        
+#Race
+def race(opener, url):
+    soup = readurl(opener, 'race', url)
+    entr = soup.find('a', id='ctl00_CPH_Main_Entete_HL_Engages')
+    entrans_href = entr['href']
+    tyre = None
+    result = entrans(opener, SITE + entrans_href)
+    tbody = soup.find('tbody')
+    for tr in tbody.findAll('tr')[0:1]:
+        winlaps = int(plain(tr.contents[6].contents[0]))
+        results = plain(tr.contents[7])
+        rparts = results.split(' ')
+        tmp_hours = rparts[0]
+        hparts = tmp_hours.split('h')
+        hours = int(hparts[0])
+        tmp_minutes = rparts[1]
+        mparts = tmp_minutes.split('m')
+        minutes = int(mparts[0])
+        tmp_etc = rparts[2]
+        sparts = tmp_etc.split('s')
+        etc = float(sparts[0])
+        wintime = float(hours * 3600 + minutes * 60 + etc)
+    print 'Winner time:', wintime
+    print 'Laps: ', winlaps
+            
+    for tr in tbody.findAll('tr'):
+        lap_gap = None
+        pos = plain(tr.contents[1].contents[0])
+        if pos == '':
+            continue
+        num = tr.contents[2].contents[0]
+        racer_l = tr.contents[3]
+        racer_a = racer_l.find('a')
+        href = racer_a['href']
+        racer = getRacer(href)
+        parts = racer.split(' ')
+        en_parts = []
+        for i in range(0, len(parts) - 1):
+            first_parts = plain(parts[i]).capitalize() + ' '            
+            en_parts.append(first_parts)
+        first_name = plain(en_parts)
+        family_name = plain(parts[-1]).capitalize()
+        team = plain(tr.contents[4])
+        engine = plain(tr.contents[5])
+        lap = plain(tr.contents[6].contents[0])
+        if lap == '':
+            lap is None
+        elif (winlaps - int(lap)) == 0:
+            lap = 0
+        ### Fix it ###
+        if pos == 'ab' or pos == 'np':
+            lap_gap is None
+        else:
+            lap_gap = winlaps - int(lap)
+        ### End ###
+        results = plain(tr.contents[7])
+        rparts = results.split(' ')
+        if (len(rparts) > 4):
+            tmp_hours = rparts[0]
+            hparts = tmp_hours.split('h')
+            hours = int(hparts[0])
+            tmp_minutes = rparts[1]
+            mparts = tmp_minutes.split('m')
+            minutes = int(mparts[0])
+            tmp_etc = rparts[2]
+            sparts = tmp_etc.split('s')
+            etc = float(sparts[0])
+            time = float(hours * 3600 + minutes * 60 + etc)
+            res = wintime - time
+        else:
+            res = results
+        tyre = result[(first_name, family_name, team, engine)]
+        print pos, num, first_name, family_name, team, engine, tyre, lap, lap_gap, res
+
 
 #Starting grid
 def qual(opener, url):
@@ -350,7 +374,7 @@ def qual(opener, url):
     for a in h1.find('a'):
         slug_t = plain(a)
         slpart = slug_t.split(' ')
-        slug = (plain('-'.join(slpart[0:]))+'-q').lower() 
+        slug = (plain('-'.join(slpart[0:])) + '-q').lower() 
         gpname = plain(' '.join(slpart[0:-1]))
         season = int(slpart[-1])
         print gpname, season
@@ -367,7 +391,7 @@ def qual(opener, url):
                 racer = getRacer(href)
                 parts = racer.split(' ')
                 en_parts = []
-                for i in range(0,len(parts)-1):
+                for i in range(0, len(parts) - 1):
                     first_parts = plain(parts[i]).capitalize() + ' '            
                     en_parts.append(first_parts)
                 first_name = plain(en_parts)
@@ -380,11 +404,11 @@ def qual(opener, url):
                 seconds = int(tparts[1])
                 try:
                     if len(tparts[3]) == 1:
-                        etc = Decimal(tparts[3])/10
+                        etc = Decimal(tparts[3]) / 10
                     elif len(tparts[3]) == 2:
-                        etc = Decimal(tparts[3])/100
+                        etc = Decimal(tparts[3]) / 100
                     elif len(tparts[3]) == 3:
-                        etc = Decimal(tparts[3])/1000
+                        etc = Decimal(tparts[3]) / 1000
                 except:
                     etc = 0
             #    wtime = str(60*mins + seconds + etc/1000)
@@ -394,7 +418,7 @@ def qual(opener, url):
                 racer = getRacer(href)
                 parts = racer.split(' ')
                 en_parts = []
-                for i in range(0,len(parts)-1):
+                for i in range(0, len(parts) - 1):
                     first_parts = plain(parts[i]).capitalize() + ' '            
                     en_parts.append(first_parts)
                 first_name = plain(en_parts)
@@ -407,14 +431,14 @@ def qual(opener, url):
                 seconds = int(tparts[1])
                 try:
                     if len(tparts[3]) == 1:
-                        etc = Decimal(tparts[3])/10
+                        etc = Decimal(tparts[3]) / 10
                     elif len(tparts[3]) == 2:
-                        etc = Decimal(tparts[3])/100
+                        etc = Decimal(tparts[3]) / 100
                     elif len(tparts[3]) == 3:
-                        etc = Decimal(tparts[3])/1000
+                        etc = Decimal(tparts[3]) / 1000
                 except:
                     etc = 0
-            wtime = str(60*mins + seconds + etc)
+            wtime = str(60 * mins + seconds + etc)
         else:
             continue
         
@@ -464,7 +488,7 @@ def qual(opener, url):
             racer = getRacer(href)
             parts = racer.split(' ')
             en_parts = []
-            for i in range(0,len(parts)-1):
+            for i in range(0, len(parts) - 1):
                 first_parts = plain(parts[i]).capitalize() + ' '            
                 en_parts.append(first_parts)
             first_name = plain(en_parts)
@@ -479,14 +503,14 @@ def qual(opener, url):
                     seconds = int(tparts[1])
                     try:
                         if len(tparts[3]) == 1:
-                            etc = Decimal(tparts[3])/10
+                            etc = Decimal(tparts[3]) / 10
                         elif len(tparts[3]) == 2:
-                            etc = Decimal(tparts[3])/100
+                            etc = Decimal(tparts[3]) / 100
                         elif len(tparts[3]) == 3:
-                            etc = Decimal(tparts[3])/1000
+                            etc = Decimal(tparts[3]) / 1000
                     except:
                         etc = 0
-                    qtime = str(60*mins + seconds + etc)
+                    qtime = str(60 * mins + seconds + etc)
                     delta = Decimal(qtime, 3) - Decimal(wtime, 3)
                     
                 else:
@@ -506,21 +530,21 @@ def qual(opener, url):
                     seconds = int(tparts[1])
                     try:
                         if len(tparts[3]) == 1:
-                            etc = Decimal(tparts[3])/10
+                            etc = Decimal(tparts[3]) / 10
                         elif len(tparts[3]) == 2:
-                            etc = Decimal(tparts[3])/100
+                            etc = Decimal(tparts[3]) / 100
                         elif len(tparts[3]) == 3:
-                            etc = Decimal(tparts[3])/1000
+                            etc = Decimal(tparts[3]) / 1000
                     except:
                         etc = 0
                     
-                    qtime = str(60*mins + seconds + etc)
+                    qtime = str(60 * mins + seconds + etc)
                     delta = Decimal(qtime, 3) - Decimal(wtime, 3)
                     
                 else:
                     delta = None
                     
-        qtime = str(60*mins + seconds + etc/1000)
+        qtime = str(60 * mins + seconds + etc / 1000)
         qq = Decimal(qtime, 3)
         
         try:
@@ -561,10 +585,10 @@ def bestlap(opener, url):
         mins = int(tparts[0])
         seconds = int(tparts[1])
         try:
-            etc = float(tparts[3])/1000.0
+            etc = float(tparts[3]) / 1000.0
         except:
             etc = 0
-        besttime = mins*60 + seconds + etc        
+        besttime = mins * 60 + seconds + etc        
         gap = plain(tr.contents[6])
         lap = plain(tr.contents[7])
         print pos, racer, team, engine, besttime, gap, lap
@@ -604,7 +628,7 @@ def racer(opener, url):
     racer = plain(h1)
     parts = racer.split(' ')
     en_parts = []
-    for i in range(0,len(parts)-1):
+    for i in range(0, len(parts) - 1):
         first_parts = plain(parts[i]).capitalize() + ' '            
         en_parts.append(first_parts)
     first_name = plain(en_parts)
@@ -827,7 +851,7 @@ def tracklen(opener, url):
                 if a not in lengths:
                     lengths.append(a)
     
-    for i in range(0,len(lengths)):
+    for i in range(0, len(lengths)):
         test = lengths[i]
         tracklen = TrackLen()
         tracklen.track = Track.objects.get(name=name)
@@ -910,8 +934,8 @@ def main():
 
 
     #index(opener, SITE + '/en/saisons.aspx')
-    year(opener, 'http://statsf1.com/en/1950.aspx')
-    #race('http://statsf1.com/en/1993/europe/classement.aspx')
+    #year(opener, 'http://statsf1.com/en/1950.aspx')
+    race(opener, 'http://statsf1.com/en/2010/australie/classement.aspx')
     #grandprix(opener, 'http://statsf1.com/en/1950/indianapolis.aspx')
     #gplist(opener, 'http://statsf1.com/en/grands-prix.aspx')
     #entrans(opener, 'http://statsf1.com/en/1952/suisse/engages.aspx')
