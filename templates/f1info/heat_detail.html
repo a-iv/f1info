@@ -4,46 +4,54 @@
     <h2>{{ object.get_verbose_name.grandprix }} {{ object.grandprix.name }} {{ object.grandprix.season.year }}</h2>
     <div>{{ object.get_verbose_name.date }}: {{ object.date|date:"d.m.Y" }}</div>
     <div>{{ object.grandprix.tracklen.track }}</div>
-    <div>{{ object.grandprix.tracklen.length }}</div>
+    <div>{{ object.grandprix.tracklen.get_verbose_name.length }}: {{ object.grandprix.tracklen.length }}</div>
+    <div>{{ object.get_verbose_name.laps }} : {{ object.laps }}</div>
     <h3>{{ object.get_type_display }}</h3>
     
     {% for result in object.get_results %}
-        {% if forloop.first %}
-            <table>
-                <tr>
-                    <th>{{ result.get_verbose_name.position }}</th>
-                    <th>{{ result.get_verbose_name.racer }}</th>
-                    <th>{{ result.get_verbose_name.team }}</th>
-                    <th>{{ result.get_verbose_name.engine }}</th>
-                    <th>{{ result.get_verbose_name.tyre }}</th>
-                    <th>{{ result.get_verbose_name.get_time_display }}</th>
-                    <th>{{ result.get_verbose_name.get_delta_display }}</th>
-                </tr>
-        {% endif %}
+    {% if forloop.first %}
+    <table>
         <tr>
-            <td class="center">{{ result.position }}</td>
+            <th>{{ result.get_verbose_name.position }}</th>
+            <th>{{ result.get_verbose_name.racer }}</th>
+            <th>{{ result.get_verbose_name.team }}</th>
+            <th>{{ result.get_verbose_name.engine }}</th>
+            <th>{{ result.get_verbose_name.tyre }}</th>
+            <th>{{ result.get_verbose_name.get_time_display }}</th>
+            <th>{{ result.get_verbose_name.get_delta_display }}</th>
+        </tr>
+    {% endif %}
+        <tr>
+            {% if result.is_classified %}
+                <td class="center">{{ result.position }}</td>
+            {% else %}
+                <td class="center nc">NC</td>
+            {% endif %}
             <td>{{ result.racer }}</td>
             <td>{{ result.team }}</td>
             <td>{{ result.engine }}</td>
-            <td>{{ result.tyre }}</td>
+            <td class="center"><img src="/media/upload/tyre/{{ result.tyre }}.png" alt="{{ result.tyre }}"/></td>
             <td>{{ result.get_time_display }}</td>
             <td>{{ result.get_delta_display }}</td>
             <td></td>
         </tr>
     {% endfor %}
-
+	<tr>
+		<td colspan="7"><h4>Не классифицированы</h4></td>
+	</tr>
+	
     {% for result in object.get_fails %}
+    
         <tr>
             {% if result.is_classified %}
                 <td class="center">{{ result.position }}</td>
             {% else %}
-                <td class="center">nc</td>
+                <td class="center nc">NC</td>
             {% endif %}
             <td>{{ result.racer }}</td>
             <td>{{ result.team }}</td>
             <td>{{ result.engine }}</td>
-            <td>{{ result.tyre }}</td>
-            <td>{{ result.get_time_display }}</td>
+            <td class="center"><img src="/media/upload/tyre/{{ result.tyre }}.png" alt="{{ result.tyre }}"/></td>
             <td>{{ result.get_delta_display }}</td>
             <td>{{ result.fail }}</td>
         </tr>

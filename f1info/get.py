@@ -290,6 +290,17 @@ def race(opener, url):
     entrans_href = entr['href']
     tyre = None
     result = entrans(opener, SITE + entrans_href)
+    divname = soup.find('div', 'NavigCenter')
+    h1 = divname.find('h1')
+    for a in h1.find('a'):
+        slug_t = plain(a)
+        slpart = slug_t.split(' ')
+        slug = (plain('-'.join(slpart[0:])) + '-r').lower() 
+        gpname = plain(' '.join(slpart[0:-1]))
+        season = int(slpart[-1])
+        print gpname, season
+    re = h1.find('a')
+    gp_link = re['href']
     tbody = soup.find('tbody')
     for tr in tbody.findAll('tr')[0:1]:
         winlaps = int(plain(tr.contents[6].contents[0]))
@@ -297,22 +308,41 @@ def race(opener, url):
         rparts = results.split(' ')
         tmp_hours = rparts[0]
         hparts = tmp_hours.split('h')
-        hours = int(hparts[0])
+        hours = Decimal(hparts[0])
         tmp_minutes = rparts[1]
         mparts = tmp_minutes.split('m')
-        minutes = int(mparts[0])
+        minutes = Decimal(mparts[0])
         tmp_etc = rparts[2]
         sparts = tmp_etc.split('s')
-        etc = float(sparts[0])
-        wintime = float(hours * 3600 + minutes * 60 + etc)
+        etc = Decimal(sparts[0])
+        wintime = str(hours * 3600 + minutes * 60 + etc)
     print 'Winner time:', wintime
     print 'Laps: ', winlaps
-            
+    
+    test = GrandPrix()
+    test.name = GPName.objects.get(name=gpname)
+    test.season = Season.objects.get(year=season)
+    
+    r = Heat()
+    r.grandprix = GrandPrix.objects.get(name=test.name, season=test.season)
+    r.type = 'R'
+    r.date = getdate(opener, SITE + gp_link)
+    r.time = wintime
+    r.laps = winlaps
+    r.slug = slug
+    r.save()
+
+               
     for tr in tbody.findAll('tr'):
-        lap_gap = None
-        pos = plain(tr.contents[1].contents[0])
-        if pos == '':
-            continue
+        fail = ''
+        lap_gap = 0
+        position = str(plain(tr.contents[1].contents[0]))
+        try:
+            if position == '':
+                continue
+            pos = Decimal(position)
+        except:
+            pos += 1
         num = tr.contents[2].contents[0]
         racer_l = tr.contents[3]
         racer_a = racer_l.find('a')
@@ -332,9 +362,9 @@ def race(opener, url):
             lap is None
         elif (winlaps - int(lap)) == 0:
             lap = 0
-        ### Fix it ###
-        if pos == 'ab' or pos == 'np':
-            lap_gap is None
+        ### BETA ###
+        if position == 'ab' or position == 'np':
+            lap_gap = winlaps - int(lap)
         else:
             lap_gap = winlaps - int(lap)
         ### End ###
@@ -343,18 +373,41 @@ def race(opener, url):
         if (len(rparts) > 4):
             tmp_hours = rparts[0]
             hparts = tmp_hours.split('h')
-            hours = int(hparts[0])
+            hours = Decimal(hparts[0])
             tmp_minutes = rparts[1]
             mparts = tmp_minutes.split('m')
-            minutes = int(mparts[0])
+            minutes = Decimal(mparts[0])
             tmp_etc = rparts[2]
             sparts = tmp_etc.split('s')
-            etc = float(sparts[0])
-            time = float(hours * 3600 + minutes * 60 + etc)
-            res = wintime - time
+            etc = Decimal(sparts[0])
+            time = str(hours * 3600 + minutes * 60 + etc)
+            res = abs(Decimal(wintime) - Decimal(time))
+            fail = ''
+        elif result == '':
+            res  = None
+            fail = ''
         else:
-            res = results
+            res = None
+            fail = results
         tyre = result[(first_name, family_name, team, engine)]
+        
+        rac = Racer()
+        rac.first_name = first_name
+        rac.family_name = family_name
+        
+        race = Result()
+        race.heat = Heat.objects.get(grandprix=r.grandprix, type=r.type)
+        race.position = pos
+        race.num = num
+        race.racer = Racer.objects.get(first_name=rac.first_name, family_name=rac.family_name)
+        race.team = Team.objects.get(name=team)
+        race.engine = Engine.objects.get(name=engine)
+        race.tyre = Tyre.objects.get(name=tyre)
+        race.delta = res
+        race.laps = lap_gap
+        race.fail = fail
+        race.save()
+        
         print pos, num, first_name, family_name, team, engine, tyre, lap, lap_gap, res
 
 
@@ -935,7 +988,7 @@ def main():
 
     #index(opener, SITE + '/en/saisons.aspx')
     #year(opener, 'http://statsf1.com/en/1950.aspx')
-    race(opener, 'http://statsf1.com/en/2010/australie/classement.aspx')
+    race(opener, 'http://statsf1.com/en/2010/canada/classement.aspx')
     #grandprix(opener, 'http://statsf1.com/en/1950/indianapolis.aspx')
     #gplist(opener, 'http://statsf1.com/en/grands-prix.aspx')
     #entrans(opener, 'http://statsf1.com/en/1952/suisse/engages.aspx')

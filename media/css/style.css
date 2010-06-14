@@ -52,9 +52,8 @@ td {
 	border-bottom: 1px solid #eee;
 }
 
-td.center {
-	text-align: center;
-}
+td.center { text-align: center; }
+td.nc { color: #666; }
 
 /*********** ГОНЩИКИ ***********/
 

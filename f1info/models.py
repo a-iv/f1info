@@ -166,12 +166,30 @@ def time_to_str(time):
     hour = time / 60
     result = ''
     if hour:
-        if hour < 10:
-            result += '%2d:' % hour
+        result += '%2d:' % hour
     if minute:
         if minute < 10:
             result += '%2d:' % minute
+        else:
+            result += '%02d:' % minute
     result += '%02d.%03d' % (second, millisecond)
+    return result
+
+def time_to_str_gap(time):
+    millisecond = int((time % 1) * 1000)
+    time = int(time)
+    second = time % 60
+    time = time / 60
+    minute = time % 60
+    result = ''
+    if minute:
+        if minute < 10:
+            result += '%2d:' % minute
+        else:
+            result += '%02d:' % minute
+        result += '%02d.%03d' % (second, millisecond)
+    else:
+        result += ' %2d.%03d' % (second, millisecond)
     return result
 
 
@@ -428,6 +446,8 @@ class Result(VerboseModel):
         u'Классифицируется'
         if self.laps is None:
             return True
+        elif self.delta or self.delta == 0:
+            return True
         return self.heat.laps / 10 + 1 >= self.laps
 
     def get_time_display(self):
@@ -441,9 +461,15 @@ class Result(VerboseModel):
         if self.delta == 0:
             return ''
         elif self.delta is None:
-            return '+%d %s' % (self.laps, u'круга')
+            if self.laps == 1:
+                return '+%d %s' % (self.laps, u'круг')
+            elif 2 <= self.laps <= 4:
+                return '+%d %s' % (self.laps, u'круга')
+            elif 5 <= self.laps < 100:
+                return '+%d %s' % (self.laps, u'кругов')
+            return ''
         else:
-            return '+%s' % time_to_str(self.delta)
+            return '+%s' % time_to_str_gap(self.delta)
 
     def _get_points_count(self):
         if self.heat.type != Heat.RACE:
