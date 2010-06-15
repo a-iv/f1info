@@ -384,7 +384,7 @@ def race(opener, url):
             res = abs(Decimal(wintime) - Decimal(time))
             fail = ''
         elif result == '':
-            res  = None
+            res = None
             fail = ''
         else:
             res = None
@@ -988,7 +988,7 @@ def main():
 
     #index(opener, SITE + '/en/saisons.aspx')
     #year(opener, 'http://statsf1.com/en/1950.aspx')
-    race(opener, 'http://statsf1.com/en/2010/canada/classement.aspx')
+    race(opener, 'http://statsf1.com/en/2010/bahrein/classement.aspx')
     #grandprix(opener, 'http://statsf1.com/en/1950/indianapolis.aspx')
     #gplist(opener, 'http://statsf1.com/en/grands-prix.aspx')
     #entrans(opener, 'http://statsf1.com/en/1952/suisse/engages.aspx')

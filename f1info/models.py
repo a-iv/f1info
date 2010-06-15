@@ -296,6 +296,11 @@ class Season(VerboseModel):
                     left_racers.remove(racer)
                 for racer in left_racers:
                     racer.counted_results.append('')
+                break
+            else:
+                for racer in racers:
+                    racer.counted_results.append('')
+                
         racers.sort(cmp=lambda a, b: int(b.counted_total - a.counted_total))
         return racers
 
@@ -412,10 +417,10 @@ class Heat(VerboseModel):
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
     def get_results(self):
-        return self.results.filter(fail='')
+        return self.results.filter(models.Q(fail='') | models.Q(laps__lte=self.laps / 10 + 1))
 
     def get_fails(self):
-        return self.results.exclude(fail='')
+        return self.results.exclude(models.Q(fail='') | models.Q(laps__lte=self.laps / 10 + 1))
 
     def __unicode__(self):
         return u'%s - %s' % (self.grandprix, self.get_type_display())
