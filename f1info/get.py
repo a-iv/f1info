@@ -358,19 +358,21 @@ def race(opener, url):
         team = plain(tr.contents[4])
         engine = plain(tr.contents[5])
         lap = plain(tr.contents[6].contents[0])
-        if lap == '':
+        if lap == '' or lap == 'tf':
             lap is None
-        elif (winlaps - int(lap)) == 0:
-            lap = 0
         ### BETA ###
         if position == 'ab' or position == 'np':
             lap_gap = winlaps - int(lap)
         else:
             lap_gap = winlaps - int(lap)
         ### End ###
-        results = plain(tr.contents[7])
-        rparts = results.split(' ')
-        if (len(rparts) > 4):
+        
+        try:
+            results = tr.contents[7]
+            resu = plain(results)
+            i = results.find('i')
+            ii = plain(i)
+            rparts = ii.split(' ')
             tmp_hours = rparts[0]
             hparts = tmp_hours.split('h')
             hours = Decimal(hparts[0])
@@ -382,13 +384,17 @@ def race(opener, url):
             etc = Decimal(sparts[0])
             time = str(hours * 3600 + minutes * 60 + etc)
             res = abs(Decimal(wintime) - Decimal(time))
+            lap_gap = 0
             fail = ''
-        elif result == '':
-            res = None
-            fail = ''
-        else:
-            res = None
-            fail = results
+        except:
+            results = plain(tr.contents[7])
+            if resu == '':
+                res = None
+                fail = ''
+            else:
+                res = None
+                fail = results
+        
         tyre = result[(first_name, family_name, team, engine)]
         
         rac = Racer()
@@ -988,7 +994,7 @@ def main():
 
     #index(opener, SITE + '/en/saisons.aspx')
     #year(opener, 'http://statsf1.com/en/1950.aspx')
-    race(opener, 'http://statsf1.com/en/2010/bahrein/classement.aspx')
+    race(opener, 'http://statsf1.com/en/2010/monaco/classement.aspx')
     #grandprix(opener, 'http://statsf1.com/en/1950/indianapolis.aspx')
     #gplist(opener, 'http://statsf1.com/en/grands-prix.aspx')
     #entrans(opener, 'http://statsf1.com/en/1952/suisse/engages.aspx')

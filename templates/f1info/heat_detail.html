@@ -33,7 +33,7 @@
             <td class="center"><img src="/media/upload/tyre/{{ result.tyre }}.png" alt="{{ result.tyre }}"/></td>
             <td>{{ result.get_time_display }}</td>
             <td>{{ result.get_delta_display }}</td>
-            <td></td>
+            <td>{{ result.fail }}</td>
         </tr>
     {% endfor %}
 	<tr>
