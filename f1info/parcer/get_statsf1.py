@@ -9,6 +9,7 @@ from urltoracer import urls
 from ractoracer import racs
 from syspts import *
 from decimal import *
+from urlify import *
 
 SITE = 'http://statsf1.com'
 MONTH = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december', ]
@@ -688,13 +689,13 @@ def racer(opener, url):
     parts = racer.split(' ')
     en_parts = []
     for i in range(0, len(parts) - 1):
-        first_parts = plain(parts[i]).capitalize() + ' '            
+        first_parts = plain(urlify(parts[i])).capitalize() + ' '            
         en_parts.append(first_parts)
-    first_name = plain(en_parts)
+    first_name = plain(en_parts).capitalize()
     family_name = plain(parts[-1]).capitalize()
     en_name = first_name + ' ' + family_name
-    slug = family_name.lower()
-    slug_details = first_name.lower() + '_' + family_name.lower()
+    slug = urlify(family_name.lower())
+    slug_details = urlify(first_name.lower() + '_' + family_name.lower())
     strong = divnation.find('strong')
     nation = plain(strong)
     asite = soup.find('a', id='ctl00_CPH_Main_HL_SiteWeb')
@@ -709,30 +710,31 @@ def racer(opener, url):
     if parts[2] == '?':
         day = 01
         month = 01
-        year = 1800
+        year = 1700
     else:
         day = int(parts[2])
         month = MONTH.index(parts[3]) + 1
         year = int(parts[4])
         
-    racer = Racer()
-    racer.first_name = first_name
-    racer.family_name = family_name
-    racer.en_name = en_name
-    if not Racer.objects.filter(family_name=family_name).count():
-        racer.slug = slug
-    else:
-        racer.slug = slug_details
-    racer.website = website
-    racer.photo = 'upload/drivers/' + slug + '.jpg'
-    racer.country = Country.objects.get(name=nation)
-    racer.birthday = datetime.date(int(year), int(month), int(day))
-    racer.save()
+    #racer = Racer()
+    #racer.first_name = first_name
+    #racer.family_name = family_name
+    #racer.en_name = en_name
+    #if not Racer.objects.filter(family_name=family_name).count():
+    #    racer.slug = slug
+    #else:
+    #    racer.slug = slug_details
+    #racer.website = website
+    #racer.photo = 'upload/drivers/' + slug + '.jpg'
+    #racer.country = Country.objects.get(name=nation)
+    #racer.birthday = datetime.date(int(year), int(month), int(day))
+    #racer.save()
 
-#    print 'Driver:', first_name, family_name
-#    print 'Nation:', nation
-#    print 'Date of birth:', datetime.date(year, month, day)
-#    print 'Website:', website
+    print 'Driver:', first_name, family_name
+    print 'Nation:', nation
+    print 'Date of birth:', datetime.date(year, month, day)
+    print 'Website:', website
+    print 'Slug:', slug
 
 
 #Teams
@@ -994,12 +996,12 @@ def main():
 
     #index(opener, SITE + '/en/saisons.aspx')
     #year(opener, 'http://statsf1.com/en/1950.aspx')
-    race(opener, 'http://statsf1.com/en/2010/monaco/classement.aspx')
+    #race(opener, 'http://statsf1.com/en/2010/monaco/classement.aspx')
     #grandprix(opener, 'http://statsf1.com/en/1950/indianapolis.aspx')
     #gplist(opener, 'http://statsf1.com/en/grands-prix.aspx')
     #entrans(opener, 'http://statsf1.com/en/1952/suisse/engages.aspx')
     #qual(opener, 'http://statsf1.com/en/1958/allemagne/grille.aspx')
-    #abcracer(opener, 'http://statsf1.com/en/pilotes.aspx')
+    abcracer(opener, 'http://statsf1.com/en/pilotes.aspx')
     #racer(opener, 'http://statsf1.com/en/sebastien-buemi.aspx')
     #abcteam(opener, 'http://statsf1.com/en/constructeurs.aspx')
     #team(opener, 'http://statsf1.com/en/ferrari.aspx')
