@@ -97,12 +97,11 @@ urlpatterns += patterns(
     url(r'^racer_ajax_list/$', list_detail.object_list, racer_ajax_list, name='racer_ajax_list'),
     url(r'^racer_last_info/(?P<object_id>\d{1,9})/$', list_detail.object_detail, racer_last_info, name='racer_last_info'),
 
-    (r'^admin/filebrowser/', include('filebrowser.urls')),
-    (r'^admin/(.*)', admin.site.root),
+    (r'^admin/', include(admin.site.urls)),
     (r'^robots.txt$', 'django.views.generic.simple.direct_to_template', {'template': 'robots.txt', 'mimetype': 'text/plain'}),
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     (r'^news/', include('easy_news.urls')),
-    (r'^photologue/', include('photologue.urls')),
     (r'^', include('pages.urls')),
-#    (r'^accounts/login/$', 'django.contrib.auth.views.login'),
+    url(r'^$', 'pages.views.details', name='pages-root'),
+    url(r'^markitup/', include('markitup.urls'))
 )
