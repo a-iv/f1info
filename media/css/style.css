@@ -3,7 +3,8 @@
 body {
 	font-family: Tahoma,Arial,Helvetica,sans-serif;
 	color: #000;
-	font-size: 9pt;
+	font-size: 12px;
+	background: #f4f4f4;
 }
 
 a { color: #427BAD; }
@@ -109,4 +110,59 @@ td.total {
 .drivers-rightcol {
 	float: right;
 	width: 250px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#wrapper {
+	min-width: 986px;
+	max-width: 1180px;
+	margin: 0 auto;
+	overflow: hidden;
+	background: #fff;
+}
+
+#main-column {
+	border-right: 1px solid #ddd;
+	padding: 36px 60px 0 60px;
+	color: #333;
+	line-height: 18px;
+	float: left;
+	width: 480px;
+}
+
+#main-column h1 {
+	font-family: Georgia;
+	font-size: 32px;
+	line-height: 32px;
+	color: #333;
+	margin: 20px 0;
+	
 }

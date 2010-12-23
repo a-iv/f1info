@@ -1,4 +1,4 @@
-{% load chunks %}
+{% load chunks easy_news_tags %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -12,10 +12,32 @@
     {% chunk "end-of-head" %}
 </head>
 <body>
-    <div id="center">
-        <h1>{% block title %}{% endblock %}</h1>
-        {% block content %}{% endblock %}
+    <!-- <div id="center">
+        
+        
+        
+        <div id="latest-news">
+        	ГЛАВНЫЕ НОВОСТИ
+        </div>
+        
+        
+        
+        
+        
     </div>
     {% chunk "end-of-body" %}
+     -->
+     
+     
+     
+	<div id="wrapper">
+		<div id="main-column">
+			<h1>{% block title %}{% endblock %}</h1>
+        	{% block content %}{% endblock %}
+			{% show_news %}
+		</div>
+	</div>
+     
+     
 </body>
 </html>
