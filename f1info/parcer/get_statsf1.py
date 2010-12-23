@@ -693,7 +693,6 @@ def racer(opener, url):
         en_parts.append(first_parts)
     first_name = plain(en_parts).capitalize()
     family_name = plain(parts[-1]).capitalize()
-    en_name = first_name + ' ' + family_name
     slug = urlify(family_name.lower())
     slug_details = urlify(first_name.lower() + '_' + family_name.lower())
     strong = divnation.find('strong')
@@ -716,25 +715,26 @@ def racer(opener, url):
         month = MONTH.index(parts[3]) + 1
         year = int(parts[4])
         
-    #racer = Racer()
-    #racer.first_name = first_name
-    #racer.family_name = family_name
-    #racer.en_name = en_name
-    #if not Racer.objects.filter(family_name=family_name).count():
-    #    racer.slug = slug
-    #else:
-    #    racer.slug = slug_details
-    #racer.website = website
-    #racer.photo = 'upload/drivers/' + slug + '.jpg'
-    #racer.country = Country.objects.get(name=nation)
-    #racer.birthday = datetime.date(int(year), int(month), int(day))
-    #racer.save()
+    racer = Racer()
+    racer.first_name = first_name
+    racer.family_name = family_name
+    racer.en_first_name = first_name
+    racer.en_family_name = family_name
+    if not Racer.objects.filter(family_name=family_name).count():
+        racer.slug = slug
+    else:
+        racer.slug = slug_details
+    racer.website = website
+    racer.photo = 'upload/drivers/' + slug + '.jpg'
+    racer.country = Country.objects.get(name=nation)
+    racer.birthday = datetime.date(int(year), int(month), int(day))
+    racer.save()
 
-    print 'Driver:', first_name, family_name
-    print 'Nation:', nation
-    print 'Date of birth:', datetime.date(year, month, day)
-    print 'Website:', website
-    print 'Slug:', slug
+#    print 'Driver:', first_name, family_name
+#    print 'Nation:', nation
+#    print 'Date of birth:', datetime.date(year, month, day)
+#    print 'Website:', website
+#    print 'Slug:', slug
 
 
 #Teams
@@ -1001,7 +1001,7 @@ def main():
     #gplist(opener, 'http://statsf1.com/en/grands-prix.aspx')
     #entrans(opener, 'http://statsf1.com/en/1952/suisse/engages.aspx')
     #qual(opener, 'http://statsf1.com/en/1958/allemagne/grille.aspx')
-    abcracer(opener, 'http://statsf1.com/en/pilotes.aspx')
+    #abcracer(opener, 'http://statsf1.com/en/pilotes.aspx')
     #racer(opener, 'http://statsf1.com/en/sebastien-buemi.aspx')
     #abcteam(opener, 'http://statsf1.com/en/constructeurs.aspx')
     #team(opener, 'http://statsf1.com/en/ferrari.aspx')
@@ -1010,7 +1010,7 @@ def main():
     #tracklist(opener, 'http://statsf1.com/en/circuits.aspx')
     #track(opener, 'http://statsf1.com/en/circuit-yeongam.aspx')
     #tracklen(opener, 'http://statsf1.com/en/circuit-monaco.aspx')
-    #abcnation(opener, 'http://statsf1.com/en/nations.aspx')
+    abcnation(opener, 'http://statsf1.com/en/nations.aspx')
     #gpnation(opener, 'http://statsf1.com/en/grands-prix.aspx')
 
 if __name__ == '__main__':
