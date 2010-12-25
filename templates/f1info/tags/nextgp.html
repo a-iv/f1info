@@ -1,13 +1,14 @@
-{% for object in nextgp %}
-	<p>
-	{% if current|date:"d.m.Y" <= object.date|date:"d.m.Y" %}
-		<p>{{current|date:"d.m.Y"}}</p>
-		Следующий Гран-При:
-		{{ object.grandprix.name }}
-		<p>{{ object.date|date:"d.m.Y" }}</p>
-		<p>{{ object.grandprix.tracklen.track }}</p>
-		<p>{{ object.grandprix.tracklen.length }}</p>
-		<img src="{{ object.grandprix.tracklen.photo.url }}" alt="{{ object.grandprix.tracklen.track }}" />
-	{% endif %}
-	</p>
-{% endfor %}
+{% load utilities_tags %}
+
+<div id="grandprix">
+        {% if start.grandprix.tracklen.photo %}
+		<img src="{{ start.grandprix.tracklen.photo.url }}" alt="{{ object.grandprix.tracklen.track }}" width="100" style="float:right" />
+		{% endif %}
+
+		<p class="gpname">Гран-При {{ start.grandprix.name }}</p>
+		<span class="small-grey">{{ start.date|date:"d" }}&ndash;{{ end.date|date_local:"d F" }}: <span class="normal">{{ start.grandprix.tracklen.track }}</span></span>
+
+		{% for heat in start.grandprix.heats.all %}
+            <p>{{ heat.date|date:"D, H:i" }} <a href="{% url heat_detail heat.id %}">{{ heat.get_type_display }}</a></p>
+        {% endfor %}
+</div>

@@ -155,7 +155,7 @@ td.total {
 	color: #333;
 	line-height: 18px;
 	float: left;
-	width: 680px;
+	width: 550px;
 }
 
 #main-column h1 {
@@ -237,6 +237,22 @@ span#top-story-date {
 	text-transform: lowercase;
 }
 
+p.gpname {
+    margin: 4px 0;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+span.small-grey {
+    font-size: 11px;
+    color: #666;
+    text-transform: lowercase;
+}
+
+span.normal { text-transform: none !important; }
+
 p {
 	margin: 12px 0;
 }
+
+

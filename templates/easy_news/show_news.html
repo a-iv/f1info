@@ -1,6 +1,7 @@
 {% load attachment_tags %}
 
 <div id="main-news">
+    {% if main_list %}
 	<div id="top-story">
 		{% with main_list|first as object %}
 			{% show_images for object %}
@@ -15,7 +16,7 @@
 			<a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
 		</div>
 	{% endfor %}
-	
+	{% endif %}
 </div>
 <div class="news-list">    
     {% if news_list %}
