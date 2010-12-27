@@ -14,7 +14,8 @@
 <body>
     <!-- <div id="center">
         
-        
+     <h1>{% block title %}{% endblock %}</h1>
+        	{% block content %}{% endblock %}   
         
         <div id="latest-news">
         	ГЛАВНЫЕ НОВОСТИ
@@ -29,11 +30,25 @@
      -->
      
      
-     
+	<div id="header-wrapper">
+		<div id="header">
+			<div id="logo"><img src="/media/img/logo.png" alt="" /></div>
+			<div id="menu">
+				<ul>
+					<li>Новости</li>
+					<li>Сезон 2011</li>
+					<li>Результаты</li>
+					<li>Пилоты и команды</li>
+					<li>Статьи</li>
+					<li>Фото</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
 	<div id="wrapper">
 		<div id="main-column">
-			<h1>{% block title %}{% endblock %}</h1>
-        	{% block content %}{% endblock %}
+			
 			{% show_news %}
 		</div>
 		<div id="test">

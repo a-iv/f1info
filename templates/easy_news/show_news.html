@@ -1,4 +1,4 @@
-{% load attachment_tags %}
+{% load attachment_tags utilities_tags %}
 
 <div id="main-news">
     {% if main_list %}
@@ -6,13 +6,13 @@
 		{% with main_list|first as object %}
 			{% show_images for object %}
 			<h2><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>
-			<span id="top-story-date">{{ object.date|date:"d.m.Y" }}&nbsp;&mdash;&nbsp;</span>{{ object.short }}
+			<span id="top-story-date">{{ object.date|date:"d" }} {{ object.date|date_local:"F" }}&nbsp;&mdash;&nbsp;</span>{{ object.short }}
 		{% endwith %}
 	</div>
 	{% for object in main_list|slice:"1:" %}
 		<div class="ex-news-item">
 			{% show_images for object %}
-			<span>{{ object.date|date:"d.m.Y" }}</span>
+			<span>{{ object.date|date:"d" }} {{ object.date|date_local:"F" }}</span>
 			<a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
 		</div>
 	{% endfor %}
