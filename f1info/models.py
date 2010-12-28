@@ -359,10 +359,11 @@ class GPName(VerboseModel):
         ordering = ['name']
         verbose_name = u'Гран-При'
         verbose_name_plural = u'Гран-При'
-    name = models.CharField(verbose_name=u'Название', max_length=100, null=True, blank=True, default='')
+    name = models.CharField(verbose_name=u'Гран-При', max_length=100)
+    slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
     def __unicode__(self):
-        return u'%s' % self.name
+        return u'%s' % (self.name)
 
 class GrandPrix(VerboseModel):
     class Meta:
