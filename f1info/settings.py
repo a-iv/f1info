@@ -73,6 +73,7 @@ INSTALLED_APPS = (
     'south',
     'markitup',
     'f1info',
+    'f1info.info',
 )
 
 TEMPLATE_LOADERS = [
