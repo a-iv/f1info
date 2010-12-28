@@ -1,0 +1,5 @@
+{% with attachments.0 as pic %}
+	{% if pic %}
+		<img src="{{ pic.image.url }}" alt="" />
+	{% endif %}
+{% endwith %}

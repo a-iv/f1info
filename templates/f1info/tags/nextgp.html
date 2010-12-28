@@ -1,0 +1,13 @@
+{% for object in nextgp %}
+	<p>
+	{% if current|date:"d.m.Y" <= object.date|date:"d.m.Y" %}
+		<p>{{current|date:"d.m.Y"}}</p>
+		Следующий Гран-При:
+		{{ object.grandprix.name }}
+		<p>{{ object.date|date:"d.m.Y" }}</p>
+		<p>{{ object.grandprix.tracklen.track }}</p>
+		<p>{{ object.grandprix.tracklen.length }}</p>
+		<img src="{{ object.grandprix.tracklen.photo.url }}" alt="{{ object.grandprix.tracklen.track }}" />
+	{% endif %}
+	</p>
+{% endfor %}
