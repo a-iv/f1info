@@ -86,12 +86,12 @@ except admin.sites.AlreadyRegistered:
 
 class PointInline(admin.TabularInline):
     model = Point
-    extra = 10
+    extra = 1
 
 class GrandPrixInline(admin.TabularInline):
     prepopulated_fields = {'slug': ('season', 'name',)}
     model = GrandPrix
-    extra = 5
+    extra = 1
 
 class SeasonAdmin(ModelAdmin):
     inlines = [
@@ -106,7 +106,7 @@ except admin.sites.AlreadyRegistered:
 
 class ResultInline(admin.TabularInline):
     model = Result
-    extra = 5
+    extra = 1
     exclude = ['_points_count']
 
 class BestLapInline(admin.TabularInline):
