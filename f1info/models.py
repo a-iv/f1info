@@ -199,7 +199,8 @@ class Country(models.Model):
         verbose_name = u'Страна'
         verbose_name_plural = u'Страны'
     name = models.CharField(verbose_name=u'Название', max_length=100)
-    photo = models.ImageField(verbose_name=u'Флаг', upload_to='upload/country/photo', null=True, blank=True)
+    en_name = models.CharField(verbose_name=u'English', max_length=100)
+    photo = models.ImageField(verbose_name=u'Флаг', upload_to='upload/flags/', null=True, blank=True)
 
     def __unicode__(self):
         return '%s' % self.name
@@ -221,7 +222,7 @@ class Racer(StatModel):
     birthday = models.DateField(verbose_name=u'Дата рождения', null=True, blank=True)
     comment = models.CharField(verbose_name=u'Комментарий', max_length=200, default='', blank=True)
     website = models.CharField(verbose_name=u'Веб-сайт', max_length=200, null=True, blank=True)
-    photo = models.ImageField(verbose_name=u'Фото', upload_to='upload/racer/photo', null=True, blank=True)
+    photo = models.ImageField(verbose_name=u'Фото', upload_to='upload/drivers/', null=True, blank=True)
 
     def __unicode__(self):
         return u'%s %s' % (self.first_name, self.family_name)
@@ -233,6 +234,7 @@ class Engine(StatModel):
         verbose_name = u'Двигатель'
         verbose_name_plural = u'Двигатели'
     name = models.CharField(verbose_name=u'Название', max_length=100)
+    en_name = models.CharField(verbose_name=u'English', max_length=100)
     founder = models.CharField(verbose_name=u'Основатель', max_length=100, null=True, blank=True)
     country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='engines', null=True, blank=True)
     website = models.CharField(verbose_name=u'Веб-сайт', max_length=200, null=True, blank=True)
@@ -248,6 +250,7 @@ class Tyre(StatModel):
         verbose_name = u'Шина'
         verbose_name_plural = u'Шины'
     name = models.CharField(verbose_name=u'Название', max_length=100)
+    en_name = models.CharField(verbose_name=u'English', max_length=100)
     country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='tyres', null=True, blank=True)
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
@@ -261,6 +264,7 @@ class Team(StatModel):
         verbose_name = u'Команда'
         verbose_name_plural = u'Команды'
     name = models.CharField(verbose_name=u'Название', max_length=100)
+    en_name = models.CharField(verbose_name=u'English', max_length=100)
     founder = models.CharField(verbose_name=u'Основатель', max_length=100, null=True, blank=True)
     country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='teams', null=True, blank=True)
     website = models.CharField(verbose_name=u'Веб-сайт', max_length=200, null=True, blank=True)
@@ -331,6 +335,7 @@ class Track(VerboseModel):
         verbose_name = u'Трасса'
         verbose_name_plural = u'Трассы'
     name = models.CharField(verbose_name=u'Трасса', max_length=100)
+    en_name = models.CharField(verbose_name=u'English', max_length=100)
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
     googlemaps = models.CharField(verbose_name=u'Google Maps', max_length=300, default='', blank=True)
     website = models.CharField(verbose_name=u'Веб-сайт', max_length=100, null=True, blank=True)
@@ -346,7 +351,7 @@ class TrackLen(VerboseModel):
         verbose_name_plural = u'Длины трассы'
     track = models.ForeignKey(Track, null=True)
     length = models.IntegerField(verbose_name=u'Длина трассы', default=0, blank=True)
-    photo = models.ImageField(verbose_name=u'Схема', upload_to='upload/track/img', null=True, blank=True)
+    photo = models.ImageField(verbose_name=u'Схема', upload_to='upload/tracks/', null=True, blank=True)
 
     def __unicode__(self):
         if self.track:
@@ -360,10 +365,11 @@ class GPName(VerboseModel):
         verbose_name = u'Гран-При'
         verbose_name_plural = u'Гран-При'
     name = models.CharField(verbose_name=u'Гран-При', max_length=100)
-    slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
+    en_name = models.CharField(verbose_name=u'English', max_length=100)
+    abbr = models.CharField(verbose_name=u'Сокращённо', max_length=3, default='', blank=True)
 
     def __unicode__(self):
-        return u'%s' % (self.name)
+        return u'%s' % self.name
 
 class GrandPrix(VerboseModel):
     class Meta:
@@ -377,7 +383,6 @@ class GrandPrix(VerboseModel):
     index = models.IntegerField(verbose_name=u'Индекс', null=True)
     season = models.ForeignKey(Season, verbose_name=u'Сезон', related_name='grandprixs')
     name = models.ForeignKey(GPName, verbose_name=u'Гран-При', related_name='grandprixs', null=True, blank=True)
-    abbr = models.CharField(verbose_name=u'Сокращённо', max_length=3, default='', blank=True)
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
     country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='grandprixs', null=True, blank=True)
     tracklen = models.ForeignKey(TrackLen, verbose_name=u'Трасса', related_name='tracks', null=True, blank=True)
