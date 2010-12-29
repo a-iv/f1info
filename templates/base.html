@@ -14,8 +14,6 @@
 <body>
     <!-- <div id="center">
         
-     <h1>{% block title %}{% endblock %}</h1>
-        	{% block content %}{% endblock %}   
         
         <div id="latest-news">
         	ГЛАВНЫЕ НОВОСТИ
@@ -48,8 +46,9 @@
 
 	<div id="wrapper">
 		<div id="main-column">
-			
-			{% show_news %}
+			<h1>{% block title %}{% endblock %}</h1>
+        	{% block content %}{% endblock %}
+			<!-- {% show_news %} -->
 		</div>
 		<div id="test">
 			{% show_nextgp %}
