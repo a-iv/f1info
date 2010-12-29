@@ -17,3 +17,4 @@ commit.txt
 media/upload/*
 f1info/localsettings.py
 f1info/parcer/*.html
+debug.html
