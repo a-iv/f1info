@@ -1,0 +1,15 @@
+<div id="standings">
+	<h2>Итоги сезона 2010</h2>
+	<table class="standings">
+		{% for racer in object.get_racer_table|slice:"10" %}
+		    {% if racer.counted_total %}
+		        <tr>
+		            <td class="pos">{{ forloop.counter }}</td>
+		            <td class="flag"><img src="{{ racer.country.photo.url }}" alt="{{ racer.country }}" /></td>
+		            <td class="driver"><a href="{% url racer_detail racer.id %}">{{ racer }}</a></td>
+		            <td class="total">{{ racer.counted_total|floatformat }}</td>
+		        </tr>
+		    {% endif %}
+		{% endfor %}
+	</table>
+</div>

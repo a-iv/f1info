@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django import template
-from f1info.models import GrandPrix, Heat
+from f1info.models import GrandPrix, Heat, Season
 import datetime
 
 register = template.Library()
@@ -17,3 +17,9 @@ def show_nextgp():
         return {'nextgp': next, 'current': current, 'start': start, 'end': end,}
     except:
         pass
+
+@register.inclusion_tag('f1info/tags/standings.html', takes_context=False)
+def show_standings():
+    results = Season.objects.get(year=2010)
+    return {'object': results}
+    
