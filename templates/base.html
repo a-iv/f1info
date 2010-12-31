@@ -1,11 +1,11 @@
-{% load chunks easy_news_tags frontpage_tags %}
+{% load chunks menuproxy_tags %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <meta name="keywords" content="{% block seo_keywords %}{% endblock %}" />
-    <meta name="description" content="{% block seo_description %}{% endblock %}" />
-    <title>{% block seo_title %}{% endblock %}</title>
+    <meta name="keywords" content="{% block keywords %}{% endblock %}" />
+    <meta name="description" content="{% block description %}{% endblock %}" />
+    <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" type="text/css" media="screen" href="/media/css/style.css" />
     <link rel="shortcut icon" href="/favicon.ico" />
     {% block head %}{% endblock %}
@@ -30,9 +30,10 @@
      
 	<div id="header-wrapper">
 		<div id="header">
-			<div id="logo"><img src="/media/img/logo.png" alt="" /></div>
+			<div id="logo"><a href="/"><img src="/media/img/logo.png" alt="" /></a></div>
 			<div id="menu">
-				<ul>
+				{% block main_menu %}{% show_main_menu %}{% endblock %}
+				<!-- <ul>
 					<li>Новости</li>
 					<li>Сезон 2011</li>
 					<li>Результаты</li>
@@ -40,19 +41,24 @@
 					<li>Статьи</li>
 					<li>Фото</li>
 				</ul>
+				 -->
 			</div>
 		</div>
 	</div>
 
 	<div id="wrapper">
+		
 		<div id="main-column">
-			<h1>{% block title %}{% endblock %}</h1>
+		{% block main %}
+			{% block title_wrap %}<h1>{% block content_title %}{% endblock %}</h1>{% endblock %}
         	{% block content %}{% endblock %}
-			<!-- {% show_news %} -->
+		{% endblock %}
 		</div>
-		<div id="test">
-			{% show_nextgp %}
-		</div>
+		
+		{% block right %}
+			
+		{% endblock %}
+		
 	</div>
      
      

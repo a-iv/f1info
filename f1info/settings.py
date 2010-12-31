@@ -67,6 +67,7 @@ INSTALLED_APPS = (
     'easy_news',
     'modelurl',
     'urlmethods',
+    'menuproxy',
     'utilities',
     'attachment',
     'seo',
@@ -137,7 +138,8 @@ PAGE_LANGUAGES = (
 )
 DEFAULT_PAGE_TEMPLATE = 'pages/index.html'
 PAGE_TEMPLATES = (
-#    ('pages/frontpage.html', u'Главная страница'),
+    ('pages/frontpage.html', u'Главная страница'),
+    ('pages/articles.html', u'Статьи'),
 )
 
 # django-config settings
@@ -148,6 +150,34 @@ CONFIG_APP_MEDIA = {
         ('pages', 'pages',),
     ]
 }
+
+# django-menu-proxy
+MENU_PROXY_RULES = [
+    {
+        'name': 'news_list',
+        'method': 'insert',
+        'proxy': 'menuproxy.proxies.ReverseProxy',
+        'viewname': 'news_list',
+        'title_text': u'Новости',
+    },
+    {
+        'name': 'pages',
+        'method': 'children',
+        'proxy': 'menuproxy.proxies.MenuProxy',
+        'model': 'pages.models.Page',
+        'children_filter': {'status': 1, },
+        'ancestors_exclude': {'status': 0, },
+    },
+    {
+        'name': 'results',
+        'method': 'insert',
+        'proxy': 'menuproxy.proxies.StaticUrlProxy',
+        'url_text': '/season/',
+        'title_text': u'Результаты',
+    },
+]
+EASY_NEWS_MENU_LEVEL = 0
+
 
 # SEO settings
 SEO_FOR_MODELS = [
