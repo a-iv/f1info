@@ -106,12 +106,12 @@ except admin.sites.AlreadyRegistered:
 
 class ResultInline(admin.TabularInline):
     model = Result
-    extra = 1
+    extra = 0
     exclude = ['_points_count']
 
 class BestLapInline(admin.TabularInline):
     model = BestLap
-    extra = 1
+    extra = 0
     max_num = 1
 
 class HeatAdmin(ModelAdmin):
