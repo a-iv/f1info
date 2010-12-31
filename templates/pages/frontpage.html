@@ -1,0 +1,28 @@
+{% extends 'pages/base.html' %}
+{% load pages_tags markitup_tags easy_news_tags frontpage_tags %}
+
+{% block title_wrap %}{% endblock %}
+
+{% block main %}
+	{% block content %}
+	    {% show_news %}
+	    <div id="last-article">
+	    	<div class="latest">ИНТЕРЕСНОЕ</div>
+				{% for page in pages_navigation %}
+                    {% ifequal page.template "pages/articles.html" %}
+                        {% for inner in page.get_children|slice:"1" %}
+	                        <h3><a href="{{ inner.get_absolute_url }}">{{ inner.title }}</a></h3>
+	                        {% get_content inner "main_content" as main_content %}
+	                        <p>{{ main_content|render_markup|safe|truncatewords_html:36 }}</p>
+                        {% endfor %}
+                    {% endifequal %}
+                {% endfor %}
+	    </div>
+	{% endblock %}
+{% endblock %}
+{% block right %}
+	<div id="right">
+		{% show_nextgp %}
+		{% show_standings %}
+	</div>
+{% endblock %}

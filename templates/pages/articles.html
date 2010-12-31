@@ -1,0 +1,19 @@
+{% extends 'pages/base.html' %}
+{% load pages_tags markitup_tags %}
+
+{% block content %}
+    {% if False %}{% placeholder main_content with markItUpMarkdown %}{% endif %}
+    {% get_content current_page "main_content" as main_content %}
+    {{ main_content|render_markup|safe }}
+    
+    <ul class="articles">
+    {% for inner in current_page.get_children %}
+        <li>
+            <h2><a href="{{ inner.get_absolute_url }}">{{ inner.title }}</a></h2>
+            {% get_content inner "main_content" as main_content %}
+            <p>{{ main_content|render_markup|safe|truncatewords_html:36 }}</p>
+        </li>
+    {% endfor %}
+    </ul>
+    
+{% endblock  %}

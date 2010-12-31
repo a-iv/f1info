@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load pages_tags %}
 
-{% block title %}
+{% block content_title %}
     {% get_content current_page "long_title" as long_title %}
     {% if long_title %}
         {% placeholder long_title with TextInput %}
@@ -9,3 +9,8 @@
         {% placeholder title %}
     {% endif %}
 {% endblock %}
+
+{% load seo_tags %}
+{% block keywords %}{% seo keywords for current_page %}{% endblock %}
+{% block description %}{% seo description for current_page %}{% endblock %}" 
+{% block title %}{% seo title for current_page as title %}{% if title %}{{ title }}{% else %}{% placeholder title %}{% endif %}{% endblock %}

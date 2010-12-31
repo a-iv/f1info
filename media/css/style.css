@@ -6,16 +6,16 @@ body {
 	font-size: 12px;
 	background: #ddd;
 	margin: 0;
-	padding: 0;
+	padding: 0 4px;
 }
 
 a { color: #427BAD; }
 a:hover { color: #cc0000; }
 
 h1, h2, h3 { font-weight: normal; margin: 10px 0;  }
-h1 { font-size: 20pt;}
-h2 { font-size: 17pt; color: #222; }
-h3 { font-size: 12pt; color: #666; }
+h1 { font-size: 22px;}
+h2 { font-size: 20px; color: #222; }
+h3 { font-size: 18px; color: #666; }
 
 #driver-img {
 	float: left;
@@ -143,11 +143,14 @@ td.total {
 
 #header-wrapper {
 	background: -moz-linear-gradient(center top , #333, #000);
+	background: -webkit-gradient(linear, left top, left bottom, from(#333), to(#000));
 	margin: 0 0 14px 0;
 	-moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 	position: fixed;
 	z-index: 100;
 	width: 100%;
+	left: -4px;
+	padding: 0 4px 0 0;
 	
 }
 
@@ -158,13 +161,21 @@ td.total {
 	overflow: hidden;
 	margin: 0 auto;
 	min-width: 986px;
-	max-width: 1180px;
+	max-width: 1120px;
 }
 
 #logo {
-	margin: 0 50px;
+	margin: 0 36px;
 	padding: 8px 0 0 0;
 	float: left;
+}
+
+#logo img {
+	border: 0;
+}
+
+#logo a {
+	outline: none;
 }
 
 #menu {
@@ -181,11 +192,13 @@ td.total {
 	float: left;
 	padding: 0 12px;
 	line-height: 42px;
-	cursor: pointer;
+}
+
+#menu li a {
 	color: #ccc;
 }
 
-#menu li:hover {
+#menu li a:hover {
 	color: #fff;
 }
 
@@ -196,7 +209,7 @@ td.total {
 
 #wrapper {
 	min-width: 986px;
-	max-width: 1180px;
+	max-width: 1120px;
 	margin: 0 auto;
 	overflow: hidden;
 	background: #fff;
@@ -209,16 +222,15 @@ td.total {
 }
 
 #main-column {
-	border-right: 1px solid #ddd;
-	padding: 36px 20px 36px 50px;
+	_border-right: 1px solid #ddd;
+	padding: 36px 20px 36px 36px;
 	color: #333;
 	line-height: 18px;
 	float: left;
-	width: 660px;
+	width: 62%;
 }
 
 #main-column h1 {
-	font-family: Georgia;
 	font-size: 32px;
 	line-height: 32px;
 	color: #222;
@@ -230,13 +242,14 @@ td.total {
 	float: left;
 	width: 400px;
 	padding: 0 0 10px 0;
-	margin: 0 20px 0 0;
+	margin: 0 16px 0 0;
 }
 
 #top-story h2 {
 	font-size: 20px;
+	line-height: 24px;
 	margin: 0;
-	padding: 8px 0 4px 0;
+	padding: 6px 0 2px 0;
 }
 
 #top-story img {
@@ -254,27 +267,16 @@ span#top-story-date {
 	text-transform: lowercase;
 }
 
-#ex-news-caption {
-	height: 18px;
-	line-height: 18px;
-	color: #eee;
-	font-size: 12px;
-	overflow: hidden;
-	margin: 0 0 14px 0;
-	padding: 0 0 0 10px;
-	background: -moz-linear-gradient(100% 100% 90deg, #111, #444);
-}
-
 .ex-news-item {
 	overflow: hidden;
 	margin: 0 0 14px 0;
 	font-size: 12px;
-	font-weight: bold; 
+	line-height: 16px;
 }
 
 .ex-news-item img {
 	float: left;
-	width: 100px;
+	width: 80px;
 	margin: 0 8px 0 0;
 	border: 1px solid #000;
 }
@@ -290,10 +292,8 @@ span#top-story-date {
 
 .news-list {
 	clear: both;
-}
-
-.news-item {
-	
+	width: 400px;
+	float: left;
 }
 
 .news-item:hover {
@@ -311,9 +311,10 @@ span#top-story-date {
 	float: right;
 	text-transform: lowercase;
 	padding: 3px 2px;
+	color: #999;
 }
 
-p.gpname {
+#gpname {
     margin: 4px 0;
     font-weight: bold;
     text-transform: uppercase;
@@ -327,8 +328,92 @@ span.small-grey {
 
 span.normal { text-transform: none !important; }
 
+p.heats {
+	margin: 4px 0;
+	font-size: 11px;
+}
+
+p.heats span {
+	font-weight: bold;
+	color: #000;
+}
+
 p {
 	margin: 12px 0;
 }
 
+.latest {
+	background: -moz-linear-gradient(center top , #bbb, #999);
+	background: -webkit-gradient(linear, left top, left bottom, from(#bbb), to(#999));
+	height: 20px;
+	line-height: 20px;
+	text-transform: uppercase;
+	padding: 0 4px;
+	color: #fff;
+}
 
+#right {
+	padding: 36px 20px 36px 0;
+	margin: 0 0 0 68%;
+}
+
+#grandprix {
+	border: 1px solid #ddd;
+	padding: 10px;
+}
+
+table.standings {
+	border: 1px solid #ddd;
+	width: 100%;
+}
+
+table.standings td {
+	padding: 0 8px;
+	background: #F7F5F0;
+}
+
+table.standings td.pos, table.standings td.flag {
+	width: 15%;
+	text-align: center;
+}
+
+table.standings td.driver {
+	width: 50%;
+}
+
+table.standings td.total {
+	width: 20%;
+	text-align: center;
+}
+
+#last-article {
+	margin: 0 0 0 416px;
+}
+
+#last-article img {
+	width: 200px;
+}
+
+ul.articles {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.articles li {
+	margin: 0 0 40px 0;
+	padding: 0;
+}
+
+ul.seasons {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+ul.seasons li {
+	margin: 20px 20px 20px 0;
+	padding: 0;
+	float: left;
+	font-size: 20px;
+}

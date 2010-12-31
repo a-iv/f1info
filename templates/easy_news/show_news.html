@@ -1,6 +1,7 @@
 {% load attachment_tags utilities_tags %}
 
 <div id="main-news">
+	<div class="latest" style="margin-bottom: 10px;">ГЛАВНОЕ</div>
     {% if main_list %}
 	<div id="top-story">
 		{% with main_list|first as object %}
@@ -20,6 +21,7 @@
 </div>
 <div class="news-list">    
     {% if news_list %}
+        <div class="latest">ПОСЛЕДНИЕ НОВОСТИ</div>
         {% for object in news_list|slice:":15" %}
             <div class="news-item"><span>{{ object.date|date:"d M" }}</span><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></div>
         {% endfor %}
