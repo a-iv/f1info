@@ -1,0 +1,14 @@
+<div id="winners">
+	<h2>Победители</h2>
+    <table>
+        {% for object in objects reversed %}
+        <tr>
+            <td>{{ object.season }}</td>
+	        <td>{{ object.tracklen.track }}</td>
+	        <td>{{ object.heats.all.1.get_results.all.0.racer }}</td>
+	        <td>{{ object.heats.all.1.get_results.all.0.team }}</td>
+	        <td>{{ object.heats.all.1.get_results.all.0.get_time_display }}</td>
+        </tr>
+	    {% endfor %}
+	</table>
+</div>

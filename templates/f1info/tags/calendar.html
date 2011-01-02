@@ -1,0 +1,21 @@
+{% load utilities_tags %}
+
+<div id="calendar">
+	<h2>Календарь чемпионата мира</h2>
+	<table class="calendar">
+	    <tr>
+	        <th>№</th>
+	        <th>Гран-При</th>
+	        <th>Дата</th>
+	        <th>Трасса</th>
+	    </tr>
+		{% for row in objects %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><img src="{{ row.country.photo.url }}" alt="{{ row.country }}" /> <a href="{% url grand_prix_detail row.id %}">{{ row.name }}</a></td>
+            <td>{{ row.heats.all.0.date|date:"d" }}&ndash;{{ row.heats.all.1.date|date_local:"d F" }}</td>
+            <td>{{ row.tracklen.track }}</td>
+        </tr>
+		{% endfor %}
+	</table>
+</div>

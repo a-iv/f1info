@@ -1,10 +1,19 @@
 {% extends "base.html" %}
+{% load frontpage_tags %}
 
 {% block content %}
-    <h2>Гран-При</h2>
+    <h2>Гран-При {{ object.name }} {{ object.season }} </h2>
+
+    <p><img src="{{ object.country.photo.url }}" alt="{{ object.country }}" /> {{ object.country }}</p>
+    <p>{{ object.tracklen.track }}</p>
+    <p>{{ object.tracklen.length }} м</p>
+    
     <ul>
         {% for heat in object.heats.all %}
             <li><a href="{% url heat_detail heat.id %}">{{ heat }}</a></li>
         {% endfor %}
     </ul>
+
+    {% show_winners object.name %}
+    
 {% endblock %}
