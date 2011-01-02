@@ -30,8 +30,7 @@ def show_calendar():
     return {'objects': gp, 'current': current, }
 
 @register.inclusion_tag('f1info/tags/winners.html', takes_context=False)
-def show_winners(test):
-    print test
-    gpname = GPName.objects.get(name=test)
+def show_winners(gpid):
+    gpname = GPName.objects.get(id=gpid)
     gp = GrandPrix.objects.filter(name=gpname)
     return {'objects': gp, }
