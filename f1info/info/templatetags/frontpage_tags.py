@@ -39,4 +39,5 @@ def show_winners(gpid):
 def show_today():
     today = datetime.datetime.today()
     racers = Racer.objects.filter(birthday__day=today.day, birthday__month=today.month)
-    return {'racers': racers, 'today': today, }
+    heats = Heat.objects.filter(type='R', date__day=today.day, date__month=today.month)
+    return {'racers': racers, 'heats': heats, 'today': today, }

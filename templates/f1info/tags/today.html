@@ -8,5 +8,11 @@
             <li><a href="{% url racer_detail racer.id %}">{{ racer }}</a></li>
 	    {% endfor %}
 	</ul>
+	<h4>В этот день состоялась гонка:</h4>
+    <ul>
+        {% for heat in heats %}
+            <li><a href="{% url heat_detail heat.id %}">Гран-При {{ heat.grandprix.name }} {{ heat.grandprix.season }}</a></li>
+	    {% endfor %}
+	</ul>
 </div>
 {% endif %}
