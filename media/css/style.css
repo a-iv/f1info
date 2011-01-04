@@ -72,11 +72,11 @@ th img {
 
 table.season td {
 	text-align: center;
-	padding: 0 10px;
+	padding: 0 7px;
 }
 
 table.season th {
-	padding: 0 10px;
+	padding: 0 7px 4px 7px;
 	vertical-align: bottom;
 }
 
@@ -103,6 +103,7 @@ table.season tr:first-child {
 
 td.driver {
 	text-align: left !important;
+	white-space: nowrap;
 }
 
 td.total {
