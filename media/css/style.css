@@ -77,6 +77,11 @@ table.season td {
 
 table.season th {
 	padding: 0 10px;
+	vertical-align: bottom;
+}
+
+table.season th img {
+    border: none;
 }
 
 table.season tr:hover {
@@ -416,4 +421,8 @@ ul.seasons li {
 	padding: 0;
 	float: left;
 	font-size: 20px;
+}
+
+a.abbr {
+    font-size: 9px;
 }
