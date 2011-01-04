@@ -94,14 +94,14 @@ class StatModel(VerboseModel):
     @add_verbose_name(u'Первый Гран-При')
     def get_first_grandprix(self):
         try:
-            return get_first(self.results).heat.grandprix.name
+            return get_first(self.results).heat.grandprix
         except IndexError:
             pass
 
     @add_verbose_name(u'Последний Гран-При')
     def get_last_grandprix(self):
         try:
-            return get_last(self.results).heat.grandprix.name
+            return get_last(self.results).heat.grandprix
         except IndexError:
             pass
 
