@@ -1,0 +1,12 @@
+{% load utilities_tags %}
+
+{% if racers %}
+<div id="today">
+    <h4>Сегодня празднуют День рождения:</h4>
+    <ul>
+        {% for racer in racers %}
+            <li><a href="{% url racer_detail racer.id %}">{{ racer }}</a></li>
+	    {% endfor %}
+	</ul>
+</div>
+{% endif %}

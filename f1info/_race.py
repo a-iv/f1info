@@ -358,9 +358,14 @@ def race(opener, url):
 
     for tr in tbody.findAll('tr'):
         position = plain(tr.contents[1])
-        laps_gap = 0
+        laps = plain(tr.contents[6])
+        if laps == '' or laps == 'tf':
+            laps is None
+            laps_gap = None
+        else:
+            laps_gap = int(winlaps) - int(laps)
         fail = ''
-        if position == '' or position == 'f' or position == 'nq' or position == 'npq' or position == 'exc' or position == 'np' or position == 'dsq':
+        if position == '' or position == 'f' or position == 'nq' or position == 'npq' or position == 'exc' or position == 'np' or (position == 'dsq' and laps_gap < (winlaps/10 + 1)):
             pass
         else:
             # определяем позицию пилота
@@ -385,12 +390,6 @@ def race(opener, url):
                 tyre = result[(first_name, family_name, team, engine)]
             except IndexError:
                 tyre = None
-            laps = plain(tr.contents[6])
-            if laps == '' or laps == 'tf':
-                laps is None
-                laps_gap = 0
-            else:
-                laps_gap = int(winlaps) - int(laps)
             
             # проверяем время или сход
             try:
@@ -406,6 +405,8 @@ def race(opener, url):
                     etc = Decimal(str(time.split("'")[1] + '.' + time.split("''")[1]))
                 result_time = str(hours * 3600 + minutes * 60 + etc)
                 time_gap = abs(Decimal(wintime) - Decimal(result_time))
+                if tr.contents[7].find('br'):
+                    fail = plain(tr.contents[7].find('br').previousSibling)
             except:
                 results = plain(tr.contents[7])
                 if results == '':
@@ -414,6 +415,7 @@ def race(opener, url):
                 else:
                     fail = results
                     time_gap = None
+
             
 #            rac = Racer()
 #            rac.first_name = first_name
@@ -438,9 +440,14 @@ def race(opener, url):
     for tr in tbody.findAll('tr'):
         position = plain(tr.contents[1])
         kkk = tr_count + aaa
-        laps_gap = 0
+        laps = plain(tr.contents[6])
+        if laps == '' or laps == 'tf':
+            laps is None
+            laps_gap = None
+        else:
+            laps_gap = int(winlaps) - int(laps)
         fail = ''            
-        if position == 'dsq':
+        if position == 'dsq' and laps_gap <= (winlaps/10 + 1):
             pos = kkk
             
             num = plain(tr.contents[2])
@@ -461,28 +468,23 @@ def race(opener, url):
                     hours = Decimal(tparts[0].split('h')[0])
                     minutes = Decimal(tparts[1].split('m')[0])
                     etc = Decimal(tparts[2].split('s')[0])
-                    fail = 'Disqualified'
+                    fail = plain(tr.contents[7].find('br').previousSibling)
                 except:
                     hours = 0
                     minutes = Decimal(time.split("'")[0])
                     etc = Decimal(str(time.split("'")[1] + '.' + time.split("''")[1]))
-                    fail = 'Disqualified'
+                    fail = plain(tr.contents[7].find('br').previousSibling)
                 result_time = str(hours * 3600 + minutes * 60 + etc)
                 time_gap = Decimal(result_time) - Decimal(wintime)
             except:
                 results = plain(tr.contents[7])
                 if results == '':
                     time_gap = None
-                    fail = 'Disqualified'
+                    fail = results
                 else:
                     fail = results
                     time_gap = None
-            laps = plain(tr.contents[6])
-            if laps == '' or laps == 'tf':
-                laps is None
-                laps_gap = 0
-            else:
-                laps_gap = int(winlaps) - int(laps)
+            
             
 #            rac = Racer()
 #            rac.first_name = first_name
@@ -518,11 +520,11 @@ def main():
 
 
     #index(opener, SITE + '/en/saisons.aspx')
-    year(opener, 'http://statsf1.com/en/1980.aspx')
+    #year(opener, 'http://statsf1.com/en/1980.aspx')
     #race(opener, 'http://statsf1.com/en/1990/monaco/classement.aspx')
     #race(opener, 'http://statsf1.com/en/2000/bresil/classement.aspx')
     #race(opener, 'http://statsf1.com/en/1994/belgique/classement.aspx')
-    #race(opener, 'http://statsf1.com/en/2004/canada/classement.aspx')
+    race(opener, 'http://statsf1.com/en/2004/canada/classement.aspx')
    
 if __name__ == '__main__':
     main()
