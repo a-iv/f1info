@@ -37,11 +37,11 @@
 	    </tr>	    
         <tr>
             <td>{{ object.get_verbose_name.get_first_grandprix }}</td>
-            <td>{{ object.get_first_grandprix }} {{ object.get_first_year }}</td>
+            <td><a href="{% url grand_prix_detail object.get_first_grandprix.id %}">{{ object.get_first_grandprix }} {{ object.get_first_year }}</a></td>
         </tr>
 	    <tr>
 		    <td>{{ object.get_verbose_name.get_last_grandprix }}</td>
-		    <td>{{ object.get_last_grandprix }} {{ object.get_last_year }}</td>
+		    <td><a href="{% url grand_prix_detail object.get_last_grandprix.id %}">{{ object.get_last_grandprix }} {{ object.get_last_year }}</a></td>
 	    </tr>
 		<tr>
 	    	<td>{{ object.get_verbose_name.get_season_count }}</td>
