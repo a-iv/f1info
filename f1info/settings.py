@@ -140,7 +140,6 @@ DEFAULT_PAGE_TEMPLATE = 'pages/index.html'
 PAGE_TEMPLATES = (
     ('pages/frontpage.html', u'Главная страница'),
     ('pages/articles.html', u'Статьи'),
-    ('pages/calendar.html', u'Календарь'),
 )
 
 # django-config settings

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django import template
-from f1info.models import GrandPrix, Heat, Season, GPName, Racer
+from f1info.models import *
 import datetime
 
 register = template.Library()
@@ -13,7 +13,7 @@ def show_nextgp():
         next = Heat.objects.filter(date__gte=current)[:1]
         gp = GrandPrix.objects.filter(heats=next)
         start = Heat.objects.filter(grandprix=gp)[0]
-        end = Heat.objects.filter(grandprix=gp).latest('date')
+        end = get_last(Heat.objects.filter(grandprix=gp))
         return {'nextgp': next, 'current': current, 'start': start, 'end': end,}
     except:
         pass
@@ -24,10 +24,10 @@ def show_standings():
     return {'object': results}
 
 @register.inclusion_tag('f1info/tags/calendar.html', takes_context=False)
-def show_calendar():
-    current = datetime.datetime.today()
-    gp = GrandPrix.objects.filter(season=Season.objects.get(year=2010))
-    return {'objects': gp, 'current': current, }
+def show_calendar(year):
+    this_year = datetime.datetime.today()
+    gp = GrandPrix.objects.filter(season=Season.objects.get(year=str(year)))
+    return {'objects': gp, }
 
 @register.inclusion_tag('f1info/tags/winners.html', takes_context=False)
 def show_winners(gpid):
