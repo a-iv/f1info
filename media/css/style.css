@@ -4,7 +4,7 @@ body {
 	font-family: Arial,Helvetica,sans-serif;
 	color: #000;
 	font-size: 12px;
-	background: #ddd;
+	background: url(/media/img/background.png) repeat;
 	margin: 0;
 	padding: 0 4px;
 }
@@ -17,52 +17,64 @@ h1 { font-size: 22px;}
 h2 { font-size: 20px; color: #222; }
 h3 { font-size: 18px; color: #666; }
 
-#driver-img {
-	float: left;
-}
-
 #heat-details {
 	line-height: 16pt;
 	font-size: 10pt;
 }
 
-#driver-details {
-	float: left;
-	margin-left: 15px;
-	font-size: 9pt;	
-}
-
-#driver-details h1 { margin: 0; }
-#driver-details h3 { margin: 0; font-size: 10pt; }
-#driver-details table { margin-top: 10px; }
-#driver-details td { padding: 0; }
-
 table {
-	line-height: 15pt;
 	border-spacing: 0;
 }
 
-/*********** Результы ***********/
-
-th {
-	font-size: 8pt;
-	text-align: left;
-	padding: 0 15px;
-}
-
-td { 
-	padding: 0 15px;
+td, th {
+	padding: 2px 8px;
 	border-bottom: 1px solid #eee;
+	text-align: left;
 }
+
 
 td.center { text-align: center; }
 td.nc { color: #666; }
 
-/*********** ГОНЩИКИ ***********/
+#driver-details {
+	float: left;
+	margin-left: 16px;
+	font-size: 12px;
+	font-family: Tahoma,Arial,Helvetica,sans-serif;
+}
 
-td.left {
+#driver-details h1 { 
+	margin: 0 !important;
+	font-size: 28px !important;
+}
+#driver-details h3 { margin: 0; font-size: 10pt; }
+
+#driver-details table {
+	line-height: 20px;
+	margin: 10px 0 0 0;
+}
+
+#driver-details td { padding: 0; }
+img.flag { margin: 0 0 -1px 0; }
+.info { margin: 3px 0; }
+.info a { font-size: 11px; }
+
+img.info { 
+	vertical-align: text-top;
+	margin: 0 3px 0 0;
+}
+
+#driver-img { float: left; font-family: Tahoma,Arial,Helvetica,sans-serif; }
+
+#driver-details th {
 	font-weight: bold;
 	width: 160px;
+	text-align: left;
+}
+
+#driver-details th, #driver-details td {
+	padding: 1px 10px 1px 0;
+	border-bottom: 1px solid #eee;
 }
 
 th img {
@@ -219,8 +231,8 @@ td.total {
 	margin: 0 auto;
 	overflow: hidden;
 	background: #fff;
-	-moz-box-shadow: 0 0 4px #666;
-	-webkit-box-shadow: 0 0 4px #666;
+	-moz-box-shadow: 0 0 2px #666;
+	-webkit-box-shadow: 0 0 2px #666;
 	box-shadow: 0 0 4px #666;
 	top: 54px;
 	z-index: 10;
@@ -371,11 +383,13 @@ p {
 table.standings {
 	border: 1px solid #ddd;
 	width: 100%;
+	line-height: 20px;
 }
 
 table.standings td {
 	padding: 0 8px;
 	background: #F7F5F0;
+	border: none;
 }
 
 table.standings td.pos, table.standings td.flag {

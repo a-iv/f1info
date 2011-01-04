@@ -1,87 +1,85 @@
 {% extends "base.html" %}
 
-{% block head %}
-	<script type="text/javascript" src="/media/js/jquery-1.3.2.min.js"></script>
-	<script type="text/javascript">
-	<!--
-	    $(function () {
-	        $('td:even').addClass('left');
-	    });
-    //-->
-	</script>
-{% endblock %}
+{% block title_wrap %}{% endblock %}
 
 {% block content %}   
     {% if object.photo %}
-    	<div id="driver-img"><img src="{{ object.photo.url }}" alt="{{ object }}" /> </div>
+    	<div id="driver-img">
+    		<img src="{{ object.photo.url }}" alt="{{ object }}" />
+    		<div style="font-size:11px;color:#999;text-align:center;">&copy; Photo copyright</div>
+    		<div class="info">
+				<img src="/media/img/website.png" alt="Website" class="info" />
+	    		{{ object.website|urlize }}
+    		</div>
+		    <div class="info">
+				<img src="/media/img/twitter.png" alt="Twitter" class="info" />
+	    		<a href="http://{{ object.website }}">fernandoalonso</a>
+    		</div>
+   		</div>
 	{% endif %}
 <div id="driver-details">
     <h1>{{ object.first_name }} {{ object.family_name }}</h1>
-    <h3>{{ object.en_name }}</h3>
+    <h3>{{ object.en_first_name }} {{ object.en_family_name }}</h3>
 	<table>
 	    <tr>
-	    	<td>{{ object.get_verbose_name.country }}</td> 
-	    	<td><img src="{{ object.country.photo.url }}" alt="{{ object.country }}" /> {{ object.country }}</td>
+	    	<th>{{ object.get_verbose_name.country }}</th> 
+	    	<td><img src="{{ object.country.photo.url }}" alt="{{ object.country }}" class="flag" /> {{ object.country }}</td>
     	</tr>
     	<tr>
-		    <td>{{ object.get_verbose_name.birthday }}</td>
+		    <th>{{ object.get_verbose_name.birthday }}</th>
 		    <td>{{ object.birthday|date:"d.m.Y" }}</td>
 	    </tr>
 	    <tr>
-		    <td>{{ object.get_verbose_name.get_age }}</td>
+		    <th>{{ object.get_verbose_name.get_age }}</th>
 		    <td>{{ object.get_age }}</td>
 	    </tr>
 	    <tr>
-		    <td>&nbsp;</td>
+		    <th>&nbsp;</th>
 		    <td>&nbsp;</td>
 	    </tr>	    
         <tr>
-            <td>{{ object.get_verbose_name.get_first_grandprix }}</td>
+            <th>{{ object.get_verbose_name.get_first_grandprix }}</th>
             <td><a href="{% url grand_prix_detail object.get_first_grandprix.id %}">{{ object.get_first_grandprix.name }} {{ object.get_first_grandprix.season }}</a></td>
         </tr>
 	    <tr>
-		    <td>{{ object.get_verbose_name.get_last_grandprix }}</td>
+		    <th>{{ object.get_verbose_name.get_last_grandprix }}</th>
 		    <td><a href="{% url grand_prix_detail object.get_last_grandprix.id %}">{{ object.get_last_grandprix.name }} {{ object.get_last_grandprix.season }}</a></td>
 	    </tr>
 		<tr>
-	    	<td>{{ object.get_verbose_name.get_season_count }}</td>
+	    	<th>{{ object.get_verbose_name.get_season_count }}</th>
 	    	<td>{{ object.get_season_count }}</td>
 	    </tr>	    
 	    <tr>
-		    <td>{{ object.get_verbose_name.get_grand_prix_count }}</td>
+		    <th>{{ object.get_verbose_name.get_grand_prix_count }}</th>
 		    <td>{{ object.get_grand_prix_count }}</td>
 	    </tr>	    
 	    <tr>
-		    <td>{{ object.get_verbose_name.get_race_count }}</td>
+		    <th>{{ object.get_verbose_name.get_race_count }}</th>
 		    <td>{{ object.get_race_count }}</td>
 	    </tr>
 	    <tr>
-	    	<td>{{ object.get_verbose_name.get_win_count }}</td>
+	    	<th>{{ object.get_verbose_name.get_win_count }}</th>
 	    	<td>{{ object.get_win_count }}</td>
 	    </tr>
 	    <tr>
-	    	<td>{{ object.get_verbose_name.get_podium_count }}</td>
+	    	<th>{{ object.get_verbose_name.get_podium_count }}</th>
 	    	<td>{{ object.get_podium_count }}</td>
 	    </tr>
 	    <tr>
-	    	<td>{{ object.get_verbose_name.get_poles_count }}</td>
+	    	<th>{{ object.get_verbose_name.get_poles_count }}</th>
 	    	<td>{{ object.get_poles_count }}</td>
 	    </tr>
 	    <tr>
-	    	<td>{{ object.get_verbose_name.get_bestlap_count }}</td>
+	    	<th>{{ object.get_verbose_name.get_bestlap_count }}</th>
 	    	<td>{{ object.get_bestlap_count }}</td>
 	    </tr>
 	    <tr>
-	    	<td>{{ object.get_verbose_name.get_points_count }}</td>
+	    	<th>{{ object.get_verbose_name.get_points_count }}</th>
 	    	<td>{{ object.get_points_count|floatformat }}</td>
 	    </tr>
 	    <tr>
-	    	<td>{{ object.get_verbose_name.get_fail_count }}</td>
+	    	<th>{{ object.get_verbose_name.get_fail_count }}</th>
 	    	<td>{{ object.get_fail_count }}</td>
-	    </tr>
-	    <tr>
-	    	<td>{{ object.get_verbose_name.website }}</td>
-	    	<td><a href="{{ object.website }}">{{ object.website }}</a></td>
 	    </tr>
     </table>
 </div>
