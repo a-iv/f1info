@@ -41,3 +41,8 @@ def show_today():
     racers = Racer.objects.filter(birthday__day=today.day, birthday__month=today.month)
     heats = Heat.objects.filter(type='R', date__day=today.day, date__month=today.month)
     return {'racers': racers, 'heats': heats, 'today': today, }
+
+@register.inclusion_tag('f1info/tags/twitters.html', takes_context=False)
+def show_twitter():
+    twitters = Racer.objects.exclude(twitter=None)
+    return {'twitters': twitters, }
