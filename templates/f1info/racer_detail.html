@@ -7,14 +7,18 @@
     	<div id="driver-img">
     		<img src="{{ object.photo.url }}" alt="{{ object }}" />
     		<div style="font-size:11px;color:#999;text-align:center;">&copy; Photo copyright</div>
+    		{% if object.website %}
     		<div class="info">
 				<img src="/media/img/website.png" alt="Website" class="info" />
 	    		{{ object.website|urlize }}
     		</div>
+    		{% endif %}
+		    {% if object.twitter %}
 		    <div class="info">
 				<img src="/media/img/twitter.png" alt="Twitter" class="info" />
-	    		<a href="http://{{ object.website }}">fernandoalonso</a>
+	    		<a href="http://twitter.com/{{ object.twitter }}">{{ object.twitter }}</a>
     		</div>
+    		{% endif %}
    		</div>
 	{% endif %}
 <div id="driver-details">
@@ -51,11 +55,27 @@
 	    </tr>	    
         <tr>
             <th>{{ object.get_verbose_name.get_first_grandprix }}</th>
-            <td><a href="{% url grand_prix_detail object.get_first_grandprix.id %}">{{ object.get_first_grandprix.name }} {{ object.get_first_grandprix.season }}</a></td>
+            <td>
+            	{% if object.get_first_grandprix %}
+            	<a href="{% url grand_prix_detail object.get_first_grandprix.id %}">
+            		{{ object.get_first_grandprix.name }} {{ object.get_first_grandprix.season }}
+           		</a>
+           		{% else %}
+	    			-
+           		{% endif %}
+       		</td>
         </tr>
 	    <tr>
 		    <th>{{ object.get_verbose_name.get_last_grandprix }}</th>
-		    <td><a href="{% url grand_prix_detail object.get_last_grandprix.id %}">{{ object.get_last_grandprix.name }} {{ object.get_last_grandprix.season }}</a></td>
+		    <td>
+		    	{% if object.get_first_grandprix %}
+		    	<a href="{% url grand_prix_detail object.get_last_grandprix.id %}">
+		    		{{ object.get_last_grandprix.name }} {{ object.get_last_grandprix.season }}
+	    		</a>
+	    		{% else %}
+	    			-
+	    		{% endif %}
+    		</td>
 	    </tr>
 		<tr>
 	    	<th>{{ object.get_verbose_name.get_season_count }}</th>

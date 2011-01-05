@@ -94,8 +94,18 @@ class StatModel(VerboseModel):
             delta = today.year - self.birthday.year - 1
             if datetime.date(self.birthday.year, today.month, today.day) >= self.birthday:
                 delta += 1
-        return delta
-
+        
+        if delta % 10 == 0:
+            return str(delta) + u' лет'
+        elif delta % 10 == 1:
+            return str(delta) + u' год'
+        elif delta % 10 in range(2,5):
+            return str(delta) + u' года'
+        elif delta % 10 in range(5,10):
+            return str(delta) + u' лет'
+        else:
+            return delta
+        
     @add_verbose_name(u'Первый Гран-При')
     def get_first_grandprix(self):
         try:

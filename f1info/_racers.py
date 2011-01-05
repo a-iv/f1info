@@ -98,7 +98,6 @@ def death(opener, url):
         #except:
         #    pass
     else:
-        print 'pass'
         pass
     
     
