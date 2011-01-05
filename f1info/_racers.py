@@ -11,7 +11,7 @@ SITE = 'http://statsf1.com'
 MONTH = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december', ]
 
 def readurl(opener, name, url):
-    #print '%s: %s' % (name, url)
+    print '%s: %s' % (name, url)
     opened = opener.open(url)
     data = opened.read()
     open('debug.html', 'w').write(data)
@@ -63,9 +63,47 @@ def racerlist(opener, url):
             #print urlify(parts[-1]).capitalize()
             #first_name = urlify(parts.latest).capitalize()
             #last_name = get_fuckin_name(parts)
-            racer(opener, SITE + href)
+            death(opener, SITE + href)
             #print '@' + href + '@' + ':' + '@' + first_name + ' ' + last_name + '@' + ','
             
+
+def death(opener, url):
+    soup = readurl(opener, 'RACER', url)
+    part_url = url.split('http://statsf1.com')
+    href = part_url[1]
+    divname = soup.find('div', 'NavigCenter')
+    divnation = soup.find('div', style='float:left;padding-right:20px;width:600px;')
+    h1 = divname.find('h1')
+    racer = plain(h1)
+    parts = racer.split(' ')
+    first_name = urlify(parts[0]).capitalize()
+    last_name = get_last_name(parts)
+    
+    if divnation.find(text=re.compile('Die the')):
+        dparts = divnation.find(text=re.compile('Die the')).split(' ')
+        if dparts[3] == '?':
+            day = 01
+            month = 01
+            year = 2100
+        else:
+            day = int(dparts[3])
+            month = MONTH.index(dparts[4]) + 1
+            year = int(dparts[5])
+        
+        #try:
+        racer = Racer.objects.filter(first_name=first_name, family_name=last_name)
+        print first_name, last_name
+        print day, month, year
+        racer.update(deathday = datetime.date(int(year), int(month), int(day)))
+        #except:
+        #    pass
+    else:
+        print 'pass'
+        pass
+    
+    
+    
+    
             
 def racer(opener, url):
     soup = readurl(opener, 'RACER', url)
@@ -116,6 +154,7 @@ def main():
 
     abcracer(opener, 'http://statsf1.com/en/pilotes.aspx')
     #racer(opener, 'http://statsf1.com/en/tom-belso.aspx')
+    #death(opener, 'http://statsf1.com/en/red-amick.aspx')
 
 if __name__ == '__main__':
     main()

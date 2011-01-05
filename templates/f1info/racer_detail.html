@@ -30,8 +30,20 @@
 		    <td>{{ object.birthday|date:"d.m.Y" }}</td>
 	    </tr>
 	    <tr>
-		    <th>{{ object.get_verbose_name.get_age }}</th>
-		    <td>{{ object.get_age }}</td>
+		    <th>
+                {% if object.deathday %}
+                    {{ object.get_verbose_name.deathday }}
+                {% else %}
+		            {{ object.get_verbose_name.get_age }}
+	            {% endif %}
+	        </th>
+		    <td>
+                {% if object.deathday %}
+                    {{ object.deathday|date:"d.m.Y" }} ({{ object.get_age }})
+                {% else %}
+		            {{ object.get_age }}
+	            {% endif %}
+	        </td>
 	    </tr>
 	    <tr>
 		    <th>&nbsp;</th>

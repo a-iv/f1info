@@ -86,10 +86,15 @@ class StatModel(VerboseModel):
     @add_verbose_name(u'Возраст')
     def get_age(self):
         today = datetime.date.today()
-        delta = today.year - self.birthday.year - 1
-        if datetime.date(self.birthday.year, today.month, today.day) > self.birthday:
-            delta += 1
-        return  delta
+        if self.deathday:
+            delta = self.deathday.year - self.birthday.year - 1
+            if datetime.date(self.birthday.year, self.deathday.month, self.deathday.day) >= self.birthday:
+                delta += 1
+        else:
+            delta = today.year - self.birthday.year - 1
+            if datetime.date(self.birthday.year, today.month, today.day) >= self.birthday:
+                delta += 1
+        return delta
 
     @add_verbose_name(u'Первый Гран-При')
     def get_first_grandprix(self):
@@ -220,8 +225,10 @@ class Racer(StatModel):
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
     country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='racers', null=True, blank=True)
     birthday = models.DateField(verbose_name=u'Дата рождения', null=True, blank=True)
+    deathday = models.DateField(verbose_name=u'Дата смерти', null=True, blank=True)
     comment = models.CharField(verbose_name=u'Комментарий', max_length=200, default='', blank=True)
     website = models.CharField(verbose_name=u'Веб-сайт', max_length=200, null=True, blank=True)
+    twitter = models.CharField(verbose_name=u'Twitter', max_length=200, null=True, blank=True)
     photo = models.ImageField(verbose_name=u'Фото', upload_to='upload/drivers/', null=True, blank=True)
 
     def __unicode__(self):
