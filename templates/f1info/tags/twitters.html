@@ -1,6 +1,6 @@
 <h4><img src="/media/img/twitter.png" alt="twieer" />Пилоты Ф1 в твиттере</h4>
 <div id="twitter">
-	{% for twitter in twitter %}
-		{{ twitter.twitter }} &mdash; <a href="http://twitter.com/{{ twitter.twitter }}">{{ twitter.twitter }}</a>
+	{% for twitter in twitters %}
+		{{ twitter }} &ndash; <a href="http://twitter.com/{{ twitter.twitter }}">{{ twitter.twitter }}</a><br/>
 	{% endfor %}
 </div>
