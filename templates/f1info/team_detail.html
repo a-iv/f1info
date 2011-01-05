@@ -1,73 +1,89 @@
 {% extends "base.html" %}
 
-{% block head %}
-	<script type="text/javascript" src="/media/js/jquery-1.3.2.min.js"></script>
-	<script type="text/javascript">
-	<!--
-	    $(function () {
-	        $('td:even').addClass('left');
-	    });
-    //-->
-	</script>
-{% endblock %}
+{% block title_wrap %}{% endblock %}
 
 {% block content %}   
-<div id="team-details">
+<div id="driver-details">
     <h1>{{ object }}</h1>
     
 	<table>
 	    <tr>
-	    	<td>{{ object.get_verbose_name.country }}</td> 
-	    	<td><img src="{{ object.country.photo.url }}" alt="{{ object.country }}" /> {{ object.country }}</td>
+	    	<th>{{ object.get_verbose_name.country }}</th> 
+	    	<td><img src="{{ object.country.photo.url }}" alt="{{ object.country }}" class="flag" /> {{ object.country }}</td>
     	</tr>    
         <tr>
-            <td>{{ object.get_verbose_name.founder }}</td>
+            <th>{{ object.get_verbose_name.founder }}</th>
             <td>{{ object.founder }}</td>
         </tr>
         <tr>
-            <td>{{ object.get_verbose_name.get_first_grandprix }}</td>
-            <td><a href="{% url grand_prix_detail object.get_first_grandprix.id %}">{{ object.get_first_grandprix.name }} {{ object.get_first_grandprix.season }}</a></td>
+		    <th>&nbsp;</th>
+		    <td>&nbsp;</td>
+	    </tr>
+        <tr>
+            <th>{{ object.get_verbose_name.get_first_grandprix }}</th>
+            <td>
+            	{% if object.get_first_grandprix %}
+            	<a href="{% url grand_prix_detail object.get_first_grandprix.id %}">
+            		{{ object.get_first_grandprix.name }} {{ object.get_first_grandprix.season }}
+           		</a>
+           		{% else %}
+	    			-
+           		{% endif %}
+       		</td>
         </tr>
 	    <tr>
-		    <td>{{ object.get_verbose_name.get_last_grandprix }}</td>
-		    <td><a href="{% url grand_prix_detail object.get_last_grandprix.id %}">{{ object.get_last_grandprix.name }} {{ object.get_last_grandprix.season }}</a></td>
+		    <th>{{ object.get_verbose_name.get_last_grandprix }}</th>
+		    <td>
+		    	{% if object.get_first_grandprix %}
+		    	<a href="{% url grand_prix_detail object.get_last_grandprix.id %}">
+		    		{{ object.get_last_grandprix.name }} {{ object.get_last_grandprix.season }}
+	    		</a>
+	    		{% else %}
+	    			-
+	    		{% endif %}
+    		</td>
 	    </tr>
 		<tr>
-	    	<td>{{ object.get_verbose_name.get_season_count }}</td>
+	    	<th>{{ object.get_verbose_name.get_season_count }}</th>
 	    	<td>{{ object.get_season_count }}</td>
 	    </tr>	  
 	    <tr>
-		    <td>{{ object.get_verbose_name.get_grand_prix_count }}</td>
+		    <th>{{ object.get_verbose_name.get_grand_prix_count }}</th>
 		    <td>{{ object.get_grand_prix_count }}</td>
 	    </tr>	    
 	    <tr>
-		    <td>{{ object.get_verbose_name.get_race_count }}</td>
+		    <th>{{ object.get_verbose_name.get_race_count }}</th>
 		    <td>{{ object.get_race_count }}</td>
 	    </tr>
 	    <tr>
-	    	<td>{{ object.get_verbose_name.get_win_count }}</td>
+	    	<th>{{ object.get_verbose_name.get_win_count }}</th>
 	    	<td>{{ object.get_win_count }}</td>
 	    </tr>
 	    <tr>
-	    	<td>{{ object.get_verbose_name.get_podium_count }}</td>
+	    	<th>{{ object.get_verbose_name.get_podium_count }}</th>
 	    	<td>{{ object.get_podium_count }}</td>
 	    </tr>
 	    <tr>
-	    	<td>{{ object.get_verbose_name.get_poles_count }}</td>
+	    	<th>{{ object.get_verbose_name.get_poles_count }}</th>
 	    	<td>{{ object.get_poles_count }}</td>
 	    </tr>
 	    <tr>
-	    	<td>{{ object.get_verbose_name.get_bestlap_count }}</td>
+	    	<th>{{ object.get_verbose_name.get_bestlap_count }}</th>
 	    	<td>{{ object.get_bestlap_count }}</td>
 	    </tr>
 	    <tr>
-	    	<td>{{ object.get_verbose_name.get_points_count }}</td>
+	    	<th>{{ object.get_verbose_name.get_points_count }}</th>
 	    	<td>{{ object.get_points_count|floatformat }}</td>
 	    </tr>
 	    <tr>
-	    	<td>{{ object.get_verbose_name.get_fail_count }}</td>
+	    	<th>{{ object.get_verbose_name.get_fail_count }}</th>
 	    	<td>{{ object.get_fail_count }}</td>
 	    </tr>
     </table>
+    {% if object.website %}
+ 		<div class="info">
+			<img src="/media/img/website.png" alt="Website" class="info" />{{ object.website|urlize }}
+		</div>
+	{% endif %}
 </div>
 {% endblock %}

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load utilities_tags %}
 
 {% block title_wrap %}{% endblock %}
 
@@ -31,7 +32,7 @@
     	</tr>
     	<tr>
 		    <th>{{ object.get_verbose_name.birthday }}</th>
-		    <td>{{ object.birthday|date:"d.m.Y" }}</td>
+		    <td class="date">{{ object.birthday|date_local:"d F Y" }}</td>
 	    </tr>
 	    <tr>
 		    <th>
@@ -41,9 +42,9 @@
 		            {{ object.get_verbose_name.get_age }}
 	            {% endif %}
 	        </th>
-		    <td>
+		    <td class="date">
                 {% if object.deathday %}
-                    {{ object.deathday|date:"d.m.Y" }} ({{ object.get_age }})
+                    {{ object.deathday|date_local:"d F Y" }} ({{ object.get_age }})
                 {% else %}
 		            {{ object.get_age }}
 	            {% endif %}

@@ -55,6 +55,7 @@ td.nc { color: #666; }
 }
 
 #driver-details td { padding: 0; }
+td.date { text-transform: lowercase; }
 img.flag { margin: 0 0 -1px 0; }
 .info { margin: 3px 0; }
 .info a { font-size: 11px; }
