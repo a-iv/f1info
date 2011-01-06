@@ -116,5 +116,7 @@
 	    </tr>
     </table>
 </div>
-{% show_current_letter object.family_name %}
+{% endblock %}
+{% block right %}
+	{% show_current_letter object.family_name %}
 {% endblock %}

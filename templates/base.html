@@ -12,55 +12,23 @@
     {% chunk "end-of-head" %}
 </head>
 <body>
-    <!-- <div id="center">
-        
-        
-        <div id="latest-news">
-        	ГЛАВНЫЕ НОВОСТИ
-        </div>
-        
-        
-        
-        
-        
-    </div>
-    {% chunk "end-of-body" %}
-     -->
-     
-     
 	<div id="header-wrapper">
 		<div id="header">
 			<div id="logo"><a href="/"><img src="/media/img/logo.png" alt="" /></a></div>
 			<div id="menu">
 				{% block main_menu %}{% show_main_menu %}{% endblock %}
-				<!-- <ul>
-					<li>Новости</li>
-					<li>Сезон 2011</li>
-					<li>Результаты</li>
-					<li>Пилоты и команды</li>
-					<li>Статьи</li>
-					<li>Фото</li>
-				</ul>
-				 -->
 			</div>
 		</div>
 	</div>
 
 	<div id="wrapper">
-		
 		<div id="main-column">
 		{% block main %}
 			{% block title_wrap %}<h1>{% block content_title %}{% endblock %}</h1>{% endblock %}
         	{% block content %}{% endblock %}
 		{% endblock %}
 		</div>
-		
-		{% block right %}
-			
-		{% endblock %}
-		
+		{% block right %}{% endblock %}
 	</div>
-     
-     
 </body>
 </html>

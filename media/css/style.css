@@ -450,7 +450,8 @@ a.abbr {
 
 #current_letter {
     float: right;
-    width: 200px;
+    width: 160px;
+    padding: 36px;
 }
 
 #current_letter ul {
@@ -458,6 +459,7 @@ a.abbr {
     margin: 0;
     list-style: none;
     font-size: 11px;
+    line-height: 18px;
     font-family: Tahoma,Arial,Helvetica,sans-serif;
 }
 
