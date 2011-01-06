@@ -46,3 +46,10 @@ def show_today():
 def show_twitter():
     twitters = Racer.objects.exclude(twitter=None)
     return {'twitters': twitters, }
+
+@register.inclusion_tag('f1info/tags/current_letter.html', takes_context=False)
+def show_current_letter(letter):
+    first_letter = str(letter)[0]
+    letters = Racer.objects.filter(family_name__startswith=first_letter)
+    return {'letters': letters, }
+

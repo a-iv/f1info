@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load utilities_tags %}
+{% load utilities_tags frontpage_tags %}
 
 {% block title_wrap %}{% endblock %}
 
@@ -116,4 +116,5 @@
 	    </tr>
     </table>
 </div>
+{% show_current_letter object.family_name %}
 {% endblock %}

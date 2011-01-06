@@ -1,0 +1,9 @@
+<div id="current_letter">
+    <ul>
+        {% for racer in letters %}
+            <li>
+                <a href="{% url racer_detail racer.id %}">{{ racer.family_name }}, {{ racer.first_name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

@@ -447,3 +447,18 @@ a.abbr {
     font-family: Tahoma,Arial,Helvetica,sans-serif;
 	font-size: 11px;
 }
+
+#current_letter {
+    float: right;
+    width: 200px;
+}
+
+#current_letter ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-size: 11px;
+    font-family: Tahoma,Arial,Helvetica,sans-serif;
+}
+
+
