@@ -16,6 +16,7 @@
     <table class="heat-detail">
         <tr>
             <th>{{ result.get_verbose_name.position }}</th>
+            <th>{{ result.get_verbose_name.num }}</th>
             <th>{{ result.get_verbose_name.racer }}</th>
             <th>{{ result.get_verbose_name.team }}</th>
             <th>{{ result.get_verbose_name.engine }}</th>
@@ -34,6 +35,7 @@
             {% else %}
                	<td class="center nc">NC</td>
             {% endif %}
+            <td>{{ result.num }}</td>
             <td><a href="{% url racer_detail result.racer.id %}">{{ result.racer }}</a></td>
             <td>{{ result.team }}</td>
             <td>{{ result.engine }}</td>
@@ -44,7 +46,7 @@
         </tr>
     {% endfor %}
 	<tr>
-		<td colspan="7"><h4>Не классифицированы</h4></td>
+		<td colspan="8"><h4>Не классифицированы</h4></td>
 	</tr>
     {% for result in object.get_fails %}
         <tr>
@@ -61,6 +63,7 @@
                 	<td class="center nc">NC</td>
                	{% endif %}
             {% endif %}
+            <td>{{ result.num }}</td>
             <td><a href="{% url racer_detail result.racer.id %}">{{ result.racer }}</a></td>
             <td>{{ result.team }}</td>
             <td>{{ result.engine }}</td>
