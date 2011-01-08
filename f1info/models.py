@@ -57,16 +57,16 @@ class StatModel(VerboseModel):
 
     @add_verbose_name(u'Побед')
     def get_win_count(self):
-        return self.results.filter(heat__type=Heat.RACE, position=1).count()
+        return self.results.filter(heat__type=Heat.RACE, dsq=False, position=1).count()
 
     @add_verbose_name(u'Подиумов')
     def get_podium_count(self):
-        return self.results.filter(heat__type=Heat.RACE, position__gte=1, position__lte=3).count()
+        return self.results.filter(heat__type=Heat.RACE, dsq=False, position__gte=1, position__lte=3).count()
 
     @add_verbose_name(u'Очков')
     def get_points_count(self):
         total = 0
-        for result in self.results.filter(heat__type=Heat.RACE):
+        for result in self.results.filter(heat__type=Heat.RACE, dsq=False):
             total += result.get_points_count()
         return total
 
@@ -81,7 +81,7 @@ class StatModel(VerboseModel):
 
     @add_verbose_name(u'Сходов')
     def get_fail_count(self):
-        return self.results.exclude(fail='').count()
+        return self.results.exclude(fail='').exclude(fail='25s penalty').exclude(dsq=True).count()
     
     @add_verbose_name(u'Возраст')
     def get_age(self):
@@ -182,11 +182,11 @@ def time_to_str(time):
     result = ''
     if hour:
         result += '%2d:' % hour
-    if minute:
-        if minute < 10:
-            result += '%2d:' % minute
-        else:
-            result += '%02d:' % minute
+    #if minute:
+        #if minute < 10 and minute > 0:
+        #    result += '%2d:' % minute
+        #else:
+    result += '%02d:' % minute
     result += '%02d.%03d' % (second, millisecond)
     return result
 
@@ -307,7 +307,7 @@ class Season(VerboseModel):
         for grandprix in self.grandprixs.all():
             for heat in grandprix.heats.filter(type=Heat.RACE):
                 left_racers = racers[:]
-                for result in heat.results.all():
+                for result in heat.results.filter(dsq=False):
                     racer = racers[racers.index(result.racer)]
                     points = result.get_points_count()
                     racer.counted_total += points
@@ -432,7 +432,7 @@ class Heat(VerboseModel):
         (GRID, u'Стартовая решетка',),
         (RACE, u'Гонка',),
     )
-    grandprix = models.ForeignKey(GrandPrix, verbose_name=u'Гран-при', related_name='heats')
+    grandprix = models.ForeignKey(GrandPrix, verbose_name=u'Гран-При', related_name='heats')
     type = models.CharField(verbose_name=u'Тип', max_length=1, choices=TYPE)
     date = models.DateTimeField(verbose_name=u'Дата', default=datetime.datetime.now)
     time = models.DecimalField(verbose_name=u'Время победителя', max_digits=8, decimal_places=3)
@@ -468,6 +468,7 @@ class Result(VerboseModel):
     delta = models.DecimalField(verbose_name=u'Отставание (время)', max_digits=8, decimal_places=3, null=True, blank=True)
     laps = models.IntegerField(verbose_name=u'Кругов заезда', null=True, blank=True)
     fail = models.CharField(verbose_name=u'Причина схода', max_length=100, default='', blank=True)
+    dsq = models.BooleanField(verbose_name=u'DSQ', default=False, blank=True)
 
     _points_count = models.FloatField(default=0)
 
@@ -497,6 +498,16 @@ class Result(VerboseModel):
             elif 5 <= self.laps < 100:
                 return '+%d %s' % (self.laps, u'кругов')
             return ''
+        else:
+            return '+%s' % time_to_str_gap(self.delta)
+    
+    def get_lap_display(self):
+        u'Круг схода'
+        if self.delta == 0:
+            return ''
+        elif self.delta is None:
+            self.lap = self.heat.laps - self.laps
+            return self.lap
         else:
             return '+%s' % time_to_str_gap(self.delta)
 

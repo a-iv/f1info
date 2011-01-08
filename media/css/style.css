@@ -97,7 +97,7 @@ table.season th img {
     border: none;
 }
 
-table.season tr:hover {
+table.season tr:hover, table.heat-detail tr:hover {
 	background: #fcf4e1;
 }
 
@@ -108,6 +108,10 @@ table.season td a {
 
 table.season td a:hover {
 	color: #cc0000;
+}
+
+table.heat-detail td a {
+	font-weight: bold;
 }
 
 table.season tr:first-child {
@@ -133,7 +137,9 @@ td.total {
 	width: 250px;
 }
 
-
+table.heat-detail td, table.heat-detail th {
+	border: none;
+}
 
 
 

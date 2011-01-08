@@ -10,7 +10,7 @@
 		<img src="{{ start.grandprix.country.photo.url }}" alt="start.grandprix.country" />
 		Гран-При {{ start.grandprix.name }}
 	</div>
-	<span class="small-grey">{{ start.date|date:"d" }}&ndash;{{ end.date|date_local:"d F Y" }}: <span class="normal">{{ start.grandprix.tracklen.track }}</span></span>
+	<span class="small-grey">{{ start.date|date:"j" }}&ndash;{{ end.date|date_local:"j F Y" }}: <span class="normal">{{ start.grandprix.tracklen.track }}</span></span>
 
 	{% for heat in start.grandprix.heats.all %}
            <p class="heats">{{ heat.date|date:"D, H:i" }} <span>{{ heat.get_type_display }}</span></p>

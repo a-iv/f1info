@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 
+{% block title %}{{ object.get_verbose_name.grandprix }} {{ object.grandprix.name }} {{ object.grandprix.season.year }} | F1Online.Ru{% endblock %}
+{% block title_wrap %}{% endblock %}
+
 {% block content %}  
     <h2>{{ object.get_verbose_name.grandprix }} {{ object.grandprix.name }} {{ object.grandprix.season.year }}</h2>
     <div>{{ object.get_verbose_name.date }}: {{ object.date|date:"d.m.Y" }}</div>
@@ -10,7 +13,7 @@
     
     {% for result in object.get_results %}
     {% if forloop.first %}
-    <table>
+    <table class="heat-detail">
         <tr>
             <th>{{ result.get_verbose_name.position }}</th>
             <th>{{ result.get_verbose_name.racer }}</th>
@@ -23,14 +26,18 @@
     {% endif %}
         <tr>
             {% if result.is_classified %}
-                <td class="center">{{ result.position }}</td>
+                {% if result.dsq %}
+            		<td class="center nc">DSQ</td>
+           		{% else %}
+                	<td class="center">{{ result.position }}</td>
+               	{% endif %}
             {% else %}
-                <td class="center nc">NC</td>
+               	<td class="center nc">NC</td>
             {% endif %}
-            <td>{{ result.racer }}</td>
+            <td><a href="{% url racer_detail result.racer.id %}">{{ result.racer }}</a></td>
             <td>{{ result.team }}</td>
             <td>{{ result.engine }}</td>
-            <td class="center"><img src="/media/upload/tyre/{{ result.tyre }}.png" alt="{{ result.tyre }}"/></td>
+            <td class="center"><img src="/media/upload/tyre/{{ result.tyre|lower }}.png" alt="{{ result.tyre }}"/></td>
             <td>{{ result.get_time_display }}</td>
             <td>{{ result.get_delta_display }}</td>
             <td>{{ result.fail }}</td>
@@ -39,20 +46,26 @@
 	<tr>
 		<td colspan="7"><h4>Не классифицированы</h4></td>
 	</tr>
-	
     {% for result in object.get_fails %}
-    
         <tr>
             {% if result.is_classified %}
-                <td class="center">{{ result.position }}</td>
+                {% if result.dsq %}
+            		<td class="center nc">DSQ</td>
+           		{% else %}
+                	<td class="center">{{ result.position }}</td>
+               	{% endif %}
             {% else %}
-                <td class="center nc">NC</td>
+            	{% if result.dsq %}
+            		<td class="center nc">DSQ</td>
+           		{% else %}
+                	<td class="center nc">NC</td>
+               	{% endif %}
             {% endif %}
-            <td>{{ result.racer }}</td>
+            <td><a href="{% url racer_detail result.racer.id %}">{{ result.racer }}</a></td>
             <td>{{ result.team }}</td>
             <td>{{ result.engine }}</td>
-            <td class="center"><img src="/media/upload/tyre/{{ result.tyre }}.png" alt="{{ result.tyre }}"/></td>
-            <td>{{ result.get_delta_display }}</td>
+            <td class="center"><img src="/media/upload/tyre/{{ result.tyre|lower }}.png" alt="{{ result.tyre }}"/></td>
+            <td>{{ result.get_lap_display }}</td>
             <td>{{ result.fail }}</td>
         </tr>
     {% endfor %}

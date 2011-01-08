@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 {% load frontpage_tags %}
 
+{% block title %}{{ object.get_verbose_name.name }} {{ object.name }} {{ object.season }} | F1Online.Ru{% endblock %}
+{% block title_wrap %}{% endblock %}
+
 {% block content %}
-    <h2>Гран-При {{ object.name }} {{ object.season }} </h2>
+    <h2>{{ object.get_verbose_name.name }} {{ object.name }} {{ object.season }}</h2>
 
     <p><img src="{{ object.country.photo.url }}" alt="{{ object.country }}" /> {{ object.country }}</p>
     <p>{{ object.tracklen.track }}</p>
@@ -15,5 +18,4 @@
     </ul>
 
     {% show_winners object.name.id %}
-    
 {% endblock %}
