@@ -271,12 +271,10 @@ def race(opener, url):
     entrans_href = entr['href']
     tyre = None
     dsq = False
+    dnf = False
     
     # открываем список заявленных пилотов
     result = entrans(opener, SITE + entrans_href)
-    
-    divname = soup.find('div', 'NavigCenter')
-    
     
     divname = soup.find('div', 'NavigCenter')
     h1 = divname.find('h1')
@@ -312,23 +310,23 @@ def race(opener, url):
         else:
             pass
                 
-    test = GrandPrix()
-    test.name = GPName.objects.get(en_name=gpname)
-    test.season = Season.objects.get(year=season)
+    #test = GrandPrix()
+    #test.name = GPName.objects.get(en_name=gpname)
+    #test.season = Season.objects.get(year=season)
     
-    r = Heat()
-    r.grandprix = GrandPrix.objects.get(name=test.name, season=test.season)
-    r.type = 'R'
-    r.date = getdate(opener, SITE + gp_link)
-    if wintime < 3700:
-        r.time = wintime
-        r.half_points = True
-        print 'KUKU'
-    else:
-        r.time = wintime
-    r.laps = winlaps
-    r.slug = slug
-    r.save()
+    #r = Heat()
+    #r.grandprix = GrandPrix.objects.get(name=test.name, season=test.season)
+    #r.type = 'R'
+    #r.date = getdate(opener, SITE + gp_link)
+    #if wintime < 3700:
+    #    r.time = wintime
+    #    r.half_points = True
+    #    print 'KUKU'
+    #else:
+    #    r.time = wintime
+    #r.laps = winlaps
+    #r.slug = slug
+    #r.save()
 
 
     
@@ -364,10 +362,6 @@ def race(opener, url):
     #tr_count = fcounter + counter 
             
             
-            
-        
-
-
     for tr in tbody.findAll('tr'):
         position = plain(tr.contents[1])
         laps = plain(tr.contents[6])
@@ -383,10 +377,15 @@ def race(opener, url):
             # определяем позицию пилота
             if position == 'dsq':
                 #pos = 16
-                # BRAZIL 1982 - wow.
                 dsq = True
+                dnf = False
             else:
                 dsq = False
+            if position == 'ab':
+                dsq = False
+                dnf = True
+            else:
+                dnf = False
             try:
                 pos = Decimal(position)
             except:
@@ -408,6 +407,7 @@ def race(opener, url):
                 tyre = result[(first_name, family_name, team, engine)]
             except IndexError:
                 tyre = None
+
             
             # проверяем время или сход
             try:
@@ -435,25 +435,25 @@ def race(opener, url):
                     time_gap = None
 
             
-            rac = Racer()
-            rac.first_name = first_name
-            rac.family_name = family_name
+            #rac = Racer()
+            #rac.first_name = first_name
+            #rac.family_name = family_name
             
-            race = Result()
-            race.heat = Heat.objects.get(grandprix=r.grandprix, type=r.type)
-            race.position = pos
-            race.num = num
-            race.racer = Racer.objects.get(first_name=rac.first_name, family_name=rac.family_name)
-            race.team = Team.objects.get(name=team)
-            race.engine = Engine.objects.get(name=engine)
-            race.tyre = Tyre.objects.get(name=tyre)
-            race.delta = time_gap
-            race.laps = laps_gap
-            race.fail = fail
-            race.dsq = dsq
-            race.save()
+            #race = Result()
+            #race.heat = Heat.objects.get(grandprix=r.grandprix, type=r.type)
+            #race.position = pos
+            #race.num = num
+            #race.racer = Racer.objects.get(first_name=rac.first_name, family_name=rac.family_name)
+            #race.team = Team.objects.get(name=team)
+            #race.engine = Engine.objects.get(name=engine)
+            #race.tyre = Tyre.objects.get(name=tyre)
+            #race.delta = time_gap
+            #race.laps = laps_gap
+            #race.fail = fail
+            #race.dsq = dsq
+            #race.save()
             
-            print pos, num, first_name, family_name, team, engine, tyre, laps, laps_gap, time_gap, fail, dsq
+            print pos, num, first_name, family_name, team, engine, tyre, laps, laps_gap, time_gap, fail, dnf, dsq
             
             
         
@@ -475,17 +475,8 @@ def main():
     #race(opener, 'http://statsf1.com/en/1990/monaco/classement.aspx')
     #race(opener, 'http://statsf1.com/en/2009/australie/classement.aspx')
     #race(opener, 'http://statsf1.com/en/1976/allemagne/classement.aspx')
-    race(opener, 'http://statsf1.com/en/1985/australie/classement.aspx')
-
+    race(opener, 'http://statsf1.com/en/2003/australie/classement.aspx')
     
-
-    
-    
-
-    
-
-    #race(opener, 'http://statsf1.com/en/2004/canada/classement.aspx')
-   
 if __name__ == '__main__':
     main()
 else:
