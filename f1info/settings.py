@@ -70,6 +70,7 @@ INSTALLED_APPS = (
     'menuproxy',
     'utilities',
     'attachment',
+    'f1info.custom_attachment',
     'seo',
     'south',
     'markitup',
@@ -199,6 +200,8 @@ ATTACHMENT_LINK_MODELS = [
     'pages.models.Page',
     'easy_news.models.News',
 ]
+
+ATTACHMENT_IKSPECS = 'f1info.custom_attachment.ikspecs'
 
 MARKITUP_SET = 'markitup/sets/markdown'
 MARKITUP_FILTER = ('markdown.markdown', {'safe_mode': True})

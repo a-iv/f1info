@@ -12,7 +12,12 @@
 	</div>
 	{% for object in main_list|slice:"1:" %}
 		<div class="ex-news-item">
-			{% show_images for object %}
+			{% get_attachments for object as attachments %}
+            {% with attachments.0 as attachment %}
+                {% if attachment.image %}
+                    <img src="{{ attachment.mini.url }}" alt="{{ object.title }}" />
+                {% endif %}
+            {% endwith %}
 			<span>{{ object.date|date:"d" }} {{ object.date|date_local:"F" }}</span>
 			<a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
 		</div>
