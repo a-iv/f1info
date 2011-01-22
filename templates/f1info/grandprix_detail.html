@@ -4,6 +4,17 @@
 {% block title %}{{ object.get_verbose_name.name }} {{ object.name }} {{ object.season }} | F1Online.Ru{% endblock %}
 {% block title_wrap %}{% endblock %}
 
+{% block inner_breadcrumbs %}
+	<div id="breadcrumbs-wrap">
+		<div id="breadcrumbs">
+			<a href="/" class="home">F1Online.Ru</a> /
+			<a href="">Энциклопедия</a> / 
+			<a href="{% url season_detail object.season.id %}">Сезон {{ object.season }}</a> / 
+			<span>{{ object.get_verbose_name.name }} {{ object.name }}</span> 
+		</div> 
+	</div>
+{% endblock %}
+
 {% block content %}
     <h2>{{ object.get_verbose_name.name }} {{ object.name }} {{ object.season }}</h2>
 

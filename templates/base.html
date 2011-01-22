@@ -20,14 +20,16 @@
 			</div>
 		</div>
 	</div>
-
+	
+	{% block inner_breadcrumbs %}{% endblock %}
+	
 	<div id="wrapper">
-		<div id="main-column">
 		{% block main %}
-			{% block title_wrap %}<h1>{% block content_title %}{% endblock %}</h1>{% endblock %}
-        	{% block content %}{% endblock %}
+			<div id="main-column">
+				{% block title_wrap %}<h1>{% block content_title %}{% endblock %}</h1>{% endblock %}
+	        	{% block content %}{% endblock %}
+			</div>
 		{% endblock %}
-		</div>
 		{% block right %}{% endblock %}
 	</div>
 </body>

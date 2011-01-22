@@ -4,27 +4,44 @@
 {% block title_wrap %}{% endblock %}
 
 {% block main %}
-	{% block content %}
-	    {% show_news %}
-	    <div id="last-article">
-	    	<div class="latest">ИНТЕРЕСНОЕ</div>
-				{% for page in pages_navigation %}
-                    {% ifequal page.template "pages/articles.html" %}
-                        {% for inner in page.get_children|slice:"1" %}
-	                        <h3><a href="{{ inner.get_absolute_url }}">{{ inner.title }}</a></h3>
-	                        {% get_content inner "main_content" as main_content %}
-	                        <p>{{ main_content|render_markup|safe|truncatewords_html:36 }}</p>
-                        {% endfor %}
-                    {% endifequal %}
-                {% endfor %}
-	    </div>
-	{% endblock %}
+	<div id="front">
+		{% block content %}
+		    {% show_news %}
+		    <div id="specials-wrap">
+			    <div id="specials">
+			    	<div id="specials-head">
+			    		<h4>Статьи</h4>
+			    		<a href="#">все статьи »</a>
+			    	</div>
+			    	<div class="specials-item">
+			    		<img src="/media/_img/8052.jpg" alt="" />
+			    		Our resident expert - Steven Lynch - answers readers' questions on various topics, including the meaning of 'chasing crumpet'
+			    	</div>
+			    	<div class="specials-item">
+			    		<img src="/media/_img/8122.jpg" alt="" />
+			    		With the launch of 12 new F1 cars less than a month away, we looks back at the Top 10 weird F1 cars in the sport's history
+			    	</div>
+			    	<div class="specials-item">
+			    		<img src="/media/_img/8065.jpg" alt="" />
+			    		Narain Karthikeyan talks us through his new deal with HRT and why he can prove his critcs wrong in 2011
+			    	</div>
+			    	<div class="specials-item">
+			    		<img src="/media/_img/8052.jpg" alt="" />
+			    		Our resident expert - Steven Lynch - answers readers' questions on various topics, including the meaning of 'chasing crumpet'
+			    	</div>
+			    </div>
+		    </div>
+		{% endblock %}
+	</div>
 {% endblock %}
+
 {% block right %}
 	<div id="right">
 		{% show_nextgp %}
+		<!-- 
 		{% show_standings %}
 		{% show_today %}
 	    {% show_twitter %}
+	     -->
 	</div>
 {% endblock %}
