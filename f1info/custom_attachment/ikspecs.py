@@ -15,8 +15,12 @@ class ThumbDisplay(processors.Resize):
     height = 80
 
 class MiniDisplay(processors.Resize):
-    width = 80
-    height = 80
+    height = 55
+
+class TopDisplay(processors.Resize):
+    width = 374
+    height = 250
+
 
 class Thumb(ImageSpec):
     pre_cache = True
@@ -25,4 +29,9 @@ class Thumb(ImageSpec):
 class Mini(ImageSpec):
     pre_cache = True
     processors = [MiniDisplay, ]
+    quality = 95
+
+class Top(ImageSpec):
+    pre_cache = True
+    processors = [TopDisplay, ]
     quality = 95
