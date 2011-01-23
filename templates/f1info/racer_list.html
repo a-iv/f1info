@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Гоньщики</h2>
+    <h2>Гонщики</h2>
     <ul>
         {% for object in object_list %}
-            <li><a href="{% url racer_detail object.id %}">{{ object.first_name }} {{ object.family_name }}</a></li>
+            <li><a href="{% url racer_detail object.slug %}">{{ object.first_name }} {{ object.family_name }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}
