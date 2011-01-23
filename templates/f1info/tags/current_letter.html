@@ -2,7 +2,7 @@
     <ul>
         {% for racer in letters %}
             <li>
-                <a href="{% url racer_detail racer.id %}">{{ racer.family_name }}, {{ racer.first_name }}</a>
+                <a href="{% url racer_detail racer.slug %}">{{ racer.family_name }}, {{ racer.first_name }}</a>
             </li>
         {% endfor %}
     </ul>

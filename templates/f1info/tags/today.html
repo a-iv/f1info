@@ -5,7 +5,7 @@
     <h4>Сегодня празднуют День рождения:</h4>
     <ul>
         {% for racer in racers %}
-            <li><a href="{% url racer_detail racer.id %}">{{ racer }}</a></li>
+            <li><a href="{% url racer_detail racer.slug %}">{{ racer }}</a></li>
 	    {% endfor %}
 	</ul>
 	<h4>В этот день состоялась гонка:</h4>
