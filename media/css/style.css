@@ -524,7 +524,7 @@ img.gp {
 	margin: 0;
 }
 
-#grandprix a {
+#grandprix-head a {
 	display: block;
 	float: right;
 	font-weight: bold;
@@ -536,16 +536,18 @@ img.gp {
 }
 
 table.standings {
-	border: 1px solid #ddd;
-	width: 100%;
-	line-height: 20px;
+	width: 50%;
+	line-height: 18px;
+	margin-top: 24px;
+	font-size: 11px;
 }
 
 table.standings td {
-	padding: 0 8px;
-	background: #F7F5F0;
-	border: none;
+	padding: 0 7px 0 0;
+	border-bottom: 1px solid #F1E9E4;
 }
+
+table.standings td a { text-decoration: none; }
 
 table.standings td.pos, table.standings td.flag {
 	width: 15%;
@@ -559,6 +561,7 @@ table.standings td.driver {
 table.standings td.total {
 	width: 20%;
 	text-align: center;
+	font-weight: normal;
 }
 
 #last-article {

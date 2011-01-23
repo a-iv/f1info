@@ -2,6 +2,7 @@
 
 from django import template
 from f1info.models import *
+from pages.models import *
 import datetime
 
 register = template.Library()
@@ -53,3 +54,12 @@ def show_current_letter(letter):
     letters = Racer.objects.filter(family_name__startswith=first_letter)
     return {'letters': letters, }
 
+@register.inclusion_tag('f1info/tags/onthisday.html', takes_context=False)
+def show_onthisday():
+    current = datetime.datetime.today().strftime("%d.%m")
+    for page in Page.objects.all():
+        template = page.get_template()
+        if template == 'pages/onthisday.html':
+            day_field = Content.objects.get_content(page, None, "day")
+            if day_field == current:
+               return {'page': page, }

@@ -1,7 +1,6 @@
 <div id="standings">
-	<h2>Итоги сезона 2010</h2>
 	<table class="standings">
-		{% for racer in object.get_racer_table|slice:"10" %}
+		{% for racer in object.get_racer_table|slice:"5" %}
 		    {% if racer.counted_total %}
 		        <tr>
 		            <td class="pos">{{ forloop.counter }}</td>
