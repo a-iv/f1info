@@ -61,7 +61,7 @@
 	               	<td class="center nc">NC</td>
 	            {% endif %}
 	            <td class="center">{{ result.num }}</td>
-	            <td><a href="{% url racer_detail result.racer.id %}">{{ result.racer }}</a></td>
+	            <td><a href="{% url racer_detail result.racer.slug %}">{{ result.racer }}</a></td>
 	            <td>{{ result.team }}</td>
 	            <td>{{ result.engine }}</td>
 	            <td class="center">{{ result.tyre }}</td>
@@ -89,7 +89,7 @@
 	               	{% endif %}
 	            {% endif %}
 	            <td>{{ result.num }}</td>
-	            <td><a href="{% url racer_detail result.racer.id %}">{{ result.racer }}</a></td>
+	            <td><a href="{% url racer_detail result.racer.slug %}">{{ result.racer }}</a></td>
 	            <td>{{ result.team }}</td>
 	            <td>{{ result.engine }}</td>
 	            <td class="center">{{ result.tyre }}</td>
