@@ -37,9 +37,21 @@
 
 {% block right %}
 	<div id="right">
-		{% show_nextgp %}
+	
+	
+		<div id="grandprix-wrap">
+			<div id="grandprix">
+				<div id="grandprix-head">
+					<h4>Следующий этап</h4>
+					<a href="#">календарь »</a>
+				</div>
+				<div>{% show_nextgp %}</div>
+				{% show_standings %}		
+			</div>
+		</div>
+		
 		<!-- 
-		{% show_standings %}
+		{% show_onthisday %}
 		{% show_today %}
 	    {% show_twitter %}
 	     -->
