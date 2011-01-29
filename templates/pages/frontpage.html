@@ -7,29 +7,31 @@
 	<div id="front">
 		{% block content %}
 		    {% show_news %}
-		    <div id="specials-wrap">
-			    <div id="specials">
-			    	<div id="specials-head">
-			    		<h4>Статьи</h4>
-			    		<a href="#">все статьи »</a>
-			    	</div>
-			    	<div class="specials-item">
-			    		<img src="/media/_img/8052.jpg" alt="" />
-			    		Our resident expert - Steven Lynch - answers readers' questions on various topics, including the meaning of 'chasing crumpet'
-			    	</div>
-			    	<div class="specials-item">
-			    		<img src="/media/_img/8122.jpg" alt="" />
-			    		With the launch of 12 new F1 cars less than a month away, we looks back at the Top 10 weird F1 cars in the sport's history
-			    	</div>
-			    	<div class="specials-item">
-			    		<img src="/media/_img/8065.jpg" alt="" />
-			    		Narain Karthikeyan talks us through his new deal with HRT and why he can prove his critcs wrong in 2011
-			    	</div>
-			    	<div class="specials-item">
-			    		<img src="/media/_img/8052.jpg" alt="" />
-			    		Our resident expert - Steven Lynch - answers readers' questions on various topics, including the meaning of 'chasing crumpet'
-			    	</div>
-			    </div>
+		    <div class="block articles">
+	    		<a href="#" class="all">все статьи »</a>
+	    		<h3>Статьи</h3>
+	    		
+		    	<div class="article-item">
+		    		<a href="#">Гран-При Бельгии 1967</a>
+		    		<img src="/media/_img/8052.jpg" alt="" />
+		    		<p>Our resident expert - Steven Lynch - answers readers' questions on various topics, including the meaning of 'chasing crumpet'</p>
+		    	</div>
+		    	<div class="article-item">
+		    		<img src="/media/_img/8122.jpg" alt="" />
+		    		With the launch of 12 new F1 cars less than a month away, we looks back at the Top 10 weird F1 cars in the sport's history
+		    	</div>
+		    	<div class="article-item">
+		    		<img src="/media/_img/8065.jpg" alt="" />
+		    		Narain Karthikeyan talks us through his new deal with HRT and why he can prove his critcs wrong in 2011
+		    	</div>
+		    	<div class="article-item">
+		    		<img src="/media/_img/8052.jpg" alt="" />
+		    		Our resident expert - Steven Lynch - answers readers' questions on various topics, including the meaning of 'chasing crumpet'
+		    	</div>
+		    	<div class="article-item">
+		    		<img src="/media/_img/8122.jpg" alt="" />
+		    		With the launch of 12 new F1 cars less than a month away, we looks back at the Top 10 weird F1 cars in the sport's history
+		    	</div>
 		    </div>
 		{% endblock %}
 	</div>
@@ -37,8 +39,6 @@
 
 {% block right %}
 	<div id="right">
-	
-	
 		<div id="grandprix-wrap">
 			<div id="grandprix">
 				<div id="grandprix-head">
@@ -49,11 +49,5 @@
 				{% show_standings %}		
 			</div>
 		</div>
-		
-		<!-- 
-		{% show_onthisday %}
-		{% show_today %}
-	    {% show_twitter %}
-	     -->
 	</div>
 {% endblock %}

@@ -32,14 +32,15 @@
 	{% endif %}
 </div>
 
-<div class="news-list">
-	<div id="news-head">
-		<h4>Последние новости</h4>
-		<a href="{% url news_list %}">все новости »</a>
-	</div>
+<div class="block news">
+	<a href="{% url news_list %}" class="all">все новости »</a>
+	<h3>Последние новости</h3>
     {% if news_list %}
-        {% for object in news_list|slice:":15" %}
-            <div class="news-item"><span>{{ object.date|date:"d M" }}</span><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></div>
+        {% for object in news_list|slice:":18" %}
+        	<div class="news-row">
+            	<span class="date">{{ object.date|date:"d M" }}</span>
+            	<a href="{{ object.get_absolute_url }}" class="news-item">{{ object.title }}</a>
+            </div>
         {% endfor %}
     {% else %}
         <div class="news-empty">Нет новостей</div>
