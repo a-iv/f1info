@@ -76,6 +76,7 @@ INSTALLED_APPS = (
     'markitup',
     'f1info',
     'f1info.info',
+    'authority',
 )
 
 TEMPLATE_LOADERS = [
