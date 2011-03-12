@@ -166,15 +166,14 @@ table.heat-detail td, table.heat-detail th {
 
 
 #header-wrapper {
-	background: -moz-linear-gradient(center top , #333, #000);
-	background: -webkit-gradient(linear, left top, left bottom, from(#333), to(#000));
+	background: url(/media/img/top-bg.png) repeat-x;
 	margin: 0;
 }
 
 #header {
-	height: 42px;
+	height: 50px;
 	color: #eee;
-	font-size: 12px;
+	font-size: 13px;
 	overflow: hidden;
 	margin: 0 auto;
 	width: 986px;
@@ -183,37 +182,40 @@ table.heat-detail td, table.heat-detail th {
 }
 
 #logo {
-	margin: 0 36px 0 0;
-	padding: 8px 0 0 0;
+	margin: 9px 36px 0 0;
+	padding: 0;
 	float: left;
+	width: 175px;
+	height: 35px;
+	background: url(/media/img/logo_new.png) no-repeat 0 0;
 }
 
-#logo img {
-	border: 0;
-}
+#logo:hover { background: url(/media/img/logo_new.png) no-repeat 0 -35px; }
 
 #logo a {
 	outline: none;
 }
 
 #menu {
-	float: left;
+	overflow: hidden;
 }
 
 #menu ul {
 	padding: 0;
-	margin: 0;
+	margin: 0 0 0 -1px;
 	list-style: none;
+	font-family: georgia;
 }
 
 #menu li {
 	float: left;
-	padding: 0 12px;
-	line-height: 42px;
+	padding: 0 20px;
+	line-height: 49px;
+	border-left: 1px solid #777;
 }
 
 #menu li a {
-	color: #ddd;
+	color: #eee;
 }
 
 #menu li a:hover {
