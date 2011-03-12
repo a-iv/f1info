@@ -166,12 +166,12 @@ table.heat-detail td, table.heat-detail th {
 
 
 #header-wrapper {
-	background: url(/media/img/top-bg.png) repeat-x;
+	background: url(/media/img/top.jpg) repeat-x -300px 0;
 	margin: 0;
 }
 
 #header {
-	height: 50px;
+	height: 42px;
 	color: #eee;
 	font-size: 13px;
 	overflow: hidden;
@@ -182,7 +182,7 @@ table.heat-detail td, table.heat-detail th {
 }
 
 #logo {
-	margin: 9px 36px 0 0;
+	margin: 4px 36px 0 0;
 	padding: 0;
 	float: left;
 	width: 175px;
@@ -209,22 +209,34 @@ table.heat-detail td, table.heat-detail th {
 
 #menu li {
 	float: left;
-	padding: 0 20px;
-	line-height: 49px;
-	border-left: 1px solid #777;
+	border-left: 1px solid rgba(255,255,255,0.15);
 }
 
 #menu li a {
 	color: #eee;
+	padding: 0 20px;
+	line-height: 42px;
+	display: block;
+	outline: none;
+	text-shadow: -1px -1px 0 #555;
+	-webkit-transition: background 100ms ease;
+	transition: background 100ms ease;
+	text-shadow: 0 0 5px #222;
+	text-decoration: none;
 }
 
 #menu li a:hover {
-	color: #fff;
+	-moz-box-shadow: 1px 1px 2px #000 inset;
+	-webkit-box-shadow: 1px 1px 1px #000 inset;
+	background: rgba(0, 0, 0, 0.2);
+	text-decoration: none;
 }
 
-#menu li.active {
-	background: -moz-linear-gradient(center top , #791C27, #8C202D);
+#menu li a:active {
 	color: #fff;
+	-moz-box-shadow: 2px 2px 6px #000 inset;
+	-webkit-box-shadow: 2px 2px 6px #000 inset;
+	background: rgba(0, 0, 0, 0.3);
 }
 
 #wrapper {
