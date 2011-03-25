@@ -29,7 +29,7 @@
 	<table>
 	    <tr>
 	    	<th>{{ object.get_verbose_name.country }}</th> 
-	    	<td><img src="{{ object.country.photo.url }}" alt="{{ object.country }}" class="flag" /> {{ object.country }}</td>
+	    	<td><span class="flag {{ object.country.en_name|slugify }} left"></span> {{ object.country }}</td>
     	</tr>
     	<tr>
 		    <th>{{ object.get_verbose_name.birthday }}</th>

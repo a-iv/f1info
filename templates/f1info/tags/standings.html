@@ -7,7 +7,7 @@
 		    {% if racer.counted_total %}
 		        <tr>
 		            <td class="pos">{{ forloop.counter }}</td>
-		            <td class="flag"><img src="{{ racer.country.photo.url }}" alt="{{ racer.country }}" /></td>
+		            <td class="country"><span class="flag {{ racer.country.en_name|slugify }}"></span></td>
 		            <td class="driver"><a href="{% url racer_detail racer.slug %}">{{ racer.first_name|slice:"1" }}. {{ racer.family_name }}</a></td>
 		            <td class="total">{{ racer.counted_total|floatformat }}</td>
 		        </tr>
@@ -23,7 +23,7 @@
 		    {% if team.counted_total %}
 		        <tr>
 		            <td class="pos">{{ forloop.counter }}</td>
-		            <td class="flag"><img src="{{ team.country.photo.url }}" alt="{{ team.country }}" /></td>
+		            <td class="country"><span class="flag {{ team.country.en_name|slugify }}"></span></td>
 		            <td class="driver"><a href="{% url team_detail team.slug %}">{{ team }}</a></td>
 		            <td class="total">{{ team.counted_total|floatformat }}</td>
 		        </tr>

@@ -1,3 +1,5 @@
+@import url('flags.css');
+
 body {
 	font-family: Tahoma,Arial,Helvetica,sans-serif;
 	color: #000;
@@ -273,12 +275,12 @@ span.clock {
 
 .short-standings td a { text-decoration: none; }
 
-.short-standings td.pos, .short-standings td.flag {
+.short-standings td.pos, .short-standings td.country {
 	width: 15%;
 	text-align: center;
 }
 
-.short-standings td.flag img { margin-bottom: -1px; }
+.short-standings td.country span { margin-bottom: -1px; }
 
 .short-standings td.total {
 	width: 20%;
@@ -486,5 +488,26 @@ td.total { font-weight: bold; }
 table.heat-detail td, table.heat-detail th {
 	border: none;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

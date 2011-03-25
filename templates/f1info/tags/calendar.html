@@ -12,7 +12,7 @@
 		{% for row in objects %}
         <tr>
             <td>{{ forloop.counter }}</td>
-            <td><img src="{{ row.country.photo.url }}" alt="{{ row.country }}" /> <a href="{% url grand_prix_detail row.id %}">{{ row.name }}</a></td>
+            <td><span class="flag {{ row.country.en_name|slugify }} left"></span><a href="{% url grand_prix_detail row.id %}">{{ row.name }}</a></td>
             <td class="date">{{ row.heats.all.0.date|date:"j" }}&ndash;{{ row.heats.all.reverse.0.date|date_local:"j F" }}</td>
             <td>{{ row.tracklen.track }}</td>
         </tr>
