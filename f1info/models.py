@@ -335,18 +335,23 @@ class Season(VerboseModel):
                 teams.append(team)
         for grandprix in self.grandprixs.all():
             for heat in grandprix.heats.filter(type=Heat.RACE):
+                for team in teams:
+                    setattr(team, 'counted_temp', 0)
                 left_teams = teams[:]
                 for result in heat.results.filter(dsq=False):
                     team = teams[teams.index(result.team)]
                     points = result.get_points_count()
                     team.counted_total += points
-                    if points:
-                        team.counted_results.append(points)
+                    team.counted_temp += points
+                    if team in left_teams:
+                        left_teams.remove(team)
+                for team in teams:
+                    if team in left_teams:
+                        team.counted_results.append('')
+                    elif team.counted_temp:
+                        team.counted_results.append(team.counted_temp)
                     else:
                         team.counted_results.append('-')
-                    #left_teams.remove(team)
-                for team in left_teams:
-                    team.counted_results.append('')
                 break
             else:
                 for team in teams:
