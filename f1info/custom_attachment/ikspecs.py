@@ -18,7 +18,7 @@ class MiniDisplay(processors.Resize):
     height = 55
 
 class TopDisplay(processors.Resize):
-    width = 374
+    width = 370
     height = 250
 
 

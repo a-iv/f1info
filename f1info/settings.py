@@ -6,7 +6,6 @@ gettext_noop = lambda s: s
 
 ADMINS = (
     ('f1online', 'mansellfan@gmail.com'),
-    ('alexander','alexander.vl.ivanov@gmail.com'),
 )
 
 MANAGERS = ADMINS
