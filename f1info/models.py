@@ -326,6 +326,35 @@ class Season(VerboseModel):
         racers.sort(cmp=lambda a, b: int(b.counted_total - a.counted_total))
         return racers
 
+    def get_team_table(self):
+        teams = []
+        for team in Team.objects.filter(results__heat__grandprix__season=self):
+            if team not in teams:
+                setattr(team, 'counted_total', 0)
+                setattr(team, 'counted_results', [])
+                teams.append(team)
+        for grandprix in self.grandprixs.all():
+            for heat in grandprix.heats.filter(type=Heat.RACE):
+                left_teams = teams[:]
+                for result in heat.results.filter(dsq=False):
+                    team = teams[teams.index(result.team)]
+                    points = result.get_points_count()
+                    team.counted_total += points
+                    if points:
+                        team.counted_results.append(points)
+                    else:
+                        team.counted_results.append('-')
+                    #left_teams.remove(team)
+                for team in left_teams:
+                    team.counted_results.append('')
+                break
+            else:
+                for team in teams:
+                    team.counted_results.append('')
+                
+        teams.sort(cmp=lambda a, b: int(b.counted_total - a.counted_total))
+        return teams
+
 
     def __unicode__(self):
         return u'%d' % self.year

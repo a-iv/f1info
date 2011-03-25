@@ -53,4 +53,52 @@
         {% endfor %}
     </table>
 
+
+<h3>Кубок Конструкторов</h3>
+    <table class="season">
+   		<tr>
+            <th>Поз</th>
+	   		<th>Команда</th>
+	   		{% for grandprix in object.grandprixs.all %}
+	        	<th>
+                    <a href="{% url grand_prix_detail grandprix.id %}" title="Гран-При {{ grandprix.name }} 
+{{ grandprix.season }}" class="abbr">{{ grandprix.name.abbr }}
+	        		<img src="{{ grandprix.country.photo.url }}" title="Гран-При {{ 
+grandprix.name }} {{ grandprix.season }}" /></a>
+	       		</th>
+	    	{% endfor %}
+	    	<th>Очки</th>
+    	</tr>
+        
+        
+        {% comment %}
+        
+        {% for team.name, team in object.get_team_table %}
+		    {{ team }}
+		{% endfor %}
+		
+		{% endcomment %}
+
+        
+        {% for team in object.get_team_table %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td class="driver"><a href="{% url team_detail team.slug %}">{{ team }}</a></td>
+                    {% for result in team.counted_results %}
+                        <td>
+                            {% if not result %}
+                                &nbsp;
+                            {% else %}
+                                {% ifequal result '-' %}
+                                    {{ result }}
+                                {% else %}
+                                    {{ result|floatformat }}
+                                {% endifequal %}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                    <td class="total">{{ team.counted_total|floatformat }}</td>
+                </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
