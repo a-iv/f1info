@@ -1,0 +1,490 @@
+body {
+	font-family: Tahoma,Arial,Helvetica,sans-serif;
+	color: #000;
+	font-size: 12px;
+	background: url(/media/img/top-nav-bg.png) repeat-x top #f7f7f7;
+	margin: 0;
+}
+
+a { color: #066A93; }
+a:hover { color: #aa0000; }
+
+h1, h2, h3 { font-weight: normal; margin: 10px 0;  }
+h1 { font-size: 22px;}
+h2 { font-size: 20px; color: #222; }
+h3 { font-size: 18px; color: #666; }
+
+.page {
+	width: 980px;
+	margin: 0 auto;
+}
+
+
+/*** HTML5 tags ***/
+header, article, section, aside, figure { display: block; }
+
+
+/*** Top navigation ***/
+#branding {
+	height: 48px;
+	font-family: Georgia, "Times New Roman", serif;
+	margin-bottom: 24px;
+}
+
+a#logo {
+	width: 175px;
+	height: 35px;
+	background: url(/media/img/logo_new.png) no-repeat 0 0;
+	margin-top: 7px;
+	text-indent: -9999px;
+	float: left;
+	display: block;
+}
+
+a#logo:hover { background-position: 0 -35px; }
+
+#branding li {
+	float: left;
+}
+
+#branding nav a {
+	padding: 0 20px;
+	color: #333;
+	font-size: 13px;
+	line-height: 48px;
+}
+
+/*** Breaking news ***/
+#breaking-news {
+	height: 258px;
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #ebeae0;
+}
+
+#top-story {
+	width: 715px;
+	float: left;
+	line-height: 18px;
+}
+
+#top-story h1 {
+	font-size: 19px;
+	margin: 8px 0 12px 0;
+}
+
+.story-date {
+	float: left;
+	color: #000;
+	text-transform: lowercase;
+}
+
+#top-story p { color: #333; }
+
+#top-story img {
+	display: block;
+	float: left;
+	border: 1px solid #d9d9d9;
+	padding: 3px;
+	margin: 0 12px 0 0;
+	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+}
+
+#extra-news {
+	width: 250px;
+	float: left;
+	margin-left: 10px;
+}
+
+.ex-news-item {
+	overflow: hidden;
+	margin: 0 0 6px 0;
+	font-size: 11px;
+	line-height: 15px;
+}
+
+.ex-news-item:last-child {
+	margin-bottom: 0;
+}
+
+.ex-news-item img {
+	float: left;
+	margin: 0 6px 0 0;
+	padding: 1px;
+	border: 1px solid #d7d7d7;
+}
+	
+.ex-news-item span {
+	font-size: 10px;
+	line-height: 12px;
+	color: #666;
+	display: block;
+	font-weight: normal;
+	text-transform: lowercase;
+}
+
+/*** Colour block frontpage ***/
+.block {
+	border-width: 1px; border-style: solid;
+	outline: 1px solid #fff; outline-offset: -2px;
+	-moz-border-radius: 2px; -moz-outline-radius: 2px;
+	-webkit-border-radius: 2px; border-radius: 2px;
+	padding: 10px;
+	font-size: 11px;
+	line-height: 18px;
+}
+
+.block h3 {
+	margin: 0;
+	padding: 0 0 6px 0;
+	font-weight: normal;
+	font-size: 20px;
+	line-height: 20px;
+	text-shadow: 1px 1px 0 #fff;
+}
+
+.block a.all {
+	font-size: 10px;
+	float: right;
+	font-weight: bold;
+	text-shadow: 1px 1px 0 #fff;
+}
+
+/*** News List ***/
+.news {
+	width: 356px;
+	border-color: #ececec;
+	background: url(/media/img/news-bg.png) repeat-x top #fafafa;
+	float: left;
+	margin-right: 10px;
+	padding-bottom: 3px;
+}
+
+.news h3 { color: #555; }
+.news a.all { color: #999; }
+.news a.all:hover { color: #555; }
+
+.news-row { 
+	border-bottom: 1px dotted #fff;
+	overflow: hidden;
+}
+
+.news-row:last-child { border-bottom: none !important; }
+.news-row:last-child a { border-bottom: none !important; }
+
+a.news-item {
+	text-decoration: none;
+	display: block;
+	border-bottom: 1px dotted #cdcdcd;
+	padding: 1px 2px 3px 2px;
+}
+
+.news span.date {
+	float: right;
+	text-transform: lowercase;
+	padding: 1px 2px 3px 5px;
+	color: #555;
+}
+
+/*** Next Grand Prix ***/
+.nextgp {
+	width: 300px;
+	border-color: #f1e9e4;
+	background: url(/media/img/grandprix-bg.png) repeat-x top #fbf9f7;
+	float: left;
+}
+
+img.gp {
+	display: block;
+	margin: 0 0 0 -1px;
+	border: 1px solid #f1e9e4;
+}
+
+#gpname {
+	margin: 8px 0;
+	font-size: 13px;
+	font-weight: bold;
+	text-transform: uppercase;
+	color: #6c0000;
+}
+
+#gpname img { vertical-align: -1px; }
+
+.nextgp h3 { color: #574A2D; }
+.nextgp a.all { color: #888; }
+.nextgp a.all:hover { color: #555; }
+
+#heat-list {
+	overflow: hidden;
+	width: 150px;
+	float: right;
+}
+
+#heat-list p {
+	margin: 2px 0;
+	line-height: normal;
+	font-size: 11px;
+	font-family: Tahoma,Arial,Helvetica,sans-serif;
+}
+
+#heat-list p:nth-child(2n) {
+	margin: 2px 0 8px 0;
+}
+
+#heat-list em {
+	font-style: normal;
+	float: right;
+	text-align: left;
+}
+
+#heat-list strong { color: #333; }
+#heat-list a { font-weight: bold; }
+
+span.clock {
+	display: block;
+	background: url(/media/img/clock.png) no-repeat left;
+	padding: 0 0 0 16px;
+	line-height: 12px;
+	height: 12px;
+	margin: 6px 0 0 0;
+	float: right;
+	font-size: 10px;
+	color: #333;
+}
+
+#standings {
+	clear: both;
+	overflow: hidden;
+}
+
+.short-standings {
+	width: 48%;
+	line-height: 18px;	
+	font-size: 11px;
+	margin-top: 16px;
+}
+
+.short-standings td {
+	padding: 0 7px 0 0;
+	border-bottom: 1px solid #f1e9e4;
+}
+
+.short-standings td a { text-decoration: none; }
+
+.short-standings td.pos, .short-standings td.flag {
+	width: 15%;
+	text-align: center;
+}
+
+.short-standings td.flag img { margin-bottom: -1px; }
+
+.short-standings td.total {
+	width: 20%;
+	text-align: center;
+	font-weight: normal;
+	padding: 0;
+}
+
+table.drivers { float: left; }
+table.teams { float: right; }
+
+.short-standings th {
+	text-align: left;
+	font-size: 10px;
+	line-height: 14px;
+	border-top: 2px solid #f1e9e4;
+	border-bottom: 1px solid #f1e9e4;
+	background: #f7f2ef;
+	color: #574a2d;
+	padding: 2px 5px;
+}
+
+a.full-standings-link {
+	display: block;
+	background: #fff;
+	padding: 1px 5px 3px;
+	text-align: center;
+	overflow: hidden;
+	margin: 2px 0 0 0;
+	clear: both;
+	position: relative;
+	top: 3px;
+	text-decoration: none;
+}
+
+a.full-standings-link:hover { background: #f7f2ef; }
+
+a.full-standings-link span {
+	text-decoration: underline;
+}
+
+a.full-standings-link img {
+	vertical-align: -2px;
+	margin: 0 2px 0 0;
+}
+
+/*** Last articles ***/
+.articles {
+	width: 238px;
+	border-color: #f1ede4;
+	background: #f8f8f1;
+	float: left;
+	margin-left: 10px;
+}
+
+.articles h3 { color: #574A2D; }
+.articles a.all { color: #9F8D55; }
+.articles a.all:hover { color: #574A2D; }
+
+.article-item {
+	height: 68px;
+	margin: 3px 0 6px 0;
+	padding: 0 0 7px 0;
+	font-family: Tahoma;
+	font-size: 11px;
+	line-height: 13px;
+	border-bottom: 1px solid #F1EDE4;
+	overflow: hidden;
+}
+
+.article-item:last-child {
+	border-bottom: none;
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+
+.article-item a {
+	font-size: 13px;
+	line-height: 12px;
+	font-weight: bold;
+}
+
+.article-item p { margin: 3px 0; }
+
+.article-item img {
+	float: left;
+	margin: 2px 6px 0 0;
+}
+
+/*** Season Page ***/
+
+table.season {
+	background: #fff;
+	border: 1px solid #eee;
+	border-collapse: separate;
+	padding: 4px 4px 8px;
+	-moz-border-radius: 3px;
+}
+
+table.season td, table.season th {
+	border-bottom: 1px solid #eee;
+	text-align: left;
+}
+
+a.abbr {
+    font-size: 9px;
+    line-height: 18px;
+}
+
+#heat-details {
+	line-height: 16pt;
+	font-size: 10pt;
+}
+
+td.center { text-align: center; }
+td.nc { color: #666; }
+
+#driver-details {
+	float: left;
+	margin-left: 16px;
+	font-size: 12px;
+	font-family: Tahoma,Arial,Helvetica,sans-serif;
+}
+
+#driver-details h1 { 
+	margin: 0 !important;
+	font-size: 28px !important;
+}
+#driver-details h3 { margin: 0; font-size: 10pt; }
+
+#driver-details table {
+	line-height: 20px;
+	margin: 10px 0 0 0;
+}
+
+#driver-details td { padding: 0; }
+td.date { text-transform: lowercase; }
+img.flag { margin: 0 0 -1px 0; }
+.info { margin: 3px 0; }
+.info a { font-size: 11px; }
+
+img.info { 
+	vertical-align: text-top;
+	margin: 0 3px 0 0;
+}
+
+#driver-img { float: left; font-family: Tahoma,Arial,Helvetica,sans-serif; }
+
+#driver-details th {
+	font-weight: bold;
+	width: 160px;
+	text-align: left;
+}
+
+#driver-details th, #driver-details td {
+	padding: 1px 10px 1px 0;
+	border-bottom: 1px solid #eee;
+}
+
+th img {
+	display: block;
+	margin: 0 auto;
+}
+
+table.season td {
+	text-align: center;
+	padding: 4px 7px;
+}
+
+table.season th {
+	padding: 0 7px 4px 7px;
+	vertical-align: bottom;
+}
+
+table.season th img { border: none; }
+table.season tr:hover, table.heat-detail tr:hover { background: #fcf4e1; }
+table.season td a:hover { color: #cc0000; }
+table.heat-detail td a { font-weight: bold; }
+table.season tr:first-child { background: transparent !important; }
+
+table.season td a {
+	color: #333;
+	font-weight: bold;
+}
+
+table.season tr:last-child td { border-bottom: none; }
+
+td.driver {
+	text-align: left !important;
+	white-space: nowrap;
+}
+
+td.total { font-weight: bold; }
+
+.drivers-leftcol {
+	float: left;
+	width: 300px;
+}
+
+.drivers-rightcol {
+	float: right;
+	width: 250px;
+}
+
+table.heat-detail td, table.heat-detail th {
+	border: none;
+}
+
+
