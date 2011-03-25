@@ -1,16 +1,46 @@
-{% load utilities_tags %}
+{% load frontpage_tags utilities_tags %}
 
-<img src="/media/_img/bahrain.jpg" alt="" class="gp" />
-{% if start.grandprix.tracklen.photo %}
-	<img src="{{ start.grandprix.tracklen.photo.url }}" alt="{{ object.grandprix.tracklen.track }}" width="100" style="float:right" />
-{% endif %}
-
-<div id="gpname">
-	<img src="{{ start.grandprix.country.photo.url }}" alt="start.grandprix.country" />
-	Гран-При {{ start.grandprix.name }}
+<div class="block nextgp">
+	<a href="#" class="all">календарь »</a>
+	<h3>Следующий этап</h3>
+	
+	
+	
+	
+	<img src="/media/_img/bahrain.jpg" alt="" class="gp" />
+	
+	
+	
+	{% if start.grandprix.tracklen.photo %}
+		<img src="{{ start.grandprix.tracklen.photo.url }}" alt="{{ object.grandprix.tracklen.track }}" width="100" style="float:right" />
+	{% endif %}
+	
+	
+	
+	
+	<div id="gpname">
+		<img src="{{ start.grandprix.country.photo.url }}" alt="{{ start.grandprix.country }}" />
+		Гран-При {{ start.grandprix.name }}
+	</div>
+	
+	
+	
+	<span class="small-grey">
+		{{ start.date|date:"j" }}&ndash;{{ end.date|date_local:"j F" }}: 
+		<span class="normal">{{ start.grandprix.tracklen.track }}</span>
+	</span>
+	
+	
+	<section id="heat-list">
+		{% for heat in start.grandprix.heats.all %}
+			<p>
+				<em>{{ heat.date|date_local:"D" }}, <strong>{{ heat.date|date:"H:i" }}</strong></em>
+				<a href="{% url heat_detail heat.id %}">{{ heat.get_type_display }}</a>
+			</p>
+		{% endfor %}
+		<span class="clock">Московское время</span>
+	</section>
+	
+	{% show_standings %}
+	
 </div>
-<span class="small-grey">{{ start.date|date:"j" }}&ndash;{{ end.date|date_local:"j F Y" }}: <span class="normal">{{ start.grandprix.tracklen.track }}</span></span>
-
-{% for heat in start.grandprix.heats.all %}
-	<p class="heats">{{ heat.date|date:"D H:i" }} <span>{{ heat.get_type_display }}</span></p>
-{% endfor %}

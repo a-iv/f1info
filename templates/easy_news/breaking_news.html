@@ -1,0 +1,31 @@
+{% load attachment_tags utilities_tags %}
+
+{% if main_list %}
+	<article id="top-story">
+		{% with main_list|first as object %}
+			{% get_attachments for object as topstory %}
+	        {% with topstory.0 as image %}
+	            {% if image.image %}
+	                <img src="{{ image.top.url }}" alt="{{ object.title }}" title="{{ object.title }}" />
+	            {% endif %}
+	        {% endwith %}
+			<h1><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h1>
+			<span class="story-date">{{ object.date|date:"d" }} {{ object.date|date_local:"F" }}&nbsp;&mdash;&nbsp;</span>{{ object.short }}
+		{% endwith %}
+	</article>
+	
+	<aside id="extra-news">
+		{% for object in main_list|slice:"1:5" %}
+			<figure class="ex-news-item">
+				{% get_attachments for object as attachments %}
+		        {% with attachments.0 as attachment %}
+		            {% if attachment.image %}
+		                <img src="{{ attachment.mini.url }}" alt="{{ object.title }}" />
+		            {% endif %}
+		        {% endwith %}
+				<span>{{ object.date|date:"d" }} {{ object.date|date_local:"F" }}</span>
+				<a href="{{ object.get_absolute_url }}">{{ object.title }}</a>
+			</figure>
+		{% endfor %}
+	</aside>
+{% endif %}
