@@ -214,7 +214,6 @@ class Country(models.Model):
         verbose_name_plural = u'Страны'
     name = models.CharField(verbose_name=u'Название', max_length=100)
     en_name = models.CharField(verbose_name=u'English', max_length=100)
-    photo = models.ImageField(verbose_name=u'Флаг', upload_to='upload/flags/', null=True, blank=True)
 
     def __unicode__(self):
         return '%s' % self.name
