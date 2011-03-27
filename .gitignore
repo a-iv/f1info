@@ -16,5 +16,5 @@ parts/*
 commit.txt
 media/upload/*
 f1info/localsettings.py
-f1info/parcer/*.html
+f1info/p/*
 debug.html
