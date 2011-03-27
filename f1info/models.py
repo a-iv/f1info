@@ -76,8 +76,7 @@ class StatModel(VerboseModel):
 
     @add_verbose_name(u'Быстрейших кругов')
     def get_bestlap_count(self):
-        filter = {'result__%s' % self._meta.module_name: self}
-        return BestLap.objects.filter(**filter).count()
+        return self.results.filter(heat__type=Heat.BEST, position=1).count()
 
     @add_verbose_name(u'Сходов')
     def get_fail_count(self):
@@ -457,6 +456,7 @@ class Heat(VerboseModel):
     RACE = 'R'
     QUAL = 'Q'
     GRID = 'G'
+    BEST = 'B'
     TYPE = (
         (FP1, u'Практика 1',),
         (FP2, u'Практика 2',),
@@ -464,13 +464,14 @@ class Heat(VerboseModel):
         (QUAL, u'Квалификация',),
         (WARM, u'Warm-up',),
         (GRID, u'Стартовая решетка',),
+        (BEST, u'Быстрейшие круги',),
         (RACE, u'Гонка',),
     )
     grandprix = models.ForeignKey(GrandPrix, verbose_name=u'Гран-При', related_name='heats')
     type = models.CharField(verbose_name=u'Тип', max_length=1, choices=TYPE)
     date = models.DateTimeField(verbose_name=u'Дата', default=datetime.datetime.now)
     time = models.DecimalField(verbose_name=u'Время победителя', max_digits=8, decimal_places=3)
-    laps = models.IntegerField(verbose_name=u'Кругов заезда')
+    laps = models.IntegerField(verbose_name=u'Кругов заезда', null=True, blank=True)
     half_points = models.BooleanField(verbose_name=u'Делить очки пополам', default=False)
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
