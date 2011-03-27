@@ -953,20 +953,13 @@ def gpnation(opener, url):
             
 
 def main():
-    realm = 'Squid proxy-caching web server'
-    host = 'proxy.hq.redsolution.ru:3128'
-    user = 'alexey.kuligin'
-    password = ''
 
 #    if os.sys.platform == 'win32':
 #        os.system('CLS')
 #    else:
 #        os.system('clrscr')
 
-    proxy_handler = urllib2.ProxyHandler({'http': 'http://%s/' % host})
-    proxy_auth_handler = urllib2.ProxyBasicAuthHandler()
-    proxy_auth_handler.add_password(realm, host, user, password)
-    opener = urllib2.build_opener() #proxy_handler, proxy_auth_handler)
+    opener = urllib2.build_opener()
 
 #    day = '12'
 #    month = '2'
@@ -981,7 +974,8 @@ def main():
     #grandprix(opener, 'http://statsf1.com/en/1950/indianapolis.aspx')
     #gplist(opener, 'http://statsf1.com/en/grands-prix.aspx')
     #entrans(opener, 'http://statsf1.com/en/1952/suisse/engages.aspx')
-    qual(opener, 'http://statsf1.com/en/2010/bahrein/grille.aspx')
+    #qual(opener, 'http://statsf1.com/en/2010/bahrein/grille.aspx')
+    bestlap(opener, 'http://statsf1.com/en/2010/australie/meilleur-tour.aspx')
     #abcracer(opener, 'http://statsf1.com/en/pilotes.aspx')
     #racer(opener, 'http://statsf1.com/en/jean-pierre-beltoise.aspx')
     #abcteam(opener, 'http://statsf1.com/en/constructeurs.aspx')

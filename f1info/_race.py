@@ -458,15 +458,7 @@ def race(opener, url):
             
         
 def main():
-    realm = 'Squid proxy-caching web server'
-    host = 'proxy.hq.redsolution.ru:3128'
-    user = 'alexey.kuligin'
-    password = ''
-
-    proxy_handler = urllib2.ProxyHandler({'http': 'http://%s/' % host})
-    proxy_auth_handler = urllib2.ProxyBasicAuthHandler()
-    proxy_auth_handler.add_password(realm, host, user, password)
-    opener = urllib2.build_opener() #proxy_handler, proxy_auth_handler)
+    opener = urllib2.build_opener()
 
 
 

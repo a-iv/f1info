@@ -67,9 +67,9 @@ def year(opener, url):
 
 def grandprix(opener, url):
     soup = readurl(opener, 'GRANDPRIX', url)
-    grid = soup.find('a', id='ctl00_CPH_Main_HL_Qualification')
-    gridhref = grid['href']
-    qual(opener, SITE + gridhref)
+    best = soup.find('a', id='ctl00_CPH_Main_HL_MeilleurTour')
+    besthref = best['href']
+    bestlap(opener, SITE + besthref)
     
 
 def getdate(opener, url):
@@ -94,6 +94,7 @@ def entrans(opener, url):
         racer_a = rac.find('a')
         href = racer_a['href']
         racer = getRacer(href)
+        #print racer
         parts = racer.split(' ')
         first_name = urlify(parts[0]).capitalize()
         family_name = get_last_name(parts)
@@ -110,9 +111,9 @@ def entrans(opener, url):
         result[(first_name, family_name, team, engine)] = (num, tyre)
     return result
         
-#Starting grid
-def qual(opener, url):
-    soup = readurl(opener, 'qual', url)
+#Best Laps
+def bestlap(opener, url):
+    soup = readurl(opener, 'bestlap', url)
     entr = soup.find('a', id='ctl00_CPH_Main_Entete_HL_Engages')
     entrans_href = entr['href']
 
@@ -126,7 +127,7 @@ def qual(opener, url):
     
     divname = soup.find('div', 'NavigCenter')
     h1 = divname.find('h1')
-    slug = urlify(plain(h1)) + '-qual'
+    slug = urlify(plain(h1)) + '-bestlap'
     h1_parts = plain(h1).split(' ')
     gpname = ' '.join(h1_parts[0:-1]) # название гран-при
     season = int(h1_parts[-1]) # сезон
@@ -136,12 +137,12 @@ def qual(opener, url):
     tbody = soup.find('tbody')
     if tbody is None:
         gp = GrandPrix()
-        gp.name = GPName.objects.get(name=gpname)
+        gp.name = GPName.objects.get(en_name=gpname)
         gp.season = Season.objects.get(year=season)
         
         q = Heat()
         q.grandprix = GrandPrix.objects.get(name=gp.name, season=gp.season)
-        q.type = 'Q'
+        q.type = 'B'
         q.date = getdate(opener, SITE + gp_link)
         q.time = wtime
         q.laps = 0
@@ -162,6 +163,10 @@ def qual(opener, url):
                 family_name = get_last_name(parts)
                 team = plain(tr.contents[3])
                 engine = plain(tr.contents[4])
+                if plain(tr.contents[7]) == '':
+                    lap = None
+                else:             
+                    lap = plain(tr.contents[7])
                 if engine == 'Pratt &amp; Whitney':
                     engine = 'Pratt & Whitney'
                 elif engine == 'K&#252;chen':
@@ -186,18 +191,18 @@ def qual(opener, url):
                 except IndexError:
                     num, tyre = 0, None
                     
-                print pos, num, first_name, family_name, team, engine, wtime
+                print pos, num, first_name, family_name, team, engine, wtime, lap
             
                 gp = GrandPrix()
-                gp.name = GPName.objects.get(name=gpname)
+                gp.name = GPName.objects.get(en_name=gpname)
                 gp.season = Season.objects.get(year=season)
                 
                 q = Heat()
                 q.grandprix = GrandPrix.objects.get(name=gp.name, season=gp.season)
-                q.type = 'Q'
+                q.type = 'B'
                 q.date = getdate(opener, SITE + gp_link)
                 q.time = wtime
-                q.laps = 0
+                q.laps = lap
                 q.slug = slug
                 q.save()
                 
@@ -205,16 +210,16 @@ def qual(opener, url):
                 r.first_name = first_name
                 r.family_name = family_name
                 
-                qual = Result()
-                qual.heat = Heat.objects.get(grandprix=q.grandprix)
-                qual.position = 1
-                qual.num = num
-                qual.racer = Racer.objects.get(first_name=r.first_name, family_name=r.family_name)
-                qual.team = Team.objects.get(name=team)
-                qual.engine = Engine.objects.get(name=engine)
-                qual.tyre = Tyre.objects.get(name=tyre)
-                qual.delta = 0
-                qual.save()
+                bestlap = Result()
+                bestlap.heat = Heat.objects.get(grandprix=q.grandprix, type=q.type)
+                bestlap.position = 1
+                bestlap.num = num
+                bestlap.racer = Racer.objects.get(first_name=r.first_name, family_name=r.family_name)
+                bestlap.team = Team.objects.get(name=team)
+                bestlap.engine = Engine.objects.get(name=engine)
+                bestlap.tyre = Tyre.objects.get(name=tyre)
+                bestlap.delta = 0
+                bestlap.save()
         
         for tr in tbody.findAll('tr')[1:]:
             pos = plain(tr.contents[1])
@@ -229,6 +234,10 @@ def qual(opener, url):
                 family_name = get_last_name(parts)
                 team = plain(tr.contents[3])
                 engine = plain(tr.contents[4])
+                if plain(tr.contents[7]) == '':
+                    lap = None
+                else:             
+                    lap = plain(tr.contents[7])
                 if engine == 'Pratt &amp; Whitney':
                     engine = 'Pratt & Whitney'
                 elif engine == 'K&#252;chen':
@@ -246,26 +255,30 @@ def qual(opener, url):
                 r = Racer()
                 r.first_name = first_name
                 r.family_name = family_name
+                print r.en_first_name, r.en_family_name
                 
-                qual = Result()
-                qual.heat = Heat.objects.get(grandprix=q.grandprix)
-                qual.position = pos
-                qual.num = num
-                qual.racer = Racer.objects.get(first_name=r.first_name, family_name=r.family_name)
-                qual.team = Team.objects.get(name=team)
-                qual.engine = Engine.objects.get(name=engine)
-                qual.tyre = Tyre.objects.get(name=tyre)
-                qual.delta = delta
-                qual.save()
+                bestlap = Result()
+                bestlap.heat = Heat.objects.get(grandprix=q.grandprix, type=q.type)
+                bestlap.position = pos
+                bestlap.num = num
+                bestlap.racer = Racer.objects.get(first_name=r.first_name, family_name=r.family_name)
+                bestlap.team = Team.objects.get(name=team)
+                bestlap.engine = Engine.objects.get(name=engine)
+                bestlap.tyre = Tyre.objects.get(name=tyre)
+                bestlap.delta = delta
+                bestlap.laps = lap
+                bestlap.save()
             
-                print pos, num, first_name, family_name, team, engine, delta
+                print pos, num, first_name, family_name, team, engine, delta, lap
 
 
 def main():
     opener = urllib2.build_opener()
-    year(opener, 'http://statsf1.com/en/2010.aspx')
-    #entrans(opener, 'http://statsf1.com/en/1952/suisse/engages.aspx')
-    #qual(opener, 'http://statsf1.com/en/1978/canada/qualification.aspx')
+
+    year(opener, 'http://statsf1.com/en/1950.aspx')
+    
+    #entrans(opener, 'http://statsf1.com/en/1973/bresil/engages.aspx')
+    #bestlap(opener, 'http://statsf1.com/en/2010/australie/meilleur-tour.aspx')
 
 if __name__ == '__main__':
     main()
