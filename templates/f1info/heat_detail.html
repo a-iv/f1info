@@ -47,6 +47,9 @@
 	            <th>{{ result.get_verbose_name.tyre }}</th>
 	            <th>Время</th>
 	            <th>Отставание</th>
+                {% if object.type == 'B' %}
+                    <th>Круг</th>
+                {% endif %}
 	            <th>&nbsp;</th>
 	        </tr>
 	    {% endif %}
@@ -67,6 +70,13 @@
 	            <td class="center">{{ result.tyre }}</td>
 	            <td>{{ result.get_time_display }}</td>
 	            <td>{{ result.get_delta_display }}</td>
+                {% if object.type == 'B' %}
+                    {% if result.position == 1 %}
+                        <td>{{ object.laps }}</td>
+                    {% else %}
+                        <td>{{ result.laps }}</td>
+                    {% endif %}
+                {% endif %}
 	            <td>{{ result.fail }}</td>
 	        </tr>
 	    {% endfor %}

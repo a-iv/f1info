@@ -71,6 +71,7 @@
     	</tr>
         
         {% for team in object.get_team_table %}
+        	{% if team.counted_total %}
 			<tr>
 			    <td>{{ forloop.counter }}</td>
 			    <td class="driver"><a href="{% url team_detail team.slug %}">{{ team }}</a></td>
@@ -89,6 +90,7 @@
 			    {% endfor %}
 			    <td class="total">{{ team.counted_total|floatformat }}</td>
 			</tr>
+			{% endif %}
         {% endfor %}
     </table>
 {% endblock %}
