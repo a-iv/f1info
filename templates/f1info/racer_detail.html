@@ -7,7 +7,7 @@
 {% block content %}   
     {% if object.photo %}
     	<div id="driver-img">
-    		<img src="{{ object.photo.url }}" alt="{{ object }}" />
+    		<img src="{{ object.photo.url }}" alt="{{ object }}" class="driver-photo" />
     		<div style="font-size:11px;color:#999;text-align:center;">&copy; Photo copyright</div>
     		{% if object.website %}
     		<div class="info">
@@ -26,6 +26,13 @@
 <div id="driver-details">
     <h1>{{ object.first_name }} {{ object.family_name }}</h1>
     <h3>{{ object.en_first_name }} {{ object.en_family_name }}</h3>
+	{% if object.get_racer_champion %}
+		<ul class="cups">
+		{% for year in object.get_racer_champion %}
+			<li>{{ year }}</li>
+		{% endfor %}
+		</ul>
+	{% endif %}
 	<table>
 	    <tr>
 	    	<th>{{ object.get_verbose_name.country }}</th> 
@@ -118,6 +125,7 @@
     </table>
 </div>
 {% endblock %}
-{% block right %}
+
+{% block sidebar %}
 	{% show_current_letter object.family_name %}
 {% endblock %}

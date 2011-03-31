@@ -429,6 +429,17 @@ img.info {
 
 #driver-img { float: left; font-family: Tahoma,Arial,Helvetica,sans-serif; }
 
+
+img.driver-photo {
+	display: block;
+	border: 1px solid #d9d9d9;
+	padding: 3px;
+	margin: 0 0 8px 0;
+	-moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+}
+
 #driver-details th {
 	font-weight: bold;
 	width: 160px;
@@ -498,12 +509,40 @@ table.heat-detail td, table.heat-detail th {
 
 
 
+ul.cups {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	overflow: hidden;
+}
+
+ul.cups li {
+	float: left;
+	margin: 8px 7px 0 0;
+	font-weight: normal;
+	font-size: 11px;
+	padding: 19px 0 0 0;
+	text-align: ceter;
+	background: url(/media/img/cup.png) no-repeat center top;
+}
 
 
+aside.right {
+	float: right;
+	width: 200px;
+	padding: 0 0 0 4px;
+	line-height: 18px;
+	border-left: 1px dotted #d9d9d9;
+}
 
+aside.right li a {
+	display: block;
+	padding: 4px 40px 4px 12px;
+}
 
-
-
+aside.right li a:hover {
+	background: #eee;
+}
 
 
 

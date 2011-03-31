@@ -34,6 +34,8 @@
 	    <div>{{ object.grandprix.tracklen.get_verbose_name.length }}: {{ object.grandprix.tracklen.length }}</div>
 	    <div>{{ object.get_verbose_name.laps }} : {{ object.laps }}</div>
 	     -->
+	     
+	    <p>{{ object.get_speed|floatformat:"3" }}</p>
 	    
 	    {% for result in object.get_results %}
 	    {% if forloop.first %}

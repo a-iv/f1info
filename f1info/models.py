@@ -2,6 +2,8 @@
 
 import datetime
 from django.db import models
+from django.core.cache import cache
+from decimal import Decimal
 #from f1info.fields import ResultField
 
 class VerboseModel(models.Model):
@@ -55,6 +57,38 @@ class StatModel(VerboseModel):
                 seasons.append(season)
         return len(seasons)
 
+#    @add_verbose_name(u'Чемпион мира')
+#    def get_champ_count(self):
+#        filter = {'grandprixs__heats__results__%s' % self._meta.module_name: self}
+#        seasons = []
+#        champs = []        
+#        for season in Season.objects.filter(**filter):
+#            if season not in seasons:
+#                seasons.append(season)
+#        for years in seasons[:-1]:
+#            for pos in years.get_racer_table()[:1]:
+#                if pos == self:
+#                    if years not in champs:
+#                        champs.append(years.year)
+#        return ', '.join(map(str, champs))
+
+
+    @add_verbose_name(u'Чемпион мира')
+    def get_racer_champion(self):
+        champion = []
+        for racer in Champions.objects.filter(racer=self):
+            if racer not in champion:
+                champion.append(racer.season)
+        return champion
+    
+    @add_verbose_name(u'Кубок конструкторов')
+    def get_team_champion(self):
+        constructor = []
+        for team in Champions.objects.filter(team=self):
+            if team not in constructor:
+                constructor.append(team.season)
+        return constructor
+
     @add_verbose_name(u'Побед')
     def get_win_count(self):
         return self.results.filter(heat__type=Heat.RACE, dsq=False, position=1).count()
@@ -72,7 +106,7 @@ class StatModel(VerboseModel):
 
     @add_verbose_name(u'Поул-позишн')
     def get_poles_count(self):
-        return self.results.filter(heat__type=Heat.QUAL, position=1).count()
+        return self.results.filter(heat__type=Heat.GRID, position=1).count()
 
     @add_verbose_name(u'Быстрейших кругов')
     def get_bestlap_count(self):
@@ -81,7 +115,7 @@ class StatModel(VerboseModel):
     @add_verbose_name(u'Сходов')
     def get_fail_count(self):
         return self.results.exclude(fail='').exclude(fail='25s penalty').exclude(dsq=True).count()
-    
+   
     @add_verbose_name(u'Возраст')
     def get_age(self):
         today = datetime.date.today()
@@ -320,7 +354,7 @@ class Season(VerboseModel):
             else:
                 for racer in racers:
                     racer.counted_results.append('')
-                
+            
         racers.sort(cmp=lambda a, b: int(b.counted_total - a.counted_total))
         return racers
 
@@ -356,11 +390,26 @@ class Season(VerboseModel):
                     team.counted_results.append('')
                 
         teams.sort(cmp=lambda a, b: int(b.counted_total - a.counted_total))
+        #cache.set("teams", teams, 36000)
         return teams
 
 
     def __unicode__(self):
         return u'%d' % self.year
+
+
+class Champions(VerboseModel):
+    class Meta:
+        ordering = ['season']
+        verbose_name = u'Чемпион'
+        verbose_name_plural = u'Чемпионы'
+    season = models.ForeignKey(Season, verbose_name=u'Сезон', related_name='champions', unique=True)
+    racer = models.ForeignKey(Racer, verbose_name=u'Гонщик', related_name='champions')
+    team = models.ForeignKey(Team, verbose_name=u'Команда', related_name='champions', null=True, blank=True)
+
+    def __unicode__(self):
+        return u'%s: %s %s' % (self.season, self.racer, self.team)
+
 
 class Point(VerboseModel):
     class Meta:
@@ -406,8 +455,8 @@ class TrackLen(VerboseModel):
         if self.track:
             return u'%s: %s' % (self.track, self.length)
         else:
-            return u'delete me'
-    
+            return u''
+
 class GPName(VerboseModel):
     class Meta:
         ordering = ['name']
@@ -479,6 +528,12 @@ class Heat(VerboseModel):
 
     def get_fails(self):
         return self.results.exclude(models.Q(fail='') | models.Q(laps__lte=self.laps / 10 + 1))
+    
+    def get_speed(self):
+        if self.type == self.RACE:
+            return ((Decimal(self.grandprix.tracklen.length) * self.laps)/1000) / (self.time/3600)
+        else:
+            return (self.grandprix.tracklen.length/1000.0) / (float(self.time)/3600.0)
 
     def __unicode__(self):
         return u'%s - %s' % (self.grandprix, self.get_type_display())

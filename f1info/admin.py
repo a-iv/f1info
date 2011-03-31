@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from f1info.models import Racer, Engine, Team, Tyre, Season, Point, Country
+from f1info.models import Racer, Engine, Team, Tyre, Season, Point, Country, Champions
 from f1info.models import GrandPrix, Heat, Result, BestLap, Track, TrackLen, GPName
 
 class ModelAdmin(admin.ModelAdmin):
@@ -25,6 +25,14 @@ class CountryAdmin(ModelAdmin):
 
 try:
     admin.site.register(Country, CountryAdmin)
+except admin.sites.AlreadyRegistered:
+    pass
+
+class ChampionsAdmin(ModelAdmin):
+    radio_fields = {"season": admin.HORIZONTAL}
+
+try:
+    admin.site.register(Champions, ChampionsAdmin)
 except admin.sites.AlreadyRegistered:
     pass
 

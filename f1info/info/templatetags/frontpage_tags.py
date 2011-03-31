@@ -21,7 +21,7 @@ def show_nextgp():
 
 @register.inclusion_tag('f1info/tags/standings.html', takes_context=False)
 def show_standings():
-    results = Season.objects.get(year=2010)
+    results = Season.objects.get(year=2011)
     return {'object': results}
 
 @register.inclusion_tag('f1info/tags/calendar.html', takes_context=False)
@@ -63,3 +63,4 @@ def show_onthisday():
             day_field = Content.objects.get_content(page, None, "day")
             if day_field == current:
                return {'page': page, }
+

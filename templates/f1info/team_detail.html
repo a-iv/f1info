@@ -6,6 +6,13 @@
 {% block content %}   
 <div id="driver-details">
     <h1>{{ object }}</h1>
+    {% if object.get_team_champion %}
+		<ul class="cups">
+		{% for year in object.get_team_champion %}
+			<li>{{ year }}</li>
+		{% endfor %}
+		</ul>
+	{% endif %}
 	<table>
 	    <tr>
 	    	<th>{{ object.get_verbose_name.country }}</th> 
