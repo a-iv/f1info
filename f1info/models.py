@@ -57,22 +57,6 @@ class StatModel(VerboseModel):
                 seasons.append(season)
         return len(seasons)
 
-#    @add_verbose_name(u'Чемпион мира')
-#    def get_champ_count(self):
-#        filter = {'grandprixs__heats__results__%s' % self._meta.module_name: self}
-#        seasons = []
-#        champs = []        
-#        for season in Season.objects.filter(**filter):
-#            if season not in seasons:
-#                seasons.append(season)
-#        for years in seasons[:-1]:
-#            for pos in years.get_racer_table()[:1]:
-#                if pos == self:
-#                    if years not in champs:
-#                        champs.append(years.year)
-#        return ', '.join(map(str, champs))
-
-
     @add_verbose_name(u'Чемпион мира')
     def get_racer_champion(self):
         champion = []
@@ -331,31 +315,76 @@ class Season(VerboseModel):
 
     def get_racer_table(self):
         racers = []
+        #fastest = {}
         for racer in Racer.objects.filter(results__heat__grandprix__season=self):
             if racer not in racers:
                 setattr(racer, 'counted_total', 0)
+                setattr(racer, 'counted_out', 0)
                 setattr(racer, 'counted_results', [])
                 racers.append(racer)
         for grandprix in self.grandprixs.all():
+#            for heat in grandprix.heats.filter(type=Heat.BEST):
+#                for result in heat.results.filter(position=1):
+#                    fastest = { grandprix : result.racer }
+            
             for heat in grandprix.heats.filter(type=Heat.RACE):
                 left_racers = racers[:]
+                #fastest_racer = fastest[heat.grandprix]
                 for result in heat.results.filter(dsq=False):
                     racer = racers[racers.index(result.racer)]
                     points = result.get_points_count()
+#                    if racer == fastest_racer:
+#                        points = points + 1
                     racer.counted_total += points
                     if points:
                         racer.counted_results.append(points)
                     else:
-                        racer.counted_results.append('-')
+                        #racer.counted_results.append('-')
+                        racer.counted_results.append(0)
                     left_racers.remove(racer)
+                    
                 for racer in left_racers:
-                    racer.counted_results.append('')
+                    #racer.counted_results.append('')
+                    racer.counted_results.append(-1)
                 break
             else:
                 for racer in racers:
-                    racer.counted_results.append('')
+                    #racer.counted_results.append('')
+                    racer.counted_results.append(-1)
             
-        racers.sort(cmp=lambda a, b: int(b.counted_total - a.counted_total))
+        for racer in racers:
+            temp = racer.counted_results
+            if self.year in range(1981,1991):
+                temp = sorted(racer.counted_results, reverse=True)[:11]
+            elif self.year == 1980:
+                temp = sorted(racer.counted_results[:7], reverse=True)[:5] + sorted(racer.counted_results[7:], reverse=True)[:5]
+            elif self.year == 1979:
+                temp = sorted(racer.counted_results[:7], reverse=True)[:4] + sorted(racer.counted_results[7:], reverse=True)[:4]
+            elif self.year == 1978 or self.year == 1976:
+                temp = sorted(racer.counted_results[:8], reverse=True)[:7] + sorted(racer.counted_results[8:], reverse=True)[:7]
+            elif self.year == 1977:
+                temp = sorted(racer.counted_results[:9], reverse=True)[:8] + sorted(racer.counted_results[9:], reverse=True)[:7]
+            elif self.year == 1975:
+                temp = sorted(racer.counted_results[:7], reverse=True)[:6] + sorted(racer.counted_results[7:], reverse=True)[:6]
+            elif self.year == 1974 or self.year == 1973:
+                temp = sorted(racer.counted_results[:8], reverse=True)[:7] + sorted(racer.counted_results[8:], reverse=True)[:6]
+            elif self.year == 1972 or self.year == 1968:
+                temp = sorted(racer.counted_results[:6], reverse=True)[:5] + sorted(racer.counted_results[6:], reverse=True)[:5]
+            elif self.year == 1971 or self.year == 1969 or self.year == 1967:
+                temp = sorted(racer.counted_results[:6], reverse=True)[:5] + sorted(racer.counted_results[6:], reverse=True)[:4]
+            elif self.year == 1970:
+                temp = sorted(racer.counted_results[:7], reverse=True)[:6] + sorted(racer.counted_results[7:], reverse=True)[:5]
+            elif self.year == 1966 or self.year == 1962 or self.year == 1961 or self.year == 1959 or self.year in range(1954,1958):
+                temp = sorted(racer.counted_results, reverse=True)[:5]
+            elif self.year in range(1950,1954):
+                temp = sorted(racer.counted_results, reverse=True)[:4]
+            
+            racer.counted_out = 0
+            for pts in temp:
+                if pts >= 0:
+                    racer.counted_out += pts
+
+        racers.sort(cmp=lambda a, b: int(b.counted_out - a.counted_out))
         return racers
 
     def get_team_table(self):
@@ -528,7 +557,7 @@ class Heat(VerboseModel):
 
     def get_fails(self):
         return self.results.exclude(models.Q(fail='') | models.Q(laps__lte=self.laps / 10 + 1))
-    
+      
     def get_speed(self):
         if self.type == self.RACE:
             return ((Decimal(self.grandprix.tracklen.length) * self.laps)/1000) / (self.time/3600)
@@ -599,7 +628,7 @@ class Result(VerboseModel):
             return self.lap
         else:
             return '+%s' % time_to_str_gap(self.delta)
-
+        
     def _get_points_count(self):
         if self.heat.type != Heat.RACE:
             return 0
@@ -607,6 +636,8 @@ class Result(VerboseModel):
             value = self.heat.grandprix.season.points.get(position=self.position).point
             if self.heat.half_points:
                 value /= 2.0
+            if not self.is_classified():
+                value = 0
             return value
         except models.ObjectDoesNotExist:
             return 0
