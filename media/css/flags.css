@@ -1,4 +1,4 @@
-.flag { background: url(/media/img/flags.png) no-repeat top left; width: 16px; height: 11px; display: block; overflow: hidden; margin: 0 auto; padding: 0; }
+.flag { background: url(/media/img/flags.png) no-repeat top left; width: 16px; height: 11px; display: block; overflow: hidden; margin: 0 auto; padding: 0; text-indent: -9999px; }
 .flag.left { float: left; margin: 4px 5px 0 0; -moz-box-shadow: 0 0 4px rgba(0,0,0,0.2); -webkit-box-shadow: 0 0 4px rgba(0,0,0,0.2); box-shadow: 0 0 4px rgba(0,0,0,0.2);}
 .flag.abu-dhabi { background-position: 0 0; }
 .flag.argentina { background-position: 0 -12px; }

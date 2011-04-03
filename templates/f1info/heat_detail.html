@@ -1,17 +1,8 @@
 {% extends "base.html" %}
+{% load frontpage_tags %}
 
 {% block title %}{{ object.get_verbose_name.grandprix }} {{ object.grandprix.name }} {{ object.grandprix.season.year }} | F1Online.Ru{% endblock %}
-{% block title_wrap %}{% endblock %}
-
-{% block head %}
-	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-	<script type="text/javascript">
-	    $(function () {
-	    	$('tr:odd').addClass('odd');
-	        $('tr:even').addClass('even');
-	    });
-    </script>
-{% endblock %}
+{% block content_title %}{% endblock %}
 
 {% block inner_breadcrumbs %}
 	<div id="breadcrumbs-wrap">
@@ -27,22 +18,16 @@
 
 {% block content %}
 	<div id="heat-detail">
-	    <h2>{{ object.get_verbose_name.grandprix }} {{ object.grandprix.name }} {{ object.grandprix.season.year }} &mdash; {{ object.get_type_display }}</h2>
-	    <!-- 
-	    <div>{{ object.get_verbose_name.date }}: {{ object.date|date:"d.m.Y" }}</div>
-	    <div>{{ object.grandprix.tracklen.track }}</div>
-	    <div>{{ object.grandprix.tracklen.get_verbose_name.length }}: {{ object.grandprix.tracklen.length }}</div>
-	    <div>{{ object.get_verbose_name.laps }} : {{ object.laps }}</div>
-	     -->
+	    <h2>{{ object.get_verbose_name.grandprix }} {{ object.grandprix.name }} {{ object.grandprix.season.year }}</h2>
+	    <h3>{{ object.get_type_display }}</h3>
 	     
-	    <p>{{ object.get_speed|floatformat:"3" }}</p>
-	    
 	    {% for result in object.get_results %}
 	    {% if forloop.first %}
 	    <table>
 	        <tr>
-	            <th>{{ result.get_verbose_name.position }}</th>
-	            <th>{{ result.get_verbose_name.num }}</th>
+	            <th class="narrow">{{ result.get_verbose_name.position }}</th>
+	            <th class="narrow">{{ result.get_verbose_name.num }}</th>
+	            <th class="narrow">Нац.</th>
 	            <th>{{ result.get_verbose_name.racer }}</th>
 	            <th>{{ result.get_verbose_name.team }}</th>
 	            <th>{{ result.get_verbose_name.engine }}</th>
@@ -52,26 +37,31 @@
                 {% if object.type == 'B' %}
                     <th>Круг</th>
                 {% endif %}
-	            <th>&nbsp;</th>
 	        </tr>
 	    {% endif %}
 	        <tr>
 	            {% if result.is_classified %}
 	                {% if result.dsq %}
-	            		<td class="center nc">DSQ</td>
+	            		<td class="center nc narrow">DSQ</td>
 	           		{% else %}
-	                	<td class="center">{{ result.position }}</td>
+	                	<td class="center narrow">{{ result.position }}</td>
 	               	{% endif %}
 	            {% else %}
-	               	<td class="center nc">NC</td>
+	               	<td class="center nc narrow">NC</td>
 	            {% endif %}
-	            <td class="center">{{ result.num }}</td>
+	            <td class="center narrow">{{ result.num }}</td>
+	            <td class="center narrow"><span class="flag {{ result.racer.country.en_name|slugify }}"></span></td>
 	            <td><a href="{% url racer_detail result.racer.slug %}">{{ result.racer }}</a></td>
 	            <td>{{ result.team }}</td>
 	            <td>{{ result.engine }}</td>
-	            <td class="center">{{ result.tyre }}</td>
-	            <td>{{ result.get_time_display }}</td>
-	            <td>{{ result.get_delta_display }}</td>
+	            <td class="center"><abbr title="{{ result.tyre }}">{{ result.tyre.name|slice:":1" }}</abbr></td>
+	            <td>
+	            	{% if result.position == 1 %}
+            			{{ result.get_time_display }} 
+        			{% else %}
+        				{{ result.get_delta_display }}
+    				{% endif %}
+            	</td>
                 {% if object.type == 'B' %}
                     {% if result.position == 1 %}
                         <td>{{ object.laps }}</td>
@@ -83,38 +73,59 @@
 	        </tr>
 	    {% endfor %}
 		<tr>
-			<td colspan="8"><h4>Не классифицированы</h4></td>
+			<td colspan="9" class="not-classified">
+				<h4>Не классифицированы</h4>
+			</td>
+		</tr>
+		<tr>
+			<th class="center narrow">#</th>
+			<th class="narrow">№</th>
+			<th class="narrow">Нац.</th>
+			<th>Гонщинк</th>
+			<th>Команда</th>
+			<th>Двигатель</th>
+			<th>Шины</th>
+			<th>Круг схода</th>
+			<th>Причина схода</th>
 		</tr>
 	    {% for result in object.get_fails %}
 	        <tr>
 	            {% if result.is_classified %}
 	                {% if result.dsq %}
-	            		<td class="center nc">DSQ</td>
+	            		<td class="center nc narrow">DSQ</td>
 	           		{% else %}
-	                	<td class="center">{{ result.position }}</td>
+	                	<td class="center narrow">{{ result.position }}</td>
 	               	{% endif %}
 	            {% else %}
 	            	{% if result.dsq %}
-	            		<td class="center nc">DSQ</td>
+	            		<td class="center nc narrow">DSQ</td>
 	           		{% else %}
-	                	<td class="center nc">NC</td>
+	                	<td class="center nc narrow">NC</td>
 	               	{% endif %}
 	            {% endif %}
-	            <td>{{ result.num }}</td>
+	            <td class="center narrow">{{ result.num }}</td>
+	            <td class="center narrow"><span class="flag {{ result.racer.country.en_name|slugify }}">{{ result.racer.country }}</span></td>
 	            <td><a href="{% url racer_detail result.racer.slug %}">{{ result.racer }}</a></td>
 	            <td>{{ result.team }}</td>
 	            <td>{{ result.engine }}</td>
-	            <td class="center">{{ result.tyre }}</td>
-	            <td>{{ result.get_lap_display }}</td>
+	            <td class="center"><abbr title="{{ result.tyre }}">{{ result.tyre.name|slice:":1" }}</abbr></td>
+	            <td class="center">{{ result.get_lap_display }}</td>
 	            <td>{{ result.fail }}</td>
 	        </tr>
 	    {% endfor %}
 	    </table>
 	    
-	    {% for best in object.bests.all %}
-	        {{ best.result.racer }}
-	        {{ best.lap }}
-	        {{ best.get_time_display }}
-	    {% endfor %}
+		{% show_fastest_lap object.grandprix %}
     </div>
+{% endblock %}
+
+
+{% block sidebar %}
+	<aside class="heats">
+		<div>{{ object.get_verbose_name.date }}: {{ object.date|date:"d.m.Y" }}</div>
+	    <div>{{ object.grandprix.tracklen.track }}</div>
+	    <div>{{ object.grandprix.tracklen.get_verbose_name.length }}: {{ object.grandprix.tracklen.length }}</div>
+	    <div>{{ object.get_verbose_name.laps }} : {{ object.laps }}</div>
+	    <em>{{ object.get_speed|floatformat:"3" }} км/ч</em>
+	</aside>
 {% endblock %}

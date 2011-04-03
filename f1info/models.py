@@ -315,43 +315,39 @@ class Season(VerboseModel):
 
     def get_racer_table(self):
         racers = []
-        #fastest = {}
+        
         for racer in Racer.objects.filter(results__heat__grandprix__season=self):
             if racer not in racers:
                 setattr(racer, 'counted_total', 0)
                 setattr(racer, 'counted_out', 0)
                 setattr(racer, 'counted_results', [])
                 racers.append(racer)
+        
         for grandprix in self.grandprixs.all():
-#            for heat in grandprix.heats.filter(type=Heat.BEST):
-#                for result in heat.results.filter(position=1):
-#                    fastest = { grandprix : result.racer }
-            
+            list = []
             for heat in grandprix.heats.filter(type=Heat.RACE):
                 left_racers = racers[:]
-                #fastest_racer = fastest[heat.grandprix]
                 for result in heat.results.filter(dsq=False):
-                    racer = racers[racers.index(result.racer)]
-                    points = result.get_points_count()
-#                    if racer == fastest_racer:
-#                        points = points + 1
-                    racer.counted_total += points
-                    if points:
-                        racer.counted_results.append(points)
-                    else:
-                        #racer.counted_results.append('-')
-                        racer.counted_results.append(0)
-                    left_racers.remove(racer)
-                    
+                    if result.racer not in list:
+                        list.append(result.racer)
+                        racer = racers[racers.index(result.racer)]
+                        points = result.get_points_count()
+                        racer.counted_total += points
+                        if points:
+                            racer.counted_results.append(points)
+                        else:
+                            racer.counted_results.append(0)
+                        try:
+                            left_racers.remove(racer)
+                        except ValueError:
+                            continue
                 for racer in left_racers:
-                    #racer.counted_results.append('')
                     racer.counted_results.append(-1)
                 break
             else:
                 for racer in racers:
-                    #racer.counted_results.append('')
                     racer.counted_results.append(-1)
-            
+
         for racer in racers:
             temp = racer.counted_results
             if self.year in range(1981,1991):
@@ -376,6 +372,8 @@ class Season(VerboseModel):
                 temp = sorted(racer.counted_results[:7], reverse=True)[:6] + sorted(racer.counted_results[7:], reverse=True)[:5]
             elif self.year == 1966 or self.year == 1962 or self.year == 1961 or self.year == 1959 or self.year in range(1954,1958):
                 temp = sorted(racer.counted_results, reverse=True)[:5]
+            elif self.year == 1958 or self.year == 1960 or self.year in range(1963,1966):
+                temp = sorted(racer.counted_results, reverse=True)[:6]
             elif self.year in range(1950,1954):
                 temp = sorted(racer.counted_results, reverse=True)[:4]
             
@@ -573,9 +571,9 @@ class Result(VerboseModel):
         ordering = ['heat__date', 'position']
         verbose_name = u'Результат'
         verbose_name_plural = u'Результаты'
-        unique_together = (
-            ('racer', 'heat',),
-        )
+        #unique_together = (
+        #    ('racer', 'heat',),
+        #)
     heat = models.ForeignKey(Heat, verbose_name=u'Заезд', related_name='results')
     position = models.IntegerField(verbose_name=u'Поз')
     num = models.IntegerField(verbose_name=u'№', null=True, blank=True)
@@ -628,7 +626,7 @@ class Result(VerboseModel):
             return self.lap
         else:
             return '+%s' % time_to_str_gap(self.delta)
-        
+    
     def _get_points_count(self):
         if self.heat.type != Heat.RACE:
             return 0
@@ -644,6 +642,9 @@ class Result(VerboseModel):
 
     def get_points_count(self):
         return self._points_count
+
+    
+        
 
     def save(self, *args, **kwargs):
         self._points_count = self._get_points_count()

@@ -24,6 +24,7 @@
    		</div>
 	{% endif %}
 <div id="driver-details">
+	{{ object.id }}
     <h1>{{ object.first_name }} {{ object.family_name }}</h1>
     <h3>{{ object.en_first_name }} {{ object.en_family_name }}</h3>
 	{% if object.get_racer_champion %}
@@ -116,7 +117,7 @@
 	    </tr>
 	    <tr>
 	    	<th>{{ object.get_verbose_name.get_points_count }}</th>
-	    	<td>{{ object.get_points_count|floatformat }}</td>
+	    	<td>{{ object.get_points_count|floatformat:"-2" }}</td>
 	    </tr>
 	    <tr>
 	    	<th>{{ object.get_verbose_name.get_fail_count }}</th>

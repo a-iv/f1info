@@ -558,6 +558,81 @@ ul.seasons li {
 	font-size: 20px;
 }
 
+#heat-detail {
+	width: 986px;
+	margin: 0 auto;
+}
 
+#heat-detail h2 {
+	margin: 20px 0 10px;
+}
 
+#heat-detail table {
+	font-family: Arial,Helvetica,sans-serif;
+	background: #fff;
+	border: 1px solid #E5E4DE;
+	border-collapse: separate;
+	padding: 4px 4px 8px;
+	-moz-border-radius: 3px;
+}
 
+#heat-detail th {
+	color: #333;
+	padding: 3px 8px;
+	border-bottom: 2px solid #E5E4DE;
+	text-align: left;
+	background: #fff !important;
+}
+
+#heat-detail td {
+	padding: 5px 8px;
+	border-bottom: none;
+}
+
+#heat-detail td:first-child { font-weight: bold; }
+#heat-detail td:nth-of-type(2) { font-style: italic; }
+#heat-detail .narrow { width: 14px; padding-left: 6px; padding-right: 6px; }
+#heat-detail .center { text-align: center; }
+
+#heat-detail td.not-classified {
+	padding-top: 20px;
+	padding-bottom: 14px;
+	background: #fff !important;
+}
+
+#heat-detail h4 {
+	color: #888;
+	font-size: 18px;
+	font-weight: normal;
+}
+
+#heat-detail tr:hover { background: #fcf4e1; }
+#heat-detail tr:first-child { background: transparent !important; }
+
+#heat-detail abbr {
+	border-bottom: 1px dotted #aaa;
+	cursor: help;
+}
+
+#fastest-lap {
+	margin: 20px 0;
+}
+
+#fastest-lap h5 {
+	color: #888;
+	font-size: 16px;
+	font-weight: normal;
+	margin: 10px 0;
+}
+
+#fastest-lap td, #fastest-lap th {
+	padding-left: 20px;
+	padding-right: 20px;
+	text-align: center;
+} 
+
+.heats {
+	width: 286px;
+	float: right;
+	padding: 58px 0 0 30px;
+}

@@ -44,17 +44,17 @@
                                 {% ifequal result -1 %}
                                     &nbsp;
                                 {% else %}
-                                    {{ result|floatformat }}
+                                    {{ result|floatformat:"-2" }}
                                 {% endifequal %}
                             {% endif %}
                         </td>
                     {% endfor %}
-                    <td class="total">{{ racer.counted_out|floatformat }}</td>
+                    <td class="total">{{ racer.counted_out|floatformat:"-2" }}</td>
                     <td class="total">
                     	{% if racer.counted_out == racer.counted_total %}
                     		&nbsp;
                 		{% else %}
-                    		{{ racer.counted_total|floatformat }}
+                    		{{ racer.counted_total|floatformat:"-2" }}
                 		{% endif %}
                 	</td>
                 </tr>
