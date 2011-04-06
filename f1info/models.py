@@ -4,6 +4,9 @@ import datetime
 from django.db import models
 from django.core.cache import cache
 from decimal import Decimal
+import operator
+from operator import itemgetter, attrgetter
+
 #from f1info.fields import ResultField
 
 class VerboseModel(models.Model):
@@ -315,11 +318,13 @@ class Season(VerboseModel):
 
     def get_racer_table(self):
         racers = []
+        dict = {}
+        dict2 = {}
         
         for racer in Racer.objects.filter(results__heat__grandprix__season=self):
             if racer not in racers:
                 setattr(racer, 'counted_total', 0)
-                setattr(racer, 'counted_out', 0)
+                setattr(racer, 'counted_out', [])
                 setattr(racer, 'counted_results', [])
                 racers.append(racer)
         
@@ -377,13 +382,38 @@ class Season(VerboseModel):
             elif self.year in range(1950,1954):
                 temp = sorted(racer.counted_results, reverse=True)[:4]
             
-            racer.counted_out = 0
+            positive = 0
             for pts in temp:
-                if pts >= 0:
-                    racer.counted_out += pts
-
-        racers.sort(cmp=lambda a, b: int(b.counted_out - a.counted_out))
-        return racers
+                if pts >=0:
+                    positive += pts
+            
+            outof = 0
+            for pts in racer.counted_results:
+                if pts >=0:
+                    outof += pts
+            
+            test = []
+            test.append(sorted(racer.counted_results, reverse=True))
+            test.append(racer.counted_results)
+            test.append([positive])
+            test.append([outof])
+            
+            dict[racer] = test
+                        
+        sorted_racers = sorted(dict.iteritems(), key=lambda x: (x[1][2], x[1][0]), reverse=True)
+        
+        
+#        for i in range(0, len(sorted_racers)):
+#            for j in range(0, len(unsorted_racers)):
+#                #print sorted_racers[i]
+#                #print sorted_racers[i][0]
+#                sorted_racers[i] = sorted_racers[j][1]
+#                #sorted_racers[i][1] = unsorted_racers[j][1]
+#                driver = sorted_racers[i]
+#            #total = sorted_racers[i][1]
+#                print driver
+            
+        return sorted_racers
 
     def get_team_table(self):
         teams = []
