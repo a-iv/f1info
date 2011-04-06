@@ -11,8 +11,8 @@
 		{% for object in objects %}
 			<td>{{ object.racer }}</td>
 			<td>{{ object.heat.laps }}</td>
-			<td>{{ object.heat.time }}</td>
-			<td>{{ object.heat.get_speed|floatformat:"3" }}</td>
+			<td>{{ object.get_time_display }}</td>
+			<td>{{ object.heat.get_speed|floatformat:"3" }} км/ч</td>
 		{% endfor %}
 		</tr>
 	</table>

@@ -4,10 +4,6 @@ import datetime
 from django.db import models
 from django.core.cache import cache
 from decimal import Decimal
-import operator
-from operator import itemgetter, attrgetter
-
-#from f1info.fields import ResultField
 
 class VerboseModel(models.Model):
     class Meta:
@@ -319,12 +315,9 @@ class Season(VerboseModel):
     def get_racer_table(self):
         racers = []
         dict = {}
-        dict2 = {}
         
         for racer in Racer.objects.filter(results__heat__grandprix__season=self):
             if racer not in racers:
-                setattr(racer, 'counted_total', 0)
-                setattr(racer, 'counted_out', [])
                 setattr(racer, 'counted_results', [])
                 racers.append(racer)
         
@@ -337,7 +330,6 @@ class Season(VerboseModel):
                         list.append(result.racer)
                         racer = racers[racers.index(result.racer)]
                         points = result.get_points_count()
-                        racer.counted_total += points
                         if points:
                             racer.counted_results.append(points)
                         else:
@@ -399,20 +391,7 @@ class Season(VerboseModel):
             test.append([outof])
             
             dict[racer] = test
-                        
         sorted_racers = sorted(dict.iteritems(), key=lambda x: (x[1][2], x[1][0]), reverse=True)
-        
-        
-#        for i in range(0, len(sorted_racers)):
-#            for j in range(0, len(unsorted_racers)):
-#                #print sorted_racers[i]
-#                #print sorted_racers[i][0]
-#                sorted_racers[i] = sorted_racers[j][1]
-#                #sorted_racers[i][1] = unsorted_racers[j][1]
-#                driver = sorted_racers[i]
-#            #total = sorted_racers[i][1]
-#                print driver
-            
         return sorted_racers
 
     def get_team_table(self):
