@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 import datetime
 from django.db import models
 from django.core.cache import cache
@@ -97,7 +96,7 @@ class StatModel(VerboseModel):
 
     @add_verbose_name(u'Сходов')
     def get_fail_count(self):
-        return self.results.exclude(fail='').exclude(fail='25s penalty').exclude(dsq=True).count()
+        return self.results.exclude(retire__reason=None).exclude(retire__reason='25s penalty').exclude(dsq=True).count()
    
     @add_verbose_name(u'Возраст')
     def get_age(self):
@@ -560,10 +559,10 @@ class Heat(VerboseModel):
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
     def get_results(self):
-        return self.results.filter(models.Q(fail='') | models.Q(laps__lte=self.laps / 10 + 1))
+        return self.results.filter(models.Q(retire__reason=None) | models.Q(laps__lte=self.laps / 10 + 1))
 
     def get_fails(self):
-        return self.results.exclude(models.Q(fail='') | models.Q(laps__lte=self.laps / 10 + 1))
+        return self.results.exclude(models.Q(retire__reason=None) | models.Q(laps__lte=self.laps / 10 + 1))
       
     def get_speed(self):
         if self.type == self.RACE:
@@ -574,6 +573,18 @@ class Heat(VerboseModel):
     def __unicode__(self):
         return u'%s - %s' % (self.grandprix, self.get_type_display())
 
+
+class Retire(VerboseModel):
+    class Meta:
+        ordering = ['reason']
+        verbose_name = u'Причина'
+        verbose_name_plural = u'Причины'
+    reason = models.CharField(verbose_name=u'Причина', max_length=100)
+    en_reason = models.CharField(verbose_name=u'English', max_length=100)
+
+    def __unicode__(self):
+        return u'%s' % self.reason
+    
 
 class Result(VerboseModel):
     class Meta:
@@ -592,7 +603,9 @@ class Result(VerboseModel):
     tyre = models.ForeignKey(Tyre, verbose_name=u'Шины', related_name='results')
     delta = models.DecimalField(verbose_name=u'Отставание (время)', max_digits=8, decimal_places=3, null=True, blank=True)
     laps = models.IntegerField(verbose_name=u'Кругов заезда', null=True, blank=True)
-    fail = models.CharField(verbose_name=u'Причина схода', max_length=100, default='', blank=True)
+    retire = models.ForeignKey(Retire, verbose_name=u'Причина схода', related_name='results', null=True, blank=True)
+    comment = models.CharField(verbose_name=u'Комментарий', max_length=100, default='', blank=True)
+    #fail = models.CharField(verbose_name=u'Причина схода', max_length=100, default='', blank=True)
     dsq = models.BooleanField(verbose_name=u'DSQ', default=False, blank=True)
 
     _points_count = models.FloatField(default=0)

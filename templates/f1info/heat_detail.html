@@ -69,7 +69,7 @@
                         <td>{{ result.laps }}</td>
                     {% endif %}
                 {% endif %}
-	            <td>{{ result.fail }}</td>
+	            <td>{{ result.retire.reason }}</td>
 	        </tr>
 	    {% endfor %}
 		<tr>
@@ -110,7 +110,7 @@
 	            <td>{{ result.engine }}</td>
 	            <td class="center"><abbr title="{{ result.tyre }}">{{ result.tyre.name|slice:":1" }}</abbr></td>
 	            <td class="center">{{ result.get_lap_display }}</td>
-	            <td>{{ result.fail }}</td>
+	            <td>{{ result.retire.reason }}</td>
 	        </tr>
 	    {% endfor %}
 	    </table>
