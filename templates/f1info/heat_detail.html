@@ -22,23 +22,28 @@
 	    <h3>{{ object.get_type_display }}</h3>
 	     
 	    {% for result in object.get_results %}
-	    {% if forloop.first %}
-	    <table>
-	        <tr>
-	            <th class="narrow">{{ result.get_verbose_name.position }}</th>
-	            <th class="narrow">{{ result.get_verbose_name.num }}</th>
-	            <th class="narrow">Нац.</th>
-	            <th>{{ result.get_verbose_name.racer }}</th>
-	            <th>{{ result.get_verbose_name.team }}</th>
-	            <th>{{ result.get_verbose_name.engine }}</th>
-	            <th>{{ result.get_verbose_name.tyre }}</th>
-	            <th>Время</th>
-	            <th>Отставание</th>
-                {% if object.type == 'B' %}
-                    <th>Круг</th>
-                {% endif %}
-	        </tr>
-	    {% endif %}
+		    {% if forloop.first %}
+		    <table>
+		        <tr>
+		            <th class="narrow">{{ result.get_verbose_name.position }}</th>
+		            <th class="narrow">{{ result.get_verbose_name.num }}</th>
+		            <th class="narrow">Нац.</th>
+		            <th>{{ result.get_verbose_name.racer }}</th>
+		            <th>{{ result.get_verbose_name.team }}</th>
+		            <th>{{ result.get_verbose_name.engine }}</th>
+		            <th>{{ result.get_verbose_name.tyre }}</th>
+		            <th>Время</th>
+		            {% if object.type != 'R' %}
+		            	<th>Отставание</th>
+	            	{% endif %}
+	                {% if object.type == 'B' %}
+	                    <th>Круг</th>
+	                {% endif %}
+	                {% if object.type = 'R' %}
+		            	<th>&nbsp;</th>
+	            	{% endif %}
+		        </tr>
+		    {% endif %}
 	        <tr>
 	            {% if result.is_classified %}
 	                {% if result.dsq %}
@@ -56,66 +61,83 @@
 	            <td>{{ result.engine }}</td>
 	            <td class="center"><abbr title="{{ result.tyre }}">{{ result.tyre.name|slice:":1" }}</abbr></td>
 	            <td>
-	            	{% if result.position == 1 %}
-            			{{ result.get_time_display }} 
-        			{% else %}
-        				{{ result.get_delta_display }}
+	            	{% if object.type == 'R' %}
+		            	{% if result.position == 1 %}
+	            			{{ result.get_time_display }} 
+	        			{% else %}
+	        				{{ result.get_delta_display }}
+	    				{% endif %}
+    				{% else %}
+    					{{ result.get_time_display }}
     				{% endif %}
             	</td>
+            	{% if object.type != 'R' %}
+            		<td>{{ result.get_delta_display }}</td>
+            	{% endif %}
                 {% if object.type == 'B' %}
-                    {% if result.position == 1 %}
-                        <td>{{ object.laps }}</td>
-                    {% else %}
-                        <td>{{ result.laps }}</td>
-                    {% endif %}
+                    <td class="center">
+	                    {% if result.position == 1 %}
+	                        {{ object.laps }}
+	                    {% else %}
+	                        {{ result.laps }}
+	                    {% endif %}
+                    </td>
                 {% endif %}
-	            <td>{{ result.retire.reason }}</td>
+	            {% if object.type == 'R' %}
+            		<td>{{ result.retire.reason }}</td>
+           		{% endif %}
 	        </tr>
 	    {% endfor %}
-		<tr>
-			<td colspan="9" class="not-classified">
-				<h4>Не классифицированы</h4>
-			</td>
-		</tr>
-		<tr>
-			<th class="center narrow">#</th>
-			<th class="narrow">№</th>
-			<th class="narrow">Нац.</th>
-			<th>Гонщинк</th>
-			<th>Команда</th>
-			<th>Двигатель</th>
-			<th>Шины</th>
-			<th>Круг схода</th>
-			<th>Причина схода</th>
-		</tr>
-	    {% for result in object.get_fails %}
-	        <tr>
-	            {% if result.is_classified %}
-	                {% if result.dsq %}
-	            		<td class="center nc narrow">DSQ</td>
-	           		{% else %}
-	                	<td class="center narrow">{{ result.position }}</td>
-	               	{% endif %}
-	            {% else %}
-	            	{% if result.dsq %}
-	            		<td class="center nc narrow">DSQ</td>
-	           		{% else %}
-	                	<td class="center nc narrow">NC</td>
-	               	{% endif %}
-	            {% endif %}
-	            <td class="center narrow">{{ result.num }}</td>
-	            <td class="center narrow"><span class="flag {{ result.racer.country.en_name|slugify }}">{{ result.racer.country }}</span></td>
-	            <td><a href="{% url racer_detail result.racer.slug %}">{{ result.racer }}</a></td>
-	            <td>{{ result.team }}</td>
-	            <td>{{ result.engine }}</td>
-	            <td class="center"><abbr title="{{ result.tyre }}">{{ result.tyre.name|slice:":1" }}</abbr></td>
-	            <td class="center">{{ result.get_lap_display }}</td>
-	            <td>{{ result.retire.reason }}</td>
-	        </tr>
-	    {% endfor %}
+		
+		
+		{% if object.type == 'R' %}
+			<tr>
+				<td colspan="9" class="not-classified">
+					<h4>Не классифицированы</h4>
+				</td>
+			</tr>
+			<tr>
+				<th class="center narrow">#</th>
+				<th class="narrow">№</th>
+				<th class="narrow">Нац.</th>
+				<th>Гонщинк</th>
+				<th>Команда</th>
+				<th>Двигатель</th>
+				<th>Шины</th>
+				<th>Круг схода</th>
+				<th>Причина схода</th>
+			</tr>
+		    {% for result in object.get_fails %}
+		        <tr>
+		            {% if result.is_classified %}
+		                {% if result.dsq %}
+		            		<td class="center nc narrow">DSQ</td>
+		           		{% else %}
+		                	<td class="center narrow">{{ result.position }}</td>
+		               	{% endif %}
+		            {% else %}
+		            	{% if result.dsq %}
+		            		<td class="center nc narrow">DSQ</td>
+		           		{% else %}
+		                	<td class="center nc narrow">NC</td>
+		               	{% endif %}
+		            {% endif %}
+		            <td class="center narrow">{{ result.num }}</td>
+		            <td class="center narrow"><span class="flag {{ result.racer.country.en_name|slugify }}">{{ result.racer.country }}</span></td>
+		            <td><a href="{% url racer_detail result.racer.slug %}">{{ result.racer }}</a></td>
+		            <td>{{ result.team }}</td>
+		            <td>{{ result.engine }}</td>
+		            <td class="center"><abbr title="{{ result.tyre }}">{{ result.tyre.name|slice:":1" }}</abbr></td>
+		            <td class="center">{{ result.get_lap_display }}</td>
+		            <td>{{ result.retire.reason }}</td>
+		        </tr>
+		    {% endfor %}
+	    {% endif %}
 	    </table>
 	    
-		{% show_fastest_lap object.grandprix %}
+	    {% if object.type == 'R' %}
+			{% show_fastest_lap object.grandprix %}
+		{% endif %}
     </div>
 {% endblock %}
 
