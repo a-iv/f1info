@@ -573,24 +573,27 @@ ul.seasons li {
 	border: 1px solid #E5E4DE;
 	border-collapse: separate;
 	padding: 4px 4px 8px;
+	border-radius: 3px;
 	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
 }
 
 #heat-detail th {
 	color: #333;
-	padding: 3px 8px;
+	padding: 3px 8px 3px 6px;
 	border-bottom: 2px solid #E5E4DE;
 	text-align: left;
 	background: #fff !important;
 }
 
 #heat-detail td {
-	padding: 5px 8px;
+	padding: 5px 8px 5px 6px;
 	border-bottom: none;
 }
 
 #heat-detail td:first-child { font-weight: bold; }
 #heat-detail td:nth-of-type(2) { font-style: italic; }
+#heat-detail td:last-child, #heat-detail th:last-child { padding-right: 4px !important }
 #heat-detail .narrow { width: 14px; padding-left: 6px; padding-right: 6px; }
 #heat-detail .center { text-align: center; }
 
