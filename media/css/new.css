@@ -546,7 +546,35 @@ aside.right li a:hover {
 
 
 
+#heat-detail {
+	width: 986px;
+	margin: 0 auto;
+}
 
+#heat-detail h2 {
+	margin: 20px 0;
+}
+
+#heat-detail table {
+	font-family: Arial,Helvetica,sans-serif;
+	/*margin: 0 0 0 -6px;*/
+}
+
+
+#heat-detail th {
+	color: #333;
+	padding: 3px 8px;
+	border-bottom: 2px solid #E5E4DE;
+}
+
+#heat-detail td {
+	padding: 4px 8px;
+	border-bottom: none;
+}
+
+.odd {
+	background: #f8f8f8;
+}
 
 
 
