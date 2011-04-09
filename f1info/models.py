@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
-
 import datetime
 from django.db import models
 from django.core.cache import cache
 from decimal import Decimal
-#from f1info.fields import ResultField
 
 class VerboseModel(models.Model):
     class Meta:
@@ -57,22 +55,6 @@ class StatModel(VerboseModel):
                 seasons.append(season)
         return len(seasons)
 
-#    @add_verbose_name(u'Чемпион мира')
-#    def get_champ_count(self):
-#        filter = {'grandprixs__heats__results__%s' % self._meta.module_name: self}
-#        seasons = []
-#        champs = []        
-#        for season in Season.objects.filter(**filter):
-#            if season not in seasons:
-#                seasons.append(season)
-#        for years in seasons[:-1]:
-#            for pos in years.get_racer_table()[:1]:
-#                if pos == self:
-#                    if years not in champs:
-#                        champs.append(years.year)
-#        return ', '.join(map(str, champs))
-
-
     @add_verbose_name(u'Чемпион мира')
     def get_racer_champion(self):
         champion = []
@@ -114,7 +96,7 @@ class StatModel(VerboseModel):
 
     @add_verbose_name(u'Сходов')
     def get_fail_count(self):
-        return self.results.exclude(fail='').exclude(fail='25s penalty').exclude(dsq=True).count()
+        return self.results.exclude(retire__reason=None).exclude(retire__reason='25s penalty').exclude(dsq=True).count()
    
     @add_verbose_name(u'Возраст')
     def get_age(self):
@@ -331,32 +313,85 @@ class Season(VerboseModel):
 
     def get_racer_table(self):
         racers = []
+        dict = {}
+        
         for racer in Racer.objects.filter(results__heat__grandprix__season=self):
             if racer not in racers:
-                setattr(racer, 'counted_total', 0)
                 setattr(racer, 'counted_results', [])
                 racers.append(racer)
+        
         for grandprix in self.grandprixs.all():
+            list = []
             for heat in grandprix.heats.filter(type=Heat.RACE):
                 left_racers = racers[:]
                 for result in heat.results.filter(dsq=False):
-                    racer = racers[racers.index(result.racer)]
-                    points = result.get_points_count()
-                    racer.counted_total += points
-                    if points:
-                        racer.counted_results.append(points)
-                    else:
-                        racer.counted_results.append('-')
-                    left_racers.remove(racer)
+                    if result.racer not in list:
+                        list.append(result.racer)
+                        racer = racers[racers.index(result.racer)]
+                        points = result.get_points_count()
+                        if points:
+                            racer.counted_results.append(points)
+                        else:
+                            racer.counted_results.append(0)
+                        try:
+                            left_racers.remove(racer)
+                        except ValueError:
+                            continue
                 for racer in left_racers:
-                    racer.counted_results.append('')
+                    racer.counted_results.append(-1)
                 break
             else:
                 for racer in racers:
-                    racer.counted_results.append('')
+                    racer.counted_results.append(-1)
+
+        for racer in racers:
+            temp = racer.counted_results
+            if self.year in range(1981,1991):
+                temp = sorted(racer.counted_results, reverse=True)[:11]
+            elif self.year == 1980:
+                temp = sorted(racer.counted_results[:7], reverse=True)[:5] + sorted(racer.counted_results[7:], reverse=True)[:5]
+            elif self.year == 1979:
+                temp = sorted(racer.counted_results[:7], reverse=True)[:4] + sorted(racer.counted_results[7:], reverse=True)[:4]
+            elif self.year == 1978 or self.year == 1976:
+                temp = sorted(racer.counted_results[:8], reverse=True)[:7] + sorted(racer.counted_results[8:], reverse=True)[:7]
+            elif self.year == 1977:
+                temp = sorted(racer.counted_results[:9], reverse=True)[:8] + sorted(racer.counted_results[9:], reverse=True)[:7]
+            elif self.year == 1975:
+                temp = sorted(racer.counted_results[:7], reverse=True)[:6] + sorted(racer.counted_results[7:], reverse=True)[:6]
+            elif self.year == 1974 or self.year == 1973:
+                temp = sorted(racer.counted_results[:8], reverse=True)[:7] + sorted(racer.counted_results[8:], reverse=True)[:6]
+            elif self.year == 1972 or self.year == 1968:
+                temp = sorted(racer.counted_results[:6], reverse=True)[:5] + sorted(racer.counted_results[6:], reverse=True)[:5]
+            elif self.year == 1971 or self.year == 1969 or self.year == 1967:
+                temp = sorted(racer.counted_results[:6], reverse=True)[:5] + sorted(racer.counted_results[6:], reverse=True)[:4]
+            elif self.year == 1970:
+                temp = sorted(racer.counted_results[:7], reverse=True)[:6] + sorted(racer.counted_results[7:], reverse=True)[:5]
+            elif self.year == 1966 or self.year == 1962 or self.year == 1961 or self.year == 1959 or self.year in range(1954,1958):
+                temp = sorted(racer.counted_results, reverse=True)[:5]
+            elif self.year == 1958 or self.year == 1960 or self.year in range(1963,1966):
+                temp = sorted(racer.counted_results, reverse=True)[:6]
+            elif self.year in range(1950,1954):
+                temp = sorted(racer.counted_results, reverse=True)[:4]
             
-        racers.sort(cmp=lambda a, b: int(b.counted_total - a.counted_total))
-        return racers
+            positive = 0
+            for pts in temp:
+                if pts >=0:
+                    positive += pts
+            
+            outof = 0
+            for pts in racer.counted_results:
+                if pts >=0:
+                    outof += pts
+            
+            test = []
+            test.append(sorted(racer.counted_results, reverse=True))
+            test.append(racer.counted_results)
+            test.append([positive])
+            test.append([outof])
+            
+            dict[racer] = test
+        sorted_racers = sorted(dict.iteritems(), key=lambda x: (x[1][2], x[1][0]), reverse=True)
+        return sorted_racers
 
     def get_team_table(self):
         teams = []
@@ -524,11 +559,11 @@ class Heat(VerboseModel):
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
     def get_results(self):
-        return self.results.filter(models.Q(fail='') | models.Q(laps__lte=self.laps / 10 + 1))
+        return self.results.filter(models.Q(retire__reason=None) | models.Q(laps__lte=self.laps / 10 + 1))
 
     def get_fails(self):
-        return self.results.exclude(models.Q(fail='') | models.Q(laps__lte=self.laps / 10 + 1))
-    
+        return self.results.exclude(models.Q(retire__reason=None) | models.Q(laps__lte=self.laps / 10 + 1))
+      
     def get_speed(self):
         if self.type == self.RACE:
             return ((Decimal(self.grandprix.tracklen.length) * self.laps)/1000) / (self.time/3600)
@@ -539,14 +574,26 @@ class Heat(VerboseModel):
         return u'%s - %s' % (self.grandprix, self.get_type_display())
 
 
+class Retire(VerboseModel):
+    class Meta:
+        ordering = ['reason']
+        verbose_name = u'Причина'
+        verbose_name_plural = u'Причины'
+    reason = models.CharField(verbose_name=u'Причина', max_length=100)
+    en_reason = models.CharField(verbose_name=u'English', max_length=100)
+
+    def __unicode__(self):
+        return u'%s' % self.reason
+    
+
 class Result(VerboseModel):
     class Meta:
         ordering = ['heat__date', 'position']
         verbose_name = u'Результат'
         verbose_name_plural = u'Результаты'
-        unique_together = (
-            ('racer', 'heat',),
-        )
+        #unique_together = (
+        #    ('racer', 'heat',),
+        #)
     heat = models.ForeignKey(Heat, verbose_name=u'Заезд', related_name='results')
     position = models.IntegerField(verbose_name=u'Поз')
     num = models.IntegerField(verbose_name=u'№', null=True, blank=True)
@@ -556,7 +603,9 @@ class Result(VerboseModel):
     tyre = models.ForeignKey(Tyre, verbose_name=u'Шины', related_name='results')
     delta = models.DecimalField(verbose_name=u'Отставание (время)', max_digits=8, decimal_places=3, null=True, blank=True)
     laps = models.IntegerField(verbose_name=u'Кругов заезда', null=True, blank=True)
-    fail = models.CharField(verbose_name=u'Причина схода', max_length=100, default='', blank=True)
+    retire = models.ForeignKey(Retire, verbose_name=u'Причина схода', related_name='results', null=True, blank=True)
+    comment = models.CharField(verbose_name=u'Комментарий', max_length=100, default='', blank=True)
+    #fail = models.CharField(verbose_name=u'Причина схода', max_length=100, default='', blank=True)
     dsq = models.BooleanField(verbose_name=u'DSQ', default=False, blank=True)
 
     _points_count = models.FloatField(default=0)
@@ -599,7 +648,7 @@ class Result(VerboseModel):
             return self.lap
         else:
             return '+%s' % time_to_str_gap(self.delta)
-
+    
     def _get_points_count(self):
         if self.heat.type != Heat.RACE:
             return 0
@@ -607,12 +656,17 @@ class Result(VerboseModel):
             value = self.heat.grandprix.season.points.get(position=self.position).point
             if self.heat.half_points:
                 value /= 2.0
+            if not self.is_classified():
+                value = 0
             return value
         except models.ObjectDoesNotExist:
             return 0
 
     def get_points_count(self):
         return self._points_count
+
+    
+        
 
     def save(self, *args, **kwargs):
         self._points_count = self._get_points_count()

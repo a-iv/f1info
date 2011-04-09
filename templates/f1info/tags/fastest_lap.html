@@ -1,0 +1,19 @@
+<div id="fastest-lap">
+	<h5>Быстрейший круг</h5>
+	<table>
+		<tr>
+			<th>Гонщик</th>
+			<th>Круг</th>
+			<th>Время</th>
+			<th>Средняя скорость</th>
+		</tr>
+		<tr>
+		{% for object in objects %}
+			<td>{{ object.racer }}</td>
+			<td>{{ object.heat.laps }}</td>
+			<td>{{ object.get_time_display }}</td>
+			<td>{{ object.heat.get_speed|floatformat:"3" }} км/ч</td>
+		{% endfor %}
+		</tr>
+	</table>
+</div>

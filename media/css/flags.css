@@ -1,5 +1,5 @@
-.flag { background: url(/media/img/flags.png) no-repeat top left; width: 16px; height: 11px; display: block; overflow: hidden; margin: 0 auto; padding: 0; }
-.flag.left { float: left; margin: 4px 5px 0 0; -moz-box-shadow: 0 0 2px rgba(0,0,0,0.3); -webkit-box-shadow: 0 0 2px rgba(0,0,0,0.3); box-shadow: 0 0 2px rgba(0,0,0,0.3);}
+.flag { background: url(/media/img/flags.png) no-repeat top left; width: 16px; height: 11px; display: block; overflow: hidden; margin: 0 auto; padding: 0; text-indent: -9999px; }
+.flag.left { float: left; margin: 4px 5px 0 0; -moz-box-shadow: 0 0 3px rgba(0,0,0,0.2); -webkit-box-shadow: 0 0 3px rgba(0,0,0,0.2); box-shadow: 0 0 3px rgba(0,0,0,0.2);}
 .flag.abu-dhabi { background-position: 0 0; }
 .flag.argentina { background-position: 0 -12px; }
 .flag.australia { background-position: 0 -24px; }
@@ -47,5 +47,5 @@
 .flag.thailand { background-position: 0 -528px; }
 .flag.turkey { background-position: 0 -540px; }
 .flag.uruguay { background-position: 0 -552px; }
-.flag.usa { background-position: 0 -564px; }
+.flag.usa, .flag.usa-east, .flag.usa-west { background-position: 0 -564px; }
 .flag.venezuela { background-position: 0 -576px; }

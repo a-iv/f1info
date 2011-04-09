@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.contrib import admin
-from f1info.models import Racer, Engine, Team, Tyre, Season, Point, Country, Champions
+from f1info.models import Racer, Engine, Team, Tyre, Season, Point, Country, Champions, Retire
 from f1info.models import GrandPrix, Heat, Result, BestLap, Track, TrackLen, GPName
 
 class ModelAdmin(admin.ModelAdmin):
@@ -73,6 +73,14 @@ class GPNameAdmin(ModelAdmin):
 
 try:
     admin.site.register(GPName, GPNameAdmin)
+except admin.sites.AlreadyRegistered:
+    pass
+
+class RetireAdmin(ModelAdmin):
+    prepopulated_fields = {'reason': ('reason',)}
+
+try:
+    admin.site.register(Retire, RetireAdmin)
 except admin.sites.AlreadyRegistered:
     pass
 

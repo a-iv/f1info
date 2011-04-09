@@ -29,26 +29,36 @@
 	       		</th>
 	    	{% endfor %}
 	    	<th>Очки</th>
+	    	<th>&nbsp;</th>
     	</tr>
-        {% for racer in object.get_racer_table %}
-            {% if racer.counted_total %}
+    	
+    	
+    	{% for key,value in object.get_racer_table %}
+    		{% if value.2.0 %}
                 <tr>
                     <td>{{ forloop.counter }}</td>
-                    <td class="driver"><a href="{% url racer_detail racer.slug %}">{{ racer }}</a></td>
-                    {% for result in racer.counted_results %}
+                    <td class="driver"><a href="{% url racer_detail key.slug %}">{{ key }}</a></td>
+                    {% for result in value.1 %}
                         <td>
                             {% if not result %}
-                                &nbsp;
+                                -
                             {% else %}
-                                {% ifequal result '-' %}
-                                    {{ result }}
+                                {% ifequal result -1 %}
+                                    &nbsp;
                                 {% else %}
-                                    {{ result|floatformat }}
+                                    {{ result|floatformat:"-2" }}
                                 {% endifequal %}
                             {% endif %}
                         </td>
                     {% endfor %}
-                    <td class="total">{{ racer.counted_total|floatformat }}</td>
+                    <td class="total">{{ value.2.0|floatformat:"-2" }}</td>
+                    <td class="total">
+                    	{% if value.2.0 == value.3.0 %}
+                    		&nbsp;
+                		{% else %}
+                    		{{ value.3.0|floatformat:"-2" }}
+                		{% endif %}
+                	</td>
                 </tr>
             {% endif %}
         {% endfor %}
