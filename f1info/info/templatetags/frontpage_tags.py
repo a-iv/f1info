@@ -50,8 +50,7 @@ def show_twitter():
 
 @register.inclusion_tag('f1info/tags/current_letter.html', takes_context=False)
 def show_current_letter(letter):
-    first_letter = str(letter)[0]
-    letters = Racer.objects.filter(family_name__startswith=first_letter)
+    letters = Racer.objects.filter(family_name__startswith=letter[0])
     return {'letters': letters, }
 
 @register.inclusion_tag('f1info/tags/onthisday.html', takes_context=False)
