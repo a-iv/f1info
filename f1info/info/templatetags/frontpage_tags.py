@@ -49,9 +49,9 @@ def show_twitter():
     return {'twitters': twitters, }
 
 @register.inclusion_tag('f1info/tags/current_letter.html', takes_context=False)
-def show_current_letter(letter):
-    letters = Racer.objects.filter(family_name__startswith=letter[0])
-    return {'letters': letters, }
+def show_current_letter(racer):
+    letters = Racer.objects.filter(family_name__startswith=racer.family_name[0])
+    return {'letters': letters, 'racer':racer }
 
 @register.inclusion_tag('f1info/tags/onthisday.html', takes_context=False)
 def show_onthisday():

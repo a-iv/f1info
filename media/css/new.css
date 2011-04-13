@@ -535,6 +535,9 @@ aside.right {
 	border-left: 1px dotted #d9d9d9;
 }
 
+aside.right li.current { background: #f3f2ec; }
+aside.right li.current a:hover { background: none !important; }
+
 aside.right li a {
 	display: block;
 	padding: 4px 40px 4px 12px;

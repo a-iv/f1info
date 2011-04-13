@@ -38,6 +38,7 @@
 	    	<th>{{ object.get_verbose_name.country }}</th> 
 	    	<td><span class="flag {{ object.country.en_name|slugify }} left"></span> {{ object.country }}</td>
     	</tr>
+	{% if object.birthday %}
     	<tr>
 		    <th>{{ object.get_verbose_name.birthday }}</th>
 		    <td class="date">{{ object.birthday|date_local:"j F Y" }}</td>
@@ -58,6 +59,7 @@
 	            {% endif %}
 	        </td>
 	    </tr>
+	{% endif %}
 	    <tr>
 		    <th>&nbsp;</th>
 		    <td>&nbsp;</td>
@@ -127,5 +129,7 @@
 {% endblock %}
 
 {% block sidebar %}
-	{% show_current_letter object.family_name %}
+	<aside class="right">
+		{% show_current_letter object %}
+	</aside>
 {% endblock %}
