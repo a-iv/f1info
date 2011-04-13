@@ -24,7 +24,6 @@
    		</div>
 	{% endif %}
 <div id="driver-details">
-	{{ object.id }}
     <h1>{{ object.first_name }} {{ object.family_name }}</h1>
     <h3>{{ object.en_first_name }} {{ object.en_family_name }}</h3>
 	{% if object.get_racer_champion %}
@@ -39,6 +38,7 @@
 	    	<th>{{ object.get_verbose_name.country }}</th> 
 	    	<td><span class="flag {{ object.country.en_name|slugify }} left"></span> {{ object.country }}</td>
     	</tr>
+	{% if object.birthday %}
     	<tr>
 		    <th>{{ object.get_verbose_name.birthday }}</th>
 		    <td class="date">{{ object.birthday|date_local:"j F Y" }}</td>
@@ -59,6 +59,7 @@
 	            {% endif %}
 	        </td>
 	    </tr>
+	{% endif %}
 	    <tr>
 		    <th>&nbsp;</th>
 		    <td>&nbsp;</td>
@@ -128,5 +129,7 @@
 {% endblock %}
 
 {% block sidebar %}
-	{% show_current_letter object.family_name %}
+	<aside class="right">
+		{% show_current_letter object %}
+	</aside>
 {% endblock %}

@@ -1,8 +1,8 @@
 <div id="current_letter">
     <ul>
-        {% for racer in letters %}
-            <li>
-                <a href="{% url racer_detail racer.slug %}">{{ racer.family_name }}, {{ racer.first_name }}</a>
+        {% for item in letters %}
+            <li {% if item == racer %}class="current"{% endif %}>
+                <a href="{% url racer_detail item.slug %}">{{ item.family_name }}, {{ item.first_name }}</a>
             </li>
         {% endfor %}
     </ul>
