@@ -38,6 +38,7 @@ except admin.sites.AlreadyRegistered:
 
 class RacerAdmin(ModelAdmin):
     prepopulated_fields = {'slug': ('first_name', 'family_name',)}
+    search_fields = ['first_name', 'family_name',]
 
 try:
     admin.site.register(Racer, RacerAdmin)
