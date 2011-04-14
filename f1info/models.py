@@ -311,6 +311,18 @@ class Season(VerboseModel):
         verbose_name_plural = u'Сезоны'
     year = models.IntegerField(verbose_name=u'Год')
 
+    def get_next_season(self):
+	next = Season.objects.filter(id__gt=self.id)
+	if next:
+	    return next.order_by('year')[0]
+        
+
+    def get_prev_season(self):
+	prev = Season.objects.filter(id__lt=self.id)
+	if prev:
+	    return prev.order_by('-year')[0]
+
+
     def get_racer_table(self):
         racers = []
         dict = {}
