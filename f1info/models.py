@@ -479,7 +479,7 @@ class Track(VerboseModel):
 
 class TrackLen(VerboseModel):
     class Meta:
-        ordering = ['length']
+        ordering = ['track']
         verbose_name = u'Длина трассы'
         verbose_name_plural = u'Длины трассы'
     track = models.ForeignKey(Track, null=True)
