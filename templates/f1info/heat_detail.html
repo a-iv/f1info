@@ -60,7 +60,7 @@
 	            <td>{{ result.team }}</td>
 	            <td>{{ result.engine }}</td>
 	            <td class="center"><abbr title="{{ result.tyre }}">{{ result.tyre.name|slice:":1" }}</abbr></td>
-	            <td>
+	            <td class="center">
 	            	{% if object.type == 'R' %}
 		            	{% if result.position == 1 %}
 	            			{{ result.get_time_display }} 
@@ -68,7 +68,11 @@
 	        				{{ result.get_delta_display }}
 	    				{% endif %}
     				{% else %}
-    					{{ result.get_time_display }}
+                        {% if result.get_time_display %}               
+        					{{ result.get_time_display }}
+                        {% else %}
+                            -
+                        {% endif %}
     				{% endif %}
             	</td>
             	{% if object.type != 'R' %}

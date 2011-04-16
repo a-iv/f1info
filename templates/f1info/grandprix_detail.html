@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load frontpage_tags %}
+{% load frontpage_tags utilities_tags %}
 
 {% block title %}{{ object.get_verbose_name.name }} {{ object.name }} {{ object.season }} | F1Online.Ru{% endblock %}
 {% block title_wrap %}{% endblock %}
@@ -24,7 +24,7 @@
     
     <ul>
         {% for heat in object.heats.all %}
-            <li><a href="{% url heat_detail heat.id %}">{{ heat }}</a></li>
+            <li>{{ heat.date|date_local:"d F Y" }} <a href="{% url heat_detail heat.id %}">{{ heat.get_type_display }}</a></li>
         {% endfor %}
     </ul>
 
