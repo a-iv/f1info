@@ -3,6 +3,7 @@ import datetime
 from django.db import models
 from django.core.cache import cache
 from decimal import Decimal
+from markitup.fields import MarkupField
 
 class VerboseModel(models.Model):
     class Meta:
@@ -483,6 +484,7 @@ class Track(VerboseModel):
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
     googlemaps = models.CharField(verbose_name=u'Google Maps', max_length=300, default='', blank=True)
     website = models.CharField(verbose_name=u'Веб-сайт', max_length=100, null=True, blank=True)
+    info = MarkupField(default='', null=True, blank=True)
 
     def __unicode__(self):
         return u'%s' % (self.name)
