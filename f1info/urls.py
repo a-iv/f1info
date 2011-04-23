@@ -6,7 +6,7 @@ from django.contrib.sitemaps import GenericSitemap
 from django.views.generic import list_detail
 from pages.models import Page
 from easy_news.models import News
-from f1info.models import Racer, Engine, Tyre, Team, Season, GrandPrix, Heat
+from f1info.models import Racer, Engine, Tyre, Team, Track, Season, GrandPrix, Heat
 admin.autodiscover()
 
 handler500 # Pyflakes
@@ -54,6 +54,10 @@ team_info = {
     'queryset': Team.objects.all(),
 }
 
+track_info = {
+    'queryset': Track.objects.all(),
+}
+
 season_info = {
     'queryset': Season.objects.all(),
 }
@@ -78,19 +82,21 @@ urlpatterns += patterns('',
 
 urlpatterns += patterns(
     '',
-    (r'^racer/$', list_detail.object_list, racer_info),
+    (r'^driver/$', list_detail.object_list, racer_info),
     (r'^engine/$', list_detail.object_list, engine_info),
     (r'^tyre/$', list_detail.object_list, tyre_info),
     (r'^team/$', list_detail.object_list, team_info),
+    (r'^track/$', list_detail.object_list, track_info),
     (r'^season/$', list_detail.object_list, season_info),
     (r'^grand_prix/$', list_detail.object_list, grand_prix_info),
     (r'^heat/$', list_detail.object_list, heat_info),
 
-    url(r'^racer/(?P<slug>[-\w]+)/$', list_detail.object_detail, racer_info, name='racer_detail'),
+    url(r'^driver/(?P<slug>[-\w]+)/$', list_detail.object_detail, racer_info, name='racer_detail'),
     url(r'^engine/(?P<slug>[-\w]+)/$', list_detail.object_detail, engine_info, name='engine_detail'),
     url(r'^tyre/(?P<slug>[-\w]+)/$', list_detail.object_detail, tyre_info, name='tyre_detail'),
     url(r'^team/(?P<slug>[-\w]+)/$', list_detail.object_detail, team_info, name='team_detail'),
-    url(r'^season/(?P<object_id>\d{1,9})/$', list_detail.object_detail, season_info, name='season_detail'),
+    url(r'^track/(?P<slug>[-\w]+)/$', list_detail.object_detail, track_info, name='track_detail'),
+    url(r'^season/(?P<slug>[-\w]+)/$', list_detail.object_detail, season_info, name='season_detail'),
     url(r'^grand_prix/(?P<object_id>\d{1,9})/$', list_detail.object_detail, grand_prix_info, name='grand_prix_detail'),
     url(r'^heat/(?P<object_id>\d{1,9})/$', list_detail.object_detail, heat_info, name='heat_detail'),
 

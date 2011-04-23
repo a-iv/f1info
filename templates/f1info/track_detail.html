@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title_wrap %}{% endblock %}
+
+{% block content %}   
+
+	<h2>{{ object.name }}</h2>
+	<a href="{{ object.googlemaps }}">Google Maps</a><br/>
+	<a href="{{ object.website }}">{{ object.website }}</a>
+
+	{{ object.info|safe }}
+
+{% endblock %}

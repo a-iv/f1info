@@ -310,12 +310,12 @@ class Season(VerboseModel):
         verbose_name = u'Сезон'
         verbose_name_plural = u'Сезоны'
     year = models.IntegerField(verbose_name=u'Год')
+    slug = models.SlugField(verbose_name=u'Слаг', max_length=4, blank=True)
 
     def get_next_season(self):
 	next = Season.objects.filter(id__gt=self.id)
 	if next:
 	    return next.order_by('year')[0]
-        
 
     def get_prev_season(self):
 	prev = Season.objects.filter(id__lt=self.id)

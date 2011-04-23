@@ -4,7 +4,7 @@
     <h2>Сезоны</h2>
     <ul class="seasons">
         {% for object in object_list %}
-            <li><a href="{% url season_detail object.id %}">{{ object }}</a></li>
+            <li><a href="{% url season_detail object.slug %}">{{ object }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}
