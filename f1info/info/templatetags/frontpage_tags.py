@@ -33,8 +33,8 @@ def show_calendar(year):
 @register.inclusion_tag('f1info/tags/winners.html', takes_context=False)
 def show_winners(gpid):
     gpname = GPName.objects.get(id=gpid)
-    gp = GrandPrix.objects.filter(name=gpname)
-    return {'objects': gp, }
+    heat = Heat.objects.filter(grandprix__name=gpname, type=Heat.RACE)
+    return {'objects': heat, }
 
 @register.inclusion_tag('f1info/tags/today.html', takes_context=False)
 def show_today():

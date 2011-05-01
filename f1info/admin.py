@@ -126,16 +126,11 @@ class ResultInline(admin.TabularInline):
     extra = 24
     exclude = ['_points_count']
 
-#class BestLapInline(admin.TabularInline):
-#    model = BestLap
-#    extra = 0
-#    max_num = 1
-
 class HeatAdmin(ModelAdmin):
     prepopulated_fields = {'slug': ('grandprix', 'type',)}
+    search_fields = ['date',]
     inlines = [
         ResultInline,
-        #BestLapInline,
     ]
 
 try:

@@ -548,6 +548,7 @@ class Heat(VerboseModel):
     FP1 = '1'
     FP2 = '2'
     FP3 = '3'
+    FP4 = '4'
     WARM = 'W'
     RACE = 'R'
     QUAL = 'Q'
@@ -557,6 +558,7 @@ class Heat(VerboseModel):
         (FP1, u'Практика 1',),
         (FP2, u'Практика 2',),
         (FP3, u'Практика 3',),
+        (FP4, u'Практика 4',),
         (QUAL, u'Квалификация',),
         (WARM, u'Warm-up',),
         (GRID, u'Стартовая решетка',),
