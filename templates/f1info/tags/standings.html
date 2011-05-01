@@ -3,13 +3,13 @@
 		<tr>
 			<th colspan="4">Личный зачет</th>
 		</tr>
-		{% for racer in object.get_racer_table|slice:"5" %}
-		    {% if racer.counted_total %}
+		{% for key,value in object.get_racer_table|slice:"5" %}
+		    {% if value.2.0 %}
 		        <tr>
 		            <td class="pos">{{ forloop.counter }}</td>
-		            <td class="country"><span class="flag {{ racer.country.en_name|slugify }}"></span></td>
-		            <td class="driver"><a href="{% url racer_detail racer.slug %}">{{ racer.first_name|slice:"1" }}. {{ racer.family_name }}</a></td>
-		            <td class="total">{{ racer.counted_total|floatformat }}</td>
+		            <td class="country"><span class="flag {{ key.country.en_name|slugify }}"></span></td>
+		            <td class="driver"><a href="{% url racer_detail key.slug %}">{{ key.first_name|slice:"1" }}. {{ key.family_name }}</a></td>
+		            <td class="total">{{ value.2.0|floatformat:"-2" }}</td>
 		        </tr>
 		    {% endif %}
 		{% endfor %}
