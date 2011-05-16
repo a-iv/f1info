@@ -454,7 +454,6 @@ class Season(VerboseModel):
                     team.counted_results.append('')
                 
         teams.sort(cmp=lambda a, b: int(b.counted_total - a.counted_total))
-        #cache.set("teams", teams, 36000)
         return teams
 
 
@@ -577,7 +576,7 @@ class Heat(VerboseModel):
         (FP3, u'Практика 3',),
         (FP4, u'Практика 4',),
         (QUAL, u'Квалификация',),
-        (WARM, u'Warm-up',),
+        (WARM, u'Warm-Up',),
         (GRID, u'Стартовая решетка',),
         (BEST, u'Быстрейшие круги',),
         (RACE, u'Гонка',),
@@ -623,9 +622,6 @@ class Result(VerboseModel):
         ordering = ['heat__date', 'position']
         verbose_name = u'Результат'
         verbose_name_plural = u'Результаты'
-        #unique_together = (
-        #    ('racer', 'heat',),
-        #)
     heat = models.ForeignKey(Heat, verbose_name=u'Заезд', related_name='results')
     position = models.IntegerField(verbose_name=u'Поз')
     num = models.IntegerField(verbose_name=u'№', null=True, blank=True)
@@ -637,7 +633,6 @@ class Result(VerboseModel):
     laps = models.IntegerField(verbose_name=u'Кругов заезда', null=True, blank=True)
     retire = models.ForeignKey(Retire, verbose_name=u'Причина схода', related_name='results', null=True, blank=True)
     comment = models.CharField(verbose_name=u'Комментарий', max_length=100, default='', blank=True)
-    #fail = models.CharField(verbose_name=u'Причина схода', max_length=100, default='', blank=True)
     dsq = models.BooleanField(verbose_name=u'DSQ', default=False, blank=True)
 
     _points_count = models.FloatField(default=0)
