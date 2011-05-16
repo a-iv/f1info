@@ -63,16 +63,26 @@
 		    <td>{{ object.get_race_count }}</td>
 	    </tr>
 	    <tr>
-	    	<th>{{ object.get_verbose_name.get_win_count }}</th>
-	    	<td>{{ object.get_win_count }}</td>
+            {% if object.get_win_count %}
+	    	    <th>{{ object.get_verbose_name.get_win_count }}</th>
+	    	    <td>{{ object.get_win_count }}</td>
+            {% else %}
+                <th>{{ object.get_verbose_name.get_best_race_place }}</th>
+	    	    <td>{{ object.get_best_race_place }}</td>
+            {% endif %}
 	    </tr>
 	    <tr>
 	    	<th>{{ object.get_verbose_name.get_podium_count }}</th>
 	    	<td>{{ object.get_podium_count }}</td>
 	    </tr>
 	    <tr>
-	    	<th>{{ object.get_verbose_name.get_poles_count }}</th>
-	    	<td>{{ object.get_poles_count }}</td>
+            {% if object.get_poles_count %}
+	    	    <th>{{ object.get_verbose_name.get_poles_count }}</th>
+	    	    <td>{{ object.get_poles_count }}</td>
+            {% else %}
+                <th>{{ object.get_verbose_name.get_best_grid_place }}</th>
+	    	    <td>{{ object.get_best_grid_place }}</td>
+            {% endif %}
 	    </tr>
 	    <tr>
 	    	<th>{{ object.get_verbose_name.get_bestlap_count }}</th>
