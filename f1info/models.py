@@ -76,6 +76,15 @@ class StatModel(VerboseModel):
     def get_win_count(self):
         return self.results.filter(heat__type=Heat.RACE, dsq=False, position=1).count()
 
+    @add_verbose_name(u'Лучшая позиция в гонке')
+    def get_best_race_place(self):
+        races = self.results.filter(heat__type=Heat.RACE, dsq=False)
+        positions = []
+        for race in races:
+            if race.position not in positions:
+                positions.append(race.position)
+        return min(positions)
+
     @add_verbose_name(u'Подиумов')
     def get_podium_count(self):
         return self.results.filter(heat__type=Heat.RACE, dsq=False, position__gte=1, position__lte=3).count()
@@ -90,6 +99,15 @@ class StatModel(VerboseModel):
     @add_verbose_name(u'Поул-позишн')
     def get_poles_count(self):
         return self.results.filter(heat__type=Heat.GRID, position=1).count()
+
+    @add_verbose_name(u'Лучшая позиция в квалификации')
+    def get_best_grid_place(self):
+        races = self.results.filter(heat__type=Heat.GRID)
+        positions = []
+        for race in races:
+            if race.position not in positions:
+                positions.append(race.position)
+        return min(positions)
 
     @add_verbose_name(u'Быстрейших кругов')
     def get_bestlap_count(self):
@@ -186,7 +204,6 @@ def get_last(query_set):
     else:
         count = query_set.count()
         return query_set.all()[count - 1]
-
 
 def time_to_str(time):
     millisecond = int((time % 1) * 1000)
