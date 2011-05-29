@@ -442,7 +442,7 @@ img.driver-photo {
 
 #driver-details th {
 	font-weight: bold;
-	width: 160px;
+	width: 176px;
 	text-align: left;
 }
 
@@ -641,4 +641,8 @@ ul.seasons li {
 	width: 286px;
 	float: right;
 	padding: 58px 0 0 30px;
+}
+
+.get-best {
+    display: block;
 }

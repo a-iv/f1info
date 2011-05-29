@@ -76,14 +76,17 @@ class StatModel(VerboseModel):
     def get_win_count(self):
         return self.results.filter(heat__type=Heat.RACE, dsq=False, position=1).count()
 
-    @add_verbose_name(u'Лучшая позиция в гонке')
+    @add_verbose_name(u'Лучшая позиция в гонках')
     def get_best_race_place(self):
-        races = self.results.filter(heat__type=Heat.RACE, dsq=False)
-        positions = []
-        for race in races:
-            if race.position not in positions:
-                positions.append(race.position)
-        return min(positions)
+        try:
+            races = self.results.filter(heat__type=Heat.RACE)
+            positions = []
+            for race in races:
+                if race.position not in positions:
+                    positions.append(race.position)
+            return min(positions)
+        except ValueError:
+            return '-'
 
     @add_verbose_name(u'Подиумов')
     def get_podium_count(self):
@@ -100,14 +103,17 @@ class StatModel(VerboseModel):
     def get_poles_count(self):
         return self.results.filter(heat__type=Heat.GRID, position=1).count()
 
-    @add_verbose_name(u'Лучшая позиция в квалификации')
+    @add_verbose_name(u'Лучшая позиция на старте')
     def get_best_grid_place(self):
-        races = self.results.filter(heat__type=Heat.GRID)
-        positions = []
-        for race in races:
-            if race.position not in positions:
-                positions.append(race.position)
-        return min(positions)
+        try:
+            races = self.results.filter(heat__type=Heat.GRID)
+            positions = []
+            for race in races:
+                if race.position not in positions:
+                    positions.append(race.position)
+            return min(positions)
+        except ValueError:
+            return '-'
 
     @add_verbose_name(u'Быстрейших кругов')
     def get_bestlap_count(self):
@@ -173,19 +179,22 @@ class StatModel(VerboseModel):
         except IndexError:
             pass
 
-    @add_verbose_name(u'Последние шины')
-    def get_last_tyre(self):
-        try:
-            return get_last(self.results).tyre
-        except IndexError:
-            pass
-
     @add_verbose_name(u'Последний двигатель')
     def get_last_engine(self):
         try:
             return get_last(self.results).engine
         except IndexError:
             pass
+
+    ### This method needs improvement ###
+    @add_verbose_name(u'Выступал за команды')
+    def get_teams(self):
+        teams = []
+        for result in self.results.all():
+            year_team = (result.heat.grandprix.season.year, result.team.name)
+            if year_team not in teams:
+                teams.append(year_team)
+        return teams
 
 
 def get_first(query_set):

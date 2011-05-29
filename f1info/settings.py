@@ -39,7 +39,7 @@ SECRET_KEY = '_7y*-5^h4*^4b0=n%kwtw*1a(fd%!lq8xbx-#nc*8v5ba4-*te'
 MIDDLEWARE_CLASSES = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.doc.XViewMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    #'django.middleware.locale.LocaleMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
