@@ -348,6 +348,13 @@ class Season(VerboseModel):
 	if prev:
 	    return prev.order_by('-year')[0]
 
+    def get_season_index(self):
+        seasons = []
+        for season in Season.objects.all():
+            if season not in seasons:
+                seasons.append(season)
+        return seasons.index(self) + 1
+
 
     def get_racer_table(self):
         racers = []

@@ -13,7 +13,8 @@
 
 {% block content %}
     <h2>{{ object.get_verbose_name.self }}: {{ object }}</h2>
-    
+    <p>{{ object.get_season_index }}-й чемпионат мира</p>    
+
     {% if object.get_prev_season %}
 		<a href="{% url season_detail object.get_prev_season.slug %}">{{ object.get_prev_season }}</a>
     {% endif %}
