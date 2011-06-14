@@ -534,8 +534,6 @@ class TrackLen(VerboseModel):
     def __unicode__(self):
         if self.track:
             return u'%s: %s' % (self.track, self.length)
-        else:
-            return u''
 
 class GPName(VerboseModel):
     class Meta:
@@ -567,7 +565,6 @@ class GrandPrix(VerboseModel):
 
     def __unicode__(self):
         return u'%s: %s' % (self.season, self.name)
-
 
 class Heat(VerboseModel):
     class Meta:
@@ -616,6 +613,20 @@ class Heat(VerboseModel):
             return ((Decimal(self.grandprix.tracklen.length) * self.laps)/1000) / (self.time/3600)
         else:
             return (self.grandprix.tracklen.length/1000.0) / (float(self.time)/3600.0)
+
+    def get_track_record(self):
+        result = Heat.objects.filter(grandprix__tracklen=self.grandprix.tracklen, type=self.type)
+        list = []
+        for item in result:
+            if item.time not in list:
+                list.append(item.time)
+        record = min(list)
+        heat = Heat.objects.filter(time=record, type=self.type)
+        driver = heat.get().get_results()[:1].get().racer
+        team = heat.get().get_results()[:1].get().team
+        year = heat.get().grandprix.season.year
+        return year, driver, team, time_to_str(record)
+
 
     def __unicode__(self):
         return u'%s - %s' % (self.grandprix, self.get_type_display())
