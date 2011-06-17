@@ -616,12 +616,16 @@ class Heat(VerboseModel):
 
     def get_track_record(self):
         result = Heat.objects.filter(grandprix__tracklen=self.grandprix.tracklen, type=self.type)
+        if self.type == 'R':
+            result = Heat.objects.filter(grandprix__tracklen=self.grandprix.tracklen, type='B')
         list = []
         for item in result:
             if item.time not in list:
                 list.append(item.time)
         record = min(list)
         heat = Heat.objects.filter(time=record, type=self.type)
+        if self.type == 'R':
+            heat = Heat.objects.filter(time=record, type='B')
         driver = heat.get().get_results()[:1].get().racer
         team = heat.get().get_results()[:1].get().team
         year = heat.get().grandprix.season.year

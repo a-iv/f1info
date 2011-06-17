@@ -154,8 +154,13 @@
 	    <div>{{ object.get_verbose_name.laps }} : {{ object.laps }}</div>
 	    <em>{{ object.get_speed|floatformat:"3" }} км/ч</em>
 
-        {% if object.type == 'Q' %}
-            <h4>Рекорд круга в квалификации</h4>
+        {% if object.type == 'Q' or object.type == 'R' %}
+            {% if object.type == 'Q' %}
+                <h4>Рекорд круга в квалификации</h4>
+            {% else %}
+                <h4>Рекорд круга в гонке</h4>
+            {% endif %}
+
             {{ object.get_track_record.0 }}
             {{ object.get_track_record.1 }}
             {{ object.get_track_record.2 }}
