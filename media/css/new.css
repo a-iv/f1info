@@ -601,6 +601,7 @@ ul.seasons li {
 .results td:first-child { font-weight: bold; }
 .results td:last-child { white-space: normal; }
 .results td:nth-of-type(2) { font-style: italic; }
+.results td .flag { margin-top: 2px; }
 
 .results #pos,
 .results #num,

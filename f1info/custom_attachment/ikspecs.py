@@ -15,7 +15,9 @@ class ThumbDisplay(processors.Resize):
     height = 80
 
 class MiniDisplay(processors.Resize):
+    width = 55
     height = 55
+    crop = True
 
 class TopDisplay(processors.Resize):
     width = 370
@@ -24,11 +26,13 @@ class TopDisplay(processors.Resize):
 class HeatDisplay(processors.Resize):
     width = 266
 
+
 class Thumb(ImageSpec):
     pre_cache = True
     processors = [ThumbDisplay, ]
 
 class Mini(ImageSpec):
+    crop = ('center',)    
     pre_cache = True
     processors = [MiniDisplay, ]
     quality = 95
