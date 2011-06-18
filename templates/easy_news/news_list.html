@@ -1,4 +1,4 @@
-{% load attachment_tags utilities_tags %}
+{% load easy_news_tags attachment_tags utilities_tags %}
 
 {% if news_list %}
 	<div class="block news">
@@ -15,4 +15,9 @@
 	        <div class="news-empty">Нет новостей</div>
 	    {% endif %}
 	</div>
+{% else %}
+    {% block content %}
+        {% calendar %}
+        {% include "easy_news/news_include.html" %}
+    {% endblock %}
 {% endif %}

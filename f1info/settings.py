@@ -69,14 +69,14 @@ INSTALLED_APPS = (
     'urlmethods',
     'menuproxy',
     'utilities',
-    'attachment',
-    'f1info.custom_attachment',
     'seo',
     'south',
     'markitup',
     'f1info',
     'f1info.info',
+    'f1info.custom_attachment',
     'authority',
+    'attachment',
 )
 
 TEMPLATE_LOADERS = [
@@ -197,6 +197,7 @@ NEWS_TAGGING = False
 ATTACHMENT_FOR_MODELS = [
     'pages.models.Page',
     'easy_news.models.News',
+    'f1info.models.Heat',
 ]
 
 ATTACHMENT_LINK_MODELS = [

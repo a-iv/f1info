@@ -2,7 +2,7 @@
 
 from django.contrib import admin
 from f1info.models import Racer, Engine, Team, Tyre, Season, Point, Country, Champions, Retire
-from f1info.models import GrandPrix, Heat, Result, BestLap, Track, TrackLen, GPName
+from f1info.models import GrandPrix, Heat, Result, Track, TrackLen, GPName
 
 class ModelAdmin(admin.ModelAdmin):
     class Media:
@@ -87,7 +87,7 @@ except admin.sites.AlreadyRegistered:
 
 class TrackLenInline(admin.TabularInline):
     model = TrackLen
-    extra = 5
+    extra = 1
 
 
 class TrackAdmin(ModelAdmin):
@@ -123,7 +123,7 @@ except admin.sites.AlreadyRegistered:
 
 class ResultInline(admin.TabularInline):
     model = Result
-    extra = 24
+    extra = 3
     exclude = ['_points_count']
 
 class HeatAdmin(ModelAdmin):

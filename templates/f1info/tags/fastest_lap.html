@@ -2,18 +2,22 @@
 	<h5>Быстрейший круг</h5>
 	<table>
 		<tr>
-			<th>Гонщик</th>
-			<th>Круг</th>
+			<th>Гонщик</th> 
+            {% if object.heat.laps %}
+    			<th>Круг</th>
+            {% endif %}
 			<th>Время</th>
 			<th>Средняя скорость</th>
 		</tr>
-		<tr>
 		{% for object in objects %}
+		<tr>
 			<td>{{ object.racer }}</td>
-			<td>{{ object.heat.laps }}</td>
+            {% if object.heat.laps %}
+			    <td>{{ object.heat.laps }}</td>
+            {% endif %}
 			<td>{{ object.get_time_display }}</td>
 			<td>{{ object.heat.get_speed|floatformat:"3" }} км/ч</td>
-		{% endfor %}
 		</tr>
+		{% endfor %}
 	</table>
 </div>

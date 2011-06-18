@@ -66,5 +66,5 @@ def show_onthisday():
 @register.inclusion_tag('f1info/tags/fastest_lap.html', takes_context=False)
 def show_fastest_lap(gpid):
     heat = Heat.objects.filter(grandprix=gpid, type=Heat.BEST)
-    fastest = Result.objects.filter(heat=heat, position=1)
+    fastest = Result.objects.filter(heat=heat, delta=0)
     return {'objects': fastest, }

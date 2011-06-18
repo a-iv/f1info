@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load frontpage_tags %}
+{% load attachment_tags frontpage_tags utilities_tags %}
 
 {% block title %}{{ object.get_verbose_name.grandprix }} {{ object.grandprix.name }} {{ object.grandprix.season.year }} | F1Online.Ru{% endblock %}
 {% block content_title %}{% endblock %}
@@ -20,7 +20,7 @@
 	<div id="result-detail">
 	    <h2>{{ object.get_verbose_name.grandprix }} {{ object.grandprix.name }} {{ object.grandprix.season.year }}</h2>
 	    <h3>{{ object.get_type_display }}</h3>
-	     
+	    
 	    {% for result in object.get_results %}
 		    {% if forloop.first %}
 		    <table class="results">
@@ -64,7 +64,7 @@
 	               	<td class="center nc narrow">NC</td>
 	            {% endif %}
 	            <td class="center narrow">{{ result.num }}</td>
-	            <td class="center narrow"><span class="flag {{ result.racer.country.en_name|slugify }}"></span></td>
+	            <td class="center narrow"><span class="flag {{ result.racer.country.en_name|slugify }}" title="{{ result.racer.country }}"></span></td>
 	            <td><a href="{% url racer_detail result.racer.slug %}">{{ result.racer }}</a></td>
 	            <td>{{ result.team }}</td>
 	            <td>{{ result.engine }}</td>
@@ -85,11 +85,13 @@
             	{% endif %}
                 {% if object.type == 'B' %}
                     <td class="center">
-	                    {% if result.position == 1 %}
-	                        {{ object.laps }}
-	                    {% else %}
-	                        {{ result.laps }}
-	                    {% endif %}
+                        {% if object.laps %}
+	                        {% if result.position == 1 %}
+	                            {{ object.laps }}
+	                        {% else %}
+	                            {{ result.laps }}
+	                        {% endif %}
+                        {% endif %}
                     </td>
                 {% endif %}
 	            {% if object.type == 'R' %}
@@ -132,7 +134,7 @@
 		               	{% endif %}
 		            {% endif %}
 		            <td class="center narrow">{{ result.num }}</td>
-		            <td class="center narrow"><span class="flag {{ result.racer.country.en_name|slugify }}">{{ result.racer.country }}</span></td>
+		            <td class="center narrow"><span class="flag {{ result.racer.country.en_name|slugify }}" title="{{ result.racer.country }}">{{ result.racer.country }}</span></td>
 		            <td><a href="{% url racer_detail result.racer.slug %}">{{ result.racer }}</a></td>
 		            <td>{{ result.team }}</td>
 		            <td>{{ result.engine }}</td>
@@ -152,12 +154,23 @@
 
 
 {% block sidebar %}
-	<aside class="heats">
+	<aside class="block event-info">
+        {% get_attachments for object as heatpic %}
+        {% with heatpic.0 as image %}
+            {% if image.image %}
+                <img src="{{ image.heat.url }}" alt="{{ object }}" title="{{ object }}" />
+            {% endif %}
+        {% endwith %}
 		<div>{{ object.get_verbose_name.date }}: {{ object.date|date:"d.m.Y" }}</div>
 	    <div>{{ object.grandprix.tracklen.track }}</div>
-	    <div>{{ object.grandprix.tracklen.get_verbose_name.length }}: {{ object.grandprix.tracklen.length }}</div>
-	    <div>{{ object.get_verbose_name.laps }} : {{ object.laps }}</div>
-	    <em>{{ object.get_speed|floatformat:"3" }} км/ч</em>
+        {% if object.type == 'R' %}
+            <div>Длина дистанции: {{ object.get_race_length }} км</div>
+        {% endif %}	    
+        <div>{{ object.grandprix.tracklen.get_verbose_name.length }}: {{ object.grandprix.tracklen.length }}</div>
+        {% if object.type == 'R' %}
+	        <div>{{ object.get_verbose_name.laps }} : {{ object.laps }}</div>
+        {% endif %}
+	    <em>Средняя скорость: {{ object.get_speed|floatformat:"3" }} км/ч</em>
 
         {% if object.type == 'Q' or object.type == 'R' %}
             {% if object.type == 'Q' %}
@@ -171,5 +184,12 @@
             {{ object.get_track_record.2 }}
             {{ object.get_track_record.3 }}
         {% endif %}
+        <p>&nbsp;</p>
+        <ul>
+        {% for heat in object.grandprix.heats.all %}
+            <li>{{ heat.date|date_local:"d.m.Y" }} <a href="{% url heat_detail heat.slug %}">{{ heat.get_type_display }}</a></li>
+        {% endfor %}
+        </ul>
+        {{ object.id }}
 	</aside>
 {% endblock %}

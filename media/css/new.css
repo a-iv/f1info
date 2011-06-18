@@ -4,7 +4,7 @@ body {
 	font-family: Tahoma,Arial,Helvetica,sans-serif;
 	color: #000;
 	font-size: 12px;
-	background: url(/media/img/top-nav-bg.png) repeat-x top #f7f7f7;
+	background: url(/media/img/top-nav-bg.png) repeat-x top #fafafa;
 	margin: 0;
 }
 
@@ -344,7 +344,7 @@ a.full-standings-link img {
 	height: 68px;
 	margin: 3px 0 6px 0;
 	padding: 0 0 7px 0;
-	font-family: Tahoma;
+	font-family: Tahoma,Arial,Helvetica,sans-serif;
 	font-size: 11px;
 	line-height: 13px;
 	border-bottom: 1px solid #F1EDE4;
@@ -638,10 +638,13 @@ abbr {
 	text-align: center;
 } 
 
-.heats {
-	width: 286px;
+.event-info {
+	width: 266px;
+    border: 1px solid #f1ede4;
+	background: #f8f8f1;
 	float: right;
-	padding: 58px 0 0 30px;
+	margin: 58px 0 0 30px;
+
 }
 
 .get-best {

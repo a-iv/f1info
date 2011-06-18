@@ -621,6 +621,9 @@ class Heat(VerboseModel):
         else:
             return (self.grandprix.tracklen.length/1000.0) / (float(self.time)/3600.0)
 
+    def get_race_length(self):
+        return ((Decimal(self.grandprix.tracklen.length) * self.laps)/1000)
+
     def get_track_record(self):
         result = Heat.objects.filter(grandprix__tracklen=self.grandprix.tracklen, type=self.type)
         if self.type == 'R':
@@ -690,7 +693,7 @@ class Result(VerboseModel):
 
     def get_delta_display(self):
         u'Отставание'
-        if self.delta == 0:
+        if self.delta == 0 and self.position == 1:
             return ''
         elif self.delta is None:
             if self.laps == 1:
@@ -729,9 +732,6 @@ class Result(VerboseModel):
     def get_points_count(self):
         return self._points_count
 
-    
-        
-
     def save(self, *args, **kwargs):
         self._points_count = self._get_points_count()
         super(Result, self).save(*args, **kwargs)
@@ -739,25 +739,3 @@ class Result(VerboseModel):
     def __unicode__(self):
         return u'%s' % self.racer
 
-
-class BestLap(VerboseModel):
-    class Meta:
-        ordering = ['heat__date', 'result', ]
-        verbose_name = u'Лучший круг'
-        verbose_name_plural = u'Лучшие круги'
-        unique_together = (
-            ('heat', 'result',),
-        )
-    heat = models.ForeignKey(Heat, verbose_name=u'Заезд', related_name='bests')
-    result = models.ForeignKey(Result, verbose_name=u'Результат', related_name='bests')
-    lap = models.IntegerField(verbose_name=u'Круг')
-    time = models.DecimalField(verbose_name=u'Время круга', max_digits=8, decimal_places=3)
-
-    def get_time_display(self):
-        u'Время'
-        if self.time is None:
-            return ''
-        return time_to_str(self.time)
-
-    def __unicode__(self):
-        return u''

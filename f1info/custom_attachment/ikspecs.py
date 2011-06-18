@@ -21,6 +21,8 @@ class TopDisplay(processors.Resize):
     width = 370
     height = 250
 
+class HeatDisplay(processors.Resize):
+    width = 266
 
 class Thumb(ImageSpec):
     pre_cache = True
@@ -34,4 +36,9 @@ class Mini(ImageSpec):
 class Top(ImageSpec):
     pre_cache = True
     processors = [TopDisplay, ]
+    quality = 95
+
+class Heat(ImageSpec):
+    pre_cache = True
+    processors = [HeatDisplay, ]
     quality = 95
