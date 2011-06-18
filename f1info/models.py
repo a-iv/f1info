@@ -196,6 +196,13 @@ class StatModel(VerboseModel):
                 teams.append(year_team)
         return teams
 
+### STATISTICS ###
+def get_grandprix_stat():
+    list = []
+    for racer in Racer.objects.all():
+        list.append((racer.get_grandprix_count(), racer))
+    return sorted(list, reverse=True)[:100]
+### END ###
 
 def get_first(query_set):
     return query_set.all()[0]
@@ -623,14 +630,13 @@ class Heat(VerboseModel):
             if item.time not in list:
                 list.append(item.time)
         record = min(list)
-        heat = Heat.objects.filter(time=record, type=self.type)
+        heat = Heat.objects.filter(time=record, type=self.type)[:1]
         if self.type == 'R':
-            heat = Heat.objects.filter(time=record, type='B')
-        driver = heat.get().get_results()[:1].get().racer
-        team = heat.get().get_results()[:1].get().team
+            heat = Heat.objects.filter(time=record, type='B')[:1]
+        driver = heat.get().get_results()[0].racer
+        team = heat.get().get_results()[0].team
         year = heat.get().grandprix.season.year
         return year, driver, team, time_to_str(record)
-
 
     def __unicode__(self):
         return u'%s - %s' % (self.grandprix, self.get_type_display())
@@ -679,7 +685,7 @@ class Result(VerboseModel):
     def get_time_display(self):
         u'Время'
         if self.delta is None:
-            return ''
+            return '-'
         return time_to_str(self.heat.time + self.delta)
 
     def get_delta_display(self):

@@ -89,7 +89,7 @@ urlpatterns += patterns(
     (r'^tracks/$', list_detail.object_list, track_info),
     (r'^seasons/$', list_detail.object_list, season_info),
     (r'^grandprix/$', list_detail.object_list, grand_prix_info),
-    (r'^heat/$', list_detail.object_list, heat_info),
+    (r'^results/$', list_detail.object_list, heat_info),
 
     url(r'^drivers/(?P<slug>[-\w]+)/$', list_detail.object_detail, racer_info, name='racer_detail'),
     url(r'^engines/(?P<slug>[-\w]+)/$', list_detail.object_detail, engine_info, name='engine_detail'),
@@ -98,7 +98,7 @@ urlpatterns += patterns(
     url(r'^tracks/(?P<slug>[-\w]+)/$', list_detail.object_detail, track_info, name='track_detail'),
     url(r'^seasons/(?P<slug>[-\w]+)/$', list_detail.object_detail, season_info, name='season_detail'),
     url(r'^grandprix/(?P<object_id>\d{1,9})/$', list_detail.object_detail, grand_prix_info, name='grand_prix_detail'),
-    url(r'^heat/(?P<object_id>\d{1,9})/$', list_detail.object_detail, heat_info, name='heat_detail'),
+    url(r'^results/(?P<slug>[-\w]+)/$', list_detail.object_detail, heat_info, name='heat_detail'),
 
     url(r'^racer_ajax_list/$', list_detail.object_list, racer_ajax_list, name='racer_ajax_list'),
     url(r'^racer_last_info/(?P<object_id>\d{1,9})/$', list_detail.object_detail, racer_last_info, name='racer_last_info'),

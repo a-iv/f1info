@@ -17,32 +17,41 @@
 {% endblock %}
 
 {% block content %}
-	<div id="heat-detail">
+	<div id="result-detail">
 	    <h2>{{ object.get_verbose_name.grandprix }} {{ object.grandprix.name }} {{ object.grandprix.season.year }}</h2>
 	    <h3>{{ object.get_type_display }}</h3>
 	     
 	    {% for result in object.get_results %}
 		    {% if forloop.first %}
-		    <table>
-		        <tr>
-		            <th class="narrow">{{ result.get_verbose_name.position }}</th>
-		            <th class="narrow">{{ result.get_verbose_name.num }}</th>
-		            <th class="narrow">Нац.</th>
-		            <th>{{ result.get_verbose_name.racer }}</th>
-		            <th>{{ result.get_verbose_name.team }}</th>
-		            <th>{{ result.get_verbose_name.engine }}</th>
-		            <th>{{ result.get_verbose_name.tyre }}</th>
-		            <th>Время</th>
-		            {% if object.type != 'R' %}
-		            	<th>Отставание</th>
-	            	{% endif %}
-	                {% if object.type == 'B' %}
-	                    <th>Круг</th>
-	                {% endif %}
-	                {% if object.type = 'R' %}
-		            	<th>&nbsp;</th>
-	            	{% endif %}
-		        </tr>
+		    <table class="results">
+                <colgroup>
+                    <col id="pos" />
+                    <col id="num" />
+                    <col id="nat" />
+                    <col id="racer" />
+                    <col id="team" />
+                    <col id="engine" />
+                    <col id="tyre" />
+                    <col id="time" />
+                    {% if object.type != 'R' %}<col id="gap" />{% endif %}
+                    {% if object.type == 'B' %}<col id="lap" />{% endif %}
+                    {% if object.type == 'R' %}<col id="comment" />{% endif %}
+                </colgroup>
+                <thead>
+                    <tr>
+		                <th>{{ result.get_verbose_name.position }}</th>
+		                <th>{{ result.get_verbose_name.num }}</th>
+		                <th>Нац.</th>
+		                <th>{{ result.get_verbose_name.racer }}</th>
+		                <th>{{ result.get_verbose_name.team }}</th>
+		                <th>{{ result.get_verbose_name.engine }}</th>
+		                <th>{{ result.get_verbose_name.tyre }}</th>
+		                <th>Время</th>
+		                {% if object.type != 'R' %}<th>Отставание</th>{% endif %}
+	                    {% if object.type == 'B' %}<th>Круг</th>{% endif %}
+	                    {% if object.type == 'R' %}<th>&nbsp;</th>{% endif %}
+		            </tr>
+                </thead>
 		    {% endif %}
 	        <tr>
 	            {% if result.is_classified %}
@@ -68,11 +77,7 @@
 	        				{{ result.get_delta_display }}
 	    				{% endif %}
     				{% else %}
-                        {% if result.get_time_display %}               
-        					{{ result.get_time_display }}
-                        {% else %}
-                            -
-                        {% endif %}
+    					{{ result.get_time_display }}
     				{% endif %}
             	</td>
             	{% if object.type != 'R' %}
@@ -137,7 +142,7 @@
 		        </tr>
 		    {% endfor %}
 	    {% endif %}
-	    </table>
+        </table>
 	    
 	    {% if object.type == 'R' %}
 			{% show_fastest_lap object.grandprix %}

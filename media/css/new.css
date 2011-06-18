@@ -561,19 +561,13 @@ ul.seasons li {
 	font-size: 20px;
 }
 
-#heat-detail {
-	width: 986px;
-	margin: 0 auto;
-}
 
-#heat-detail h2 {
-	margin: 20px 0 10px;
-}
+/*** Heat details template ***/
 
-#heat-detail table {
-	font-family: Arial,Helvetica,sans-serif;
+.results {
+	font-family: Arial, Helvetica, sans-serif;
 	background: #fff;
-	border: 1px solid #E5E4DE;
+	border: 1px solid #e5e4de;
 	border-collapse: separate;
 	padding: 4px 4px 8px;
 	border-radius: 3px;
@@ -581,41 +575,48 @@ ul.seasons li {
 	-webkit-border-radius: 3px;
 }
 
-#heat-detail th {
-	color: #333;
-	padding: 3px 8px 3px 6px;
-	border-bottom: 2px solid #E5E4DE;
-	text-align: left;
-	background: #fff !important;
+.results th, .results td {
+    padding: 4px 5px;
+    border-bottom: none;
+    white-space: nowrap;
+    vertical-align: top;
+    line-height: 16px;
 }
 
-#heat-detail td {
-	padding: 5px 8px 5px 6px;
-	border-bottom: none;
-}
-
-#heat-detail td:first-child { font-weight: bold; }
-#heat-detail td:nth-of-type(2) { font-style: italic; }
-#heat-detail td:last-child, #heat-detail th:last-child { padding-right: 4px !important }
-#heat-detail .narrow { width: 14px; padding-left: 6px; padding-right: 6px; }
-#heat-detail .center { text-align: center; }
-
-#heat-detail td.not-classified {
+.results td.not-classified {
 	padding-top: 20px;
 	padding-bottom: 14px;
 	background: #fff !important;
 }
 
-#heat-detail h4 {
+.results th {
+    padding: 2px 5px;
+	background: #fff !important;
+	border-bottom: 2px solid #e5e4de;
+	text-align: left;
+	color: #333;
+}
+
+.results tr:hover { background: #fcf4e1; }
+.results td:first-child { font-weight: bold; }
+.results td:last-child { white-space: normal; }
+.results td:nth-of-type(2) { font-style: italic; }
+
+.results #pos,
+.results #num,
+.results #nat { width: 22px; }
+
+.results h4 {
 	color: #888;
 	font-size: 18px;
 	font-weight: normal;
 }
 
-#heat-detail tr:hover { background: #fcf4e1; }
-#heat-detail tr:first-child { background: transparent !important; }
+/*** End of Heat details ***/
 
-#heat-detail abbr {
+.center { text-align: center; }
+
+abbr {
 	border-bottom: 1px dotted #aaa;
 	cursor: help;
 }

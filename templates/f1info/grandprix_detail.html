@@ -24,7 +24,7 @@
     
     <ul>
         {% for heat in object.heats.all %}
-            <li>{{ heat.date|date_local:"d F Y" }} <a href="{% url heat_detail heat.id %}">{{ heat.get_type_display }}</a></li>
+            <li>{{ heat.date|date_local:"d F Y" }} <a href="{% url heat_detail heat.slug %}">{{ heat.get_type_display }}</a></li>
         {% endfor %}
     </ul>
 
