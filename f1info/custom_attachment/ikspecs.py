@@ -19,6 +19,11 @@ class MiniDisplay(processors.Resize):
     height = 55
     crop = True
 
+class ArticlesDisplay(processors.Resize):
+    width = 65
+    height = 65
+    crop = True
+
 class TopDisplay(processors.Resize):
     width = 370
     height = 250
@@ -35,6 +40,12 @@ class Mini(ImageSpec):
     crop = ('center',)    
     pre_cache = True
     processors = [MiniDisplay, ]
+    quality = 95
+
+class Articles(ImageSpec):
+    crop = ('center',)    
+    pre_cache = True
+    processors = [ArticlesDisplay, ]
     quality = 95
 
 class Top(ImageSpec):

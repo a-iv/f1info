@@ -1,0 +1,11 @@
+{% extends 'pages/base.html' %}
+{% load pages_tags markitup_tags %}
+
+{% block content %}
+    {% if False %}
+        {% placeholder summary with markItUpMarkdown %}
+        {% placeholder details with markItUpMarkdown %}
+    {% endif %}
+    {% get_content current_page "details" as details %}
+    {{ details|render_markup|safe }}
+{% endblock  %}

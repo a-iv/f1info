@@ -1,5 +1,5 @@
 {% extends 'pages/base.html' %}
-{% load pages_tags markitup_tags easy_news_tags frontpage_tags %}
+{% load pages_tags markitup_tags easy_news_tags frontpage_tags attachment_tags %}
 
 {% block content_title %}{% endblock %}
 
@@ -14,28 +14,20 @@
 		<div class="block articles">
     		<a href="#" class="all">все статьи »</a>
     		<h3>Статьи</h3>
-    		
-	    	<div class="article-item">
-	    		<a href="#">Гран-При Бельгии 1967</a>
-	    		<img src="/media/_img/8052.jpg" alt="" />
-	    		<p>Our resident expert - Steven Lynch - answers readers' questions on various topics, including the meaning of 'chasing crumpet'</p>
-	    	</div>
-	    	<div class="article-item">
-	    		<img src="/media/_img/8122.jpg" alt="" />
-	    		With the launch of 12 new F1 cars less than a month away, we looks back at the Top 10 weird F1 cars in the sport's history
-	    	</div>
-	    	<div class="article-item">
-	    		<img src="/media/_img/8065.jpg" alt="" />
-	    		Narain Karthikeyan talks us through his new deal with HRT and why he can prove his critcs wrong in 2011
-	    	</div>
-	    	<div class="article-item">
-	    		<img src="/media/_img/8052.jpg" alt="" />
-	    		Our resident expert - Steven Lynch - answers readers' questions on various topics, including the meaning of 'chasing crumpet'
-	    	</div>
-	    	<div class="article-item">
-	    		<img src="/media/_img/8122.jpg" alt="" />
-	    		With the launch of 12 new F1 cars less than a month away, we looks back at the Top 10 weird F1 cars in the sport's history
-	    	</div>
+            {% get_page articles as articles %}
+            {% for article in articles.get_children %}
+	        	<div class="article-item">
+                    {% get_attachments for article as attachments %}
+		            {% with attachments.0 as attachment %}
+		            {% if attachment.image %}
+	        		    <img src="{{ attachment.articles.url }}" alt="{{ article.title }}" />
+                    {% endif %}
+                    {% endwith %}
+	        		    <a href="{{ article.get_absolute_url }}">{{ article.title }}</a>
+                        {% get_content article "summary" as content %}
+                        {{ content|render_markup|safe }}
+	        	</div>
+            {% endfor %}
 	    </div>
 	</section>
 {% endblock %}

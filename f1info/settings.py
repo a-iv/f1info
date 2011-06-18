@@ -142,7 +142,8 @@ DEFAULT_PAGE_TEMPLATE = 'pages/index.html'
 PAGE_TEMPLATES = (
     ('pages/soon.html', u'Скоро'),
     ('pages/frontpage.html', u'Главная страница'),
-    ('pages/articles.html', u'Статьи'),
+    ('pages/articles.html', u'List of Articles'),
+    ('pages/article.html', u'Article'),
     ('pages/onthisday.html', u'В этот день'),
 )
 
