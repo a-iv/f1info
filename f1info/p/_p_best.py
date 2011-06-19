@@ -277,7 +277,10 @@ def main():
     #year(opener, 'http://statsf1.com/en/1950.aspx')
     
     #entrans(opener, 'http://statsf1.com/en/1973/bresil/engages.aspx')
-    bestlap(opener, 'http://statsf1.com/en/2011/australie/meilleur-tour.aspx')
+    bestlap(opener, 'http://statsf1.com/en/2011/turquie/meilleur-tour.aspx')
+    bestlap(opener, 'http://statsf1.com/en/2011/espagne/meilleur-tour.aspx')
+    bestlap(opener, 'http://statsf1.com/en/2011/monaco/meilleur-tour.aspx')
+    bestlap(opener, 'http://statsf1.com/en/2011/canada/meilleur-tour.aspx')
 
 if __name__ == '__main__':
     main()
