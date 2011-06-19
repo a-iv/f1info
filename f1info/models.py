@@ -227,7 +227,10 @@ def time_to_str(time):
         if minute:
             if minute < 10 and minute > 0:
                 result += '%02d:' % minute
-    result += '%2d:' % minute
+            else:
+                result += '%2d:' % minute
+    else:
+        result += '%2d:' % minute
     result += '%02d.%03d' % (second, millisecond)
     return result
 

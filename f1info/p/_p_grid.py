@@ -289,7 +289,7 @@ def main():
 
 
     #entrans(opener, 'http://statsf1.com/en/1952/suisse/engages.aspx')
-    grid(opener, 'http://statsf1.com/en/2011/chine/grille.aspx')
+    grid(opener, 'http://statsf1.com/en/2011/canada/grille.aspx')
 
 if __name__ == '__main__':
     main()

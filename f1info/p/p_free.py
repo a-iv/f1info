@@ -131,7 +131,7 @@ def fp(opener, url):
             else:
                 engine = plain(tr.contents[7])
         
-        tyre = 'Bridgestone'
+        tyre = 'Pirelli'
         
         win_time = plain(tr.contents[9])
         wparts = win_time.split(':')
@@ -216,7 +216,7 @@ def fp(opener, url):
             else:
                 engine = plain(tr.contents[7])
         
-        tyre = 'Bridgestone'
+        tyre = 'Pirelli'
         
         dl = plain(tr.contents[11])
         if dl == '':
@@ -255,9 +255,9 @@ def fp(opener, url):
 
 def main():
     opener = urllib2.build_opener()
-    year(opener, 'http://www.formula1.com/results/season/2010/')
-    #grandprix(opener, 'http://www.formula1.com/results/season/2004/714/')
-    #fp(opener, 'http://www.formula1.com/results/season/2008/804/6584/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/857/6857/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/857/6858/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/857/6860/')
 
 if __name__ == '__main__':
     main()
