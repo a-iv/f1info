@@ -8,22 +8,10 @@ body {
 	margin: 0;
 }
 
-a { color: #066A93; }
-a:hover { color: #aa0000; }
-
-h1, h2, h3 { font-weight: normal; margin: 10px 0;  }
-h1 { font-size: 22px;}
-h2 { font-size: 20px; color: #222; }
-h3 { font-size: 18px; color: #666; }
-
 .page {
 	width: 980px;
 	margin: 0 auto;
 }
-
-
-/*** HTML5 tags ***/
-header, article, section, aside, figure { display: block; }
 
 
 /*** Top navigation ***/
@@ -31,6 +19,12 @@ header, article, section, aside, figure { display: block; }
 	height: 48px;
 	font-family: Georgia, "Times New Roman", serif;
 	margin-bottom: 24px;
+}
+
+#branding ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
 
 a#logo {
@@ -399,8 +393,7 @@ td.center { text-align: center; }
 td.nc { color: #666; }
 
 #driver-details {
-	float: left;
-	margin-left: 16px;
+	margin-left: 280px;
 	font-size: 12px;
 	font-family: Tahoma,Arial,Helvetica,sans-serif;
 }
@@ -409,6 +402,7 @@ td.nc { color: #666; }
 	margin: 0 !important;
 	font-size: 28px !important;
 }
+
 #driver-details h3 { margin: 0; font-size: 10pt; }
 
 #driver-details table {
@@ -417,7 +411,6 @@ td.nc { color: #666; }
 }
 
 #driver-details td { padding: 0; }
-td.date { text-transform: lowercase; }
 img.flag { margin: 0 0 -1px 0; }
 .info { margin: 3px 0; }
 .info a { font-size: 11px; }
@@ -427,10 +420,14 @@ img.info {
 	margin: 0 3px 0 0;
 }
 
-#driver-img { float: left; font-family: Tahoma,Arial,Helvetica,sans-serif; }
-
+#driver-img {
+    font-family: Tahoma,Arial,Helvetica,sans-serif;
+    float: left;
+    width: 264px;
+}
 
 img.driver-photo {
+    width: 240px;
 	display: block;
 	border: 1px solid #d9d9d9;
 	padding: 3px;
@@ -617,11 +614,6 @@ ul.seasons li {
 
 .center { text-align: center; }
 
-abbr {
-	border-bottom: 1px dotted #aaa;
-	cursor: help;
-}
-
 #fastest-lap {
 	margin: 20px 0;
 }
@@ -650,4 +642,27 @@ abbr {
 
 .get-best {
     display: block;
+}
+
+
+.main {
+    padding: 0 20px 0 0;
+    overflow: hidden;
+}
+
+.driver-info {
+    line-height: 18px;
+    margin-top: 20px;
+}
+
+#current_letter ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+#footer {
+    clear: both;
+    margin-top: 24px;
+    height: 50px;
 }

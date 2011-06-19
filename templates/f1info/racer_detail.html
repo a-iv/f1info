@@ -1,10 +1,17 @@
 {% extends "base.html" %}
-{% load utilities_tags frontpage_tags %}
+{% load utilities_tags frontpage_tags markitup_tags %}
 
 {% block title %}{{ object }} | F1Online.Ru{% endblock %}
 {% block title_wrap %}{% endblock %}
 
-{% block content %}   
+{% block sidebar %}
+	<aside class="right">
+		{% show_current_letter object %}
+	</aside>
+{% endblock %}
+
+{% block content %}
+    <article class="main">
     {% if object.photo %}
     	<div id="driver-img">
     		<img src="{{ object.photo.url }}" alt="{{ object }}" class="driver-photo" />
@@ -24,124 +31,122 @@
    		</div>
 	{% endif %}
 
-<div id="driver-details">
-    <h1>{{ object.first_name }} {{ object.family_name }}</h1>
-    <h3>{{ object.en_first_name }} {{ object.en_family_name }}</h3>
-	{% if object.get_racer_champion %}
-		<ul class="cups">
-		    {% for year in object.get_racer_champion %}
-		    	<li>{{ year }}</li>
-		    {% endfor %}
-		</ul>
-	{% endif %}
-	
-    <table>
-	    <tr>
-	    	<th>{{ object.get_verbose_name.country }}</th> 
-	    	<td>
-                <span class="flag {{ object.country.en_name|slugify }} left"></span> {{ object.country }}
-            </td>
-    	</tr>
-	    {% if object.birthday %}
-    	<tr>
-		    <th>{{ object.get_verbose_name.birthday }}</th>
-		    <td>{{ object.birthday|date_local:"j F Y"|lower }}</td>
-	    </tr>
-        {% if object.deathday %}
-	    <tr>
-    	    <th>{{ object.get_verbose_name.deathday }}</th>
-		    <td>{{ object.deathday|date_local:"j F Y"|lower }} ({{ object.get_age }})</td>
-	    </tr>
-        {% else %}
-        <tr>
-            <th>{{ object.get_verbose_name.get_age }}</th>
-            <td class="date">{{ object.get_age }}</td>
-        </tr>
-        {% endif %}
+    <div id="driver-details">
+        <h1>{{ object.first_name }} {{ object.family_name }}</h1>
+        <h3>{{ object.en_first_name }} {{ object.en_family_name }}</h3>
+	    {% if object.get_racer_champion %}
+		    <ul class="cups">
+		        {% for year in object.get_racer_champion %}
+		        	<li>{{ year }}</li>
+		        {% endfor %}
+		    </ul>
 	    {% endif %}
-	    
-        <tr>
-		    <td colspan="2">&nbsp;</td>
-	    </tr>
+	
+        <table>
+	        <tr>
+	        	<th>{{ object.get_verbose_name.country }}</th> 
+	        	<td>
+                    <span class="flag {{ object.country.en_name|slugify }} left"></span> {{ object.country }}
+                </td>
+        	</tr>
+	        {% if object.birthday %}
+        	<tr>
+		        <th>{{ object.get_verbose_name.birthday }}</th>
+		        <td>{{ object.birthday|date_local:"j F Y"|lower }}</td>
+	        </tr>
+            {% if object.deathday %}
+	        <tr>
+        	    <th>{{ object.get_verbose_name.deathday }}</th>
+		        <td>{{ object.deathday|date_local:"j F Y"|lower }} ({{ object.get_age }})</td>
+	        </tr>
+            {% else %}
+            <tr>
+                <th>{{ object.get_verbose_name.get_age }}</th>
+                <td class="date">{{ object.get_age }}</td>
+            </tr>
+            {% endif %}
+	        {% endif %}
+	        
+            <tr>
+		        <td colspan="2">&nbsp;</td>
+	        </tr>
 
-		<tr>
-	    	<th>{{ object.get_verbose_name.get_season_count }}</th>
-	    	<td>{{ object.get_season_count }}</td>
-	    </tr>	    
-	    <tr>
-		    <th>{{ object.get_verbose_name.get_grand_prix_count }}</th>
-		    <td>{{ object.get_grand_prix_count }}</td>
-	    </tr>	    
-	    <tr>
-		    <th>{{ object.get_verbose_name.get_race_count }}</th>
-		    <td>{{ object.get_race_count }}</td>
-	    </tr>
+		    <tr>
+	        	<th>{{ object.get_verbose_name.get_season_count }}</th>
+	        	<td>{{ object.get_season_count }}</td>
+	        </tr>	    
+	        <tr>
+		        <th>{{ object.get_verbose_name.get_grand_prix_count }}</th>
+		        <td>{{ object.get_grand_prix_count }}</td>
+	        </tr>	    
+	        <tr>
+		        <th>{{ object.get_verbose_name.get_race_count }}</th>
+		        <td>{{ object.get_race_count }}</td>
+	        </tr>
 
-        {% if object.get_first_grandprix %}
-        <tr>
-            <th>{{ object.get_verbose_name.get_first_grandprix }}</th>
-            <td>
-            	<a href="{% url grand_prix_detail object.get_first_grandprix.id %}">
-            		{{ object.get_first_grandprix.name }} {{ object.get_first_grandprix.season }}
-           		</a>
-       		</td>
-        </tr>
-        {% endif %}
+            {% if object.get_first_grandprix %}
+            <tr>
+                <th>{{ object.get_verbose_name.get_first_grandprix }}</th>
+                <td>
+                	<a href="{% url grand_prix_detail object.get_first_grandprix.id %}">
+                		{{ object.get_first_grandprix.name }} {{ object.get_first_grandprix.season }}
+               		</a>
+           		</td>
+            </tr>
+            {% endif %}
 
-        {% if object.get_last_grandprix %}
-	    <tr>
-		    <th>{{ object.get_verbose_name.get_last_grandprix }}</th>
-		    <td>
-		    	<a href="{% url grand_prix_detail object.get_last_grandprix.id %}">
-		    		{{ object.get_last_grandprix.name }} {{ object.get_last_grandprix.season }}
-	    		</a>
-    		</td>
-	    </tr>
-		{% endif %}
+            {% if object.get_last_grandprix %}
+	        <tr>
+		        <th>{{ object.get_verbose_name.get_last_grandprix }}</th>
+		        <td>
+		        	<a href="{% url grand_prix_detail object.get_last_grandprix.id %}">
+		        		{{ object.get_last_grandprix.name }} {{ object.get_last_grandprix.season }}
+	        		</a>
+        		</td>
+	        </tr>
+		    {% endif %}
 
-	    <tr>
-    	    <th>
-                {{ object.get_verbose_name.get_win_count }}
-                {% if object.get_win_count = 0 %}<span class="get-best">{{ object.get_verbose_name.get_best_race_pos }}</span>{% endif %}
-            </th>
-    	    <td>
-                {{ object.get_win_count }}
-                {% if object.get_win_count = 0 %}<span class="get-best">{{ object.get_best_race_pos }}</span>{% endif %}
-            </td>
-        </tr>
-        
-	    <tr>
-	    	<th>{{ object.get_verbose_name.get_podium_count }}</th>
-	    	<td>{{ object.get_podium_count }}</td>
-	    </tr>
-	    <tr>
-    	    <th>
-                {{ object.get_verbose_name.get_poles_count }}
-                {% if object.get_poles_count = 0 %}<span class="get-best">{{ object.get_verbose_name.get_best_grid_pos }}</span>{% endif %}
-            </th>
-    	    <td>
-                {{ object.get_poles_count }}
-                {% if object.get_poles_count = 0 %}<span class="get-best">{{ object.get_best_grid_pos }}</span>{% endif %}
-            </td>
-        </tr>
-	    <tr>
-	    	<th>{{ object.get_verbose_name.get_bestlap_count }}</th>
-	    	<td>{{ object.get_bestlap_count }}</td>
-	    </tr>
-	    <tr>
-	    	<th>{{ object.get_verbose_name.get_points_count }}</th>
-	    	<td>{{ object.get_points_count|floatformat:"-2" }}</td>
-	    </tr>
-	    <tr>
-	    	<th>{{ object.get_verbose_name.get_fail_count }}</th>
-	    	<td>{{ object.get_fail_count }}</td>
-	    </tr>
-    </table>
-</div>
-{% endblock %}
-
-{% block sidebar %}
-	<aside class="right">
-		{% show_current_letter object %}
-	</aside>
+	        <tr>
+        	    <th>
+                    {{ object.get_verbose_name.get_win_count }}
+                    {% if object.get_win_count = 0 %}<span class="get-best">{{ object.get_verbose_name.get_best_race_pos }}</span>{% endif %}
+                </th>
+        	    <td>
+                    {{ object.get_win_count }}
+                    {% if object.get_win_count = 0 %}<span class="get-best">{{ object.get_best_race_pos }}</span>{% endif %}
+                </td>
+            </tr>
+            
+	        <tr>
+	        	<th>{{ object.get_verbose_name.get_podium_count }}</th>
+	        	<td>{{ object.get_podium_count }}</td>
+	        </tr>
+	        <tr>
+        	    <th>
+                    {{ object.get_verbose_name.get_poles_count }}
+                    {% if object.get_poles_count = 0 %}<span class="get-best">{{ object.get_verbose_name.get_best_grid_pos }}</span>{% endif %}
+                </th>
+        	    <td>
+                    {{ object.get_poles_count }}
+                    {% if object.get_poles_count = 0 %}<span class="get-best">{{ object.get_best_grid_pos }}</span>{% endif %}
+                </td>
+            </tr>
+	        <tr>
+	        	<th>{{ object.get_verbose_name.get_bestlap_count }}</th>
+	        	<td>{{ object.get_bestlap_count }}</td>
+	        </tr>
+	        <tr>
+	        	<th>{{ object.get_verbose_name.get_points_count }}</th>
+	        	<td>{{ object.get_points_count|floatformat:"-2" }}</td>
+	        </tr>
+	        <tr>
+	        	<th>{{ object.get_verbose_name.get_fail_count }}</th>
+	        	<td>{{ object.get_fail_count }}</td>
+	        </tr>
+        </table>
+    </div>
+    <section class="driver-info clear">
+        {{ object.info|safe }}
+    </section>
+    </article>
 {% endblock %}

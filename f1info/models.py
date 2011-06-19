@@ -287,6 +287,7 @@ class Racer(StatModel):
     website = models.CharField(verbose_name=u'Веб-сайт', max_length=200, null=True, blank=True)
     twitter = models.CharField(verbose_name=u'Twitter', max_length=200, null=True, blank=True)
     photo = models.ImageField(verbose_name=u'Фото', upload_to='upload/drivers/', null=True, blank=True)
+    info = MarkupField(default='', null=True, blank=True)
 
     def __unicode__(self):
         return u'%s %s' % (self.first_name, self.family_name)

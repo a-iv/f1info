@@ -1,0 +1,26 @@
+h1, h2, h3 {
+    font-weight: normal;
+    margin: 10px 0;
+}
+
+h1 { font-size: 22px;}
+h2 { font-size: 20px; color: #222; }
+h3 { font-size: 18px; color: #666; }
+a { color: #066A93; }
+a:hover { color: #aa0000; }
+.clear { clear: both; }
+
+abbr {
+	border-bottom: 1px dotted #aaa;
+	cursor: help;
+}
+
+ul {
+    padding: 8px 26px;
+    margin: 0;
+    list-style: square;
+}
+
+/*** HTML5 tags ***/
+header, article, section, aside, figure, footer { display: block; }
+
