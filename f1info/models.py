@@ -77,12 +77,12 @@ class StatModel(VerboseModel):
         return self.results.filter(heat__type=Heat.RACE, dsq=False, position=1).count()
 
     @add_verbose_name(u'Лучшая позиция в гонках')
-    def get_best_race_place(self):
+    def get_best_race_pos(self):
         try:
             races = self.results.filter(heat__type=Heat.RACE)
             positions = []
             for race in races:
-                if race.position not in positions:
+                if race.is_classified():
                     positions.append(race.position)
             return min(positions)
         except ValueError:
@@ -104,7 +104,7 @@ class StatModel(VerboseModel):
         return self.results.filter(heat__type=Heat.GRID, position=1).count()
 
     @add_verbose_name(u'Лучшая позиция на старте')
-    def get_best_grid_place(self):
+    def get_best_grid_pos(self):
         try:
             races = self.results.filter(heat__type=Heat.GRID)
             positions = []

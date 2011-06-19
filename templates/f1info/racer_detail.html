@@ -45,12 +45,12 @@
 	    {% if object.birthday %}
     	<tr>
 		    <th>{{ object.get_verbose_name.birthday }}</th>
-		    <td class="date">{{ object.birthday|date_local:"j F Y" }}</td>
+		    <td>{{ object.birthday|date_local:"j F Y"|lower }}</td>
 	    </tr>
         {% if object.deathday %}
 	    <tr>
     	    <th>{{ object.get_verbose_name.deathday }}</th>
-		    <td class="date">{{ object.deathday|date_local:"j F Y" }} ({{ object.get_age }})</td>
+		    <td>{{ object.deathday|date_local:"j F Y"|lower }} ({{ object.get_age }})</td>
 	    </tr>
         {% else %}
         <tr>
@@ -102,11 +102,11 @@
 	    <tr>
     	    <th>
                 {{ object.get_verbose_name.get_win_count }}
-                {% if object.get_win_count = 0 %}<span class="get-best">{{ object.get_verbose_name.get_best_race_place }}</span>{% endif %}
+                {% if object.get_win_count = 0 %}<span class="get-best">{{ object.get_verbose_name.get_best_race_pos }}</span>{% endif %}
             </th>
     	    <td>
                 {{ object.get_win_count }}
-                {% if object.get_win_count = 0 %}<span class="get-best">{{ object.get_best_race_place }}</span>{% endif %}
+                {% if object.get_win_count = 0 %}<span class="get-best">{{ object.get_best_race_pos }}</span>{% endif %}
             </td>
         </tr>
         
@@ -117,11 +117,11 @@
 	    <tr>
     	    <th>
                 {{ object.get_verbose_name.get_poles_count }}
-                {% if object.get_poles_count = 0 %}<span class="get-best">{{ object.get_verbose_name.get_best_grid_place }}</span>{% endif %}
+                {% if object.get_poles_count = 0 %}<span class="get-best">{{ object.get_verbose_name.get_best_grid_pos }}</span>{% endif %}
             </th>
     	    <td>
                 {{ object.get_poles_count }}
-                {% if object.get_poles_count = 0 %}<span class="get-best">{{ object.get_best_grid_place }}</span>{% endif %}
+                {% if object.get_poles_count = 0 %}<span class="get-best">{{ object.get_best_grid_pos }}</span>{% endif %}
             </td>
         </tr>
 	    <tr>
