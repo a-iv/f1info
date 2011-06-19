@@ -153,5 +153,13 @@
 	    <div>{{ object.grandprix.tracklen.get_verbose_name.length }}: {{ object.grandprix.tracklen.length }}</div>
 	    <div>{{ object.get_verbose_name.laps }} : {{ object.laps }}</div>
 	    <em>{{ object.get_speed|floatformat:"3" }} км/ч</em>
+
+        {% if object.type == 'Q' %}
+            <h4>Рекорд круга в квалификации</h4>
+            {{ object.get_track_record.0 }}
+            {{ object.get_track_record.1 }}
+            {{ object.get_track_record.2 }}
+            {{ object.get_track_record.3 }}
+        {% endif %}
 	</aside>
 {% endblock %}
