@@ -24,12 +24,6 @@ def show_standings():
     results = Season.objects.get(year=2011)
     return {'object': results}
 
-@register.inclusion_tag('f1info/tags/calendar.html', takes_context=False)
-def show_calendar(year):
-    this_year = datetime.datetime.today()
-    gp = GrandPrix.objects.filter(season=Season.objects.get(year=str(year)))
-    return {'objects': gp, }
-
 @register.inclusion_tag('f1info/tags/winners.html', takes_context=False)
 def show_winners(gpid):
     gpname = GPName.objects.get(id=gpid)

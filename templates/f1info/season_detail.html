@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load frontpage_tags %}
+{% load utilities_tags %}
 
 {% block inner_breadcrumbs %}
 	<div id="breadcrumbs-wrap">
@@ -22,7 +22,40 @@
 		<a href="{% url season_detail object.get_next_season.slug %}">{{ object.get_next_season }}</a>
     {% endif %}
 
-    {% show_calendar object %}
+
+
+    <table class="sheudle">
+        <colgroup>
+            <col id="iter" />
+            <col id="grandprix" />
+            <col id="date" />
+            <col id="track" />
+        </colgroup>
+        <thead>
+            <tr>
+                <th>№</th>
+                <th>Гран-При</th>
+                <th>Дата</th>
+                <th>Трасса</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for grandprix in object.grandprixs.all %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>
+                        <span class="flag {{ grandprix.country.en_name|slugify }} left"></span>
+                        <a href="{% url grand_prix_detail grandprix.id %}">{{ grandprix.name }}</a>
+                    </td>
+                    <td>{{ grandprix.heats.reverse.0.date|date_local:"j F"|lower }}</td>
+                    <td>{{ grandprix.tracklen.track }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+
     
     <h3>Личный зачет</h3>
     <table class="season">
