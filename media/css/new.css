@@ -393,7 +393,7 @@ td.center { text-align: center; }
 td.nc { color: #666; }
 
 #driver-details {
-	margin-left: 280px;
+	margin-left: 242px;
 	font-size: 12px;
 	font-family: Tahoma,Arial,Helvetica,sans-serif;
 }
@@ -423,14 +423,16 @@ img.info {
 #driver-img {
     font-family: Tahoma,Arial,Helvetica,sans-serif;
     float: left;
-    width: 264px;
+    width: 210px;
+    padding: 0 8px;
 }
 
 img.driver-photo {
-    width: 240px;
+    width: 200px;
+    background: #fff;
 	display: block;
 	border: 1px solid #d9d9d9;
-	padding: 3px;
+	padding: 4px;
 	margin: 0 0 8px 0;
 	-moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
 	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
@@ -646,7 +648,7 @@ ul.seasons li {
 
 
 .main {
-    padding: 0 20px 0 0;
+    padding: 8px 20px 0 0;
     overflow: hidden;
 }
 
@@ -665,4 +667,35 @@ ul.seasons li {
     clear: both;
     margin-top: 24px;
     height: 50px;
+}
+
+.current-season {
+    overflow: hidden;
+    padding: 0 0 10px;
+    margin: 0 0 20px;
+    list-style: none;
+    border-bottom: 1px solid #ddd;
+}
+
+.current-season li {
+    float: left;
+    margin: 0 20px 0 0;
+}
+
+.current-season li:first-child {
+    color: #666;
+    font-size: 28px;
+    padding-top: 8px;
+}
+
+.grandprix-counter {
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+    margin: 0 0 3px 0;
+}
+
+#winners {
+    float: right;
 }

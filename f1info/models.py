@@ -236,6 +236,8 @@ def time_to_str(time):
                 result += '%02d:' % minute
             else:
                 result += '%2d:' % minute
+        else:
+            result += '%02d:' % minute
     else:
         result += '%2d:' % minute
     result += '%02d.%03d' % (second, millisecond)

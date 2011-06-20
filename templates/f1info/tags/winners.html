@@ -1,13 +1,20 @@
 <div id="winners">
 	<h2>Победители</h2>
-    <table>
+    <table class="results">
+        <tr>
+            <th>Год</th>
+            <th>Трасса</th>
+            <th>Гонщик</th>
+            <th>Команда</th>
+            <th>Время</th>
+        </tr>
         {% for object in objects reversed %}
         <tr>
-            <td>{{ object.grandprix.season }}</td>
+            <td>{{ object.grandprix.season.yar }}</td>
 	        <td>{{ object.grandprix.tracklen.track }}</td>
-	        <td>{{ object.get_results.all.0.racer }}</td>
-	        <td>{{ object.get_results.all.0.team }}</td>
-	        <td>{{ object.get_results.all.0.get_time_display }}</td>
+	        <td>{{ object.get_results.0.racer }}</td>
+	        <td>{{ object.get_results.0.team }}</td>
+	        <td>{{ object.get_results.0.get_time_display }}</td>
         </tr>
 	    {% endfor %}
 	</table>

@@ -16,6 +16,22 @@
 {% endblock %}
 
 {% block content %}
+    
+    <ul class="current-season">
+        <li>{{ object.season }}</li>
+        {% for grandprix in object.season.grandprixs.all %}
+            <li>
+                <span class="grandprix-counter">{{ forloop.counter }}</span>
+                <span class="flag {{ grandprix.country.en_name|slugify }}"></span>
+                <a href="{% url grand_prix_detail grandprix.id %}" title="Гран-При {{ grandprix.name }} {{ grandprix.season }}" class="abbr">
+                    <strong>{{ grandprix.name.abbr }}</strong>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    {% show_winners object.name.id %}
+
     <h2>{{ object.get_verbose_name.name }} {{ object.name }} {{ object.season }}</h2>
 
     <p><img src="{{ object.country.photo.url }}" alt="{{ object.country }}" /> {{ object.country }}</p>
@@ -27,6 +43,4 @@
             <li>{{ heat.date|date_local:"d F Y" }} <a href="{% url heat_detail heat.slug %}">{{ heat.get_type_display }}</a></li>
         {% endfor %}
     </ul>
-
-    {% show_winners object.name.id %}
 {% endblock %}

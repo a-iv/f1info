@@ -15,27 +15,29 @@
 </head>
 
 <body>
-	<header id="branding" class="page">
-		<a href="/" id="logo">f1online.ru</a>
-		<nav>{% block main_menu %}{% show_main_menu %}{% endblock %}</nav>
-	</header>
+    <div class="page">
+	    <header id="branding">
+		    <a href="/" id="logo">f1online.ru</a>
+		    <nav>{% block main_menu %}{% show_main_menu %}{% endblock %}</nav>
+	    </header>
 	
-	<section class="page">
-		{% block main %}
-		<article class="content">
-			{% block sidebar %}
-				<aside class="right">
-					{% block sidebar_content %}{% endblock %}
-				</aside>
-			{% endblock %}
-			{% block content_title %}<h1>{% block page_title %}{% endblock %}</h1>{% endblock %}
-			{% block content %}{% endblock %}
-		</article>
-		{% endblock %}
-	</section>
+	    <section>
+		    {% block main %}
+		    <article class="content">
+			    {% block sidebar %}
+				    <aside class="right">
+					    {% block sidebar_content %}{% endblock %}
+				    </aside>
+			    {% endblock %}
+			    {% block content_title %}<h1>{% block page_title %}{% endblock %}</h1>{% endblock %}
+			    {% block content %}{% endblock %}
+		    </article>
+		    {% endblock %}
+	    </section>
 	
-	<footer id="footer" class="page">
-        &copy; f1online.ru, 2011
-    </footer>
+	    <footer id="footer">
+            &copy; f1online.ru, 2011
+        </footer>
+    </div>
 </body>
 </html>

@@ -15,7 +15,7 @@
     		<a href="#" class="all">все статьи »</a>
     		<h3>Статьи</h3>
             {% get_page articles as articles %}
-            {% for article in articles.get_children %}
+            {% for article in articles.get_children|slice:":5" %}
 	        	<div class="article-item">
                     {% get_attachments for article as attachments %}
 		            {% with attachments.0 as attachment %}
