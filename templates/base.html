@@ -15,7 +15,7 @@
 </head>
 
 <body>
-    <div class="page">
+    <div class="page wrapper">
 	    <header id="branding">
 		    <a href="/" id="logo">f1online.ru</a>
 		    <nav>{% block main_menu %}{% show_main_menu %}{% endblock %}</nav>
@@ -33,11 +33,13 @@
 			    {% block content %}{% endblock %}
 		    </article>
 		    {% endblock %}
-	    </section>
-	
-	    <footer id="footer">
-            &copy; f1online.ru, 2011
-        </footer>
+	    </section>	
     </div>
+    <footer id="footer">
+        <div class="page">
+            &copy; F1Online, 2011
+        </div>
+    </footer>
+
 </body>
 </html>

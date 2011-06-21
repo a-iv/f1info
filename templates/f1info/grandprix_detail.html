@@ -2,7 +2,7 @@
 {% load frontpage_tags utilities_tags %}
 
 {% block title %}{{ object.get_verbose_name.name }} {{ object.name }} {{ object.season }} | F1Online.Ru{% endblock %}
-{% block title_wrap %}{% endblock %}
+{% block content_title %}{% endblock %}
 
 {% block inner_breadcrumbs %}
 	<div id="breadcrumbs-wrap">
@@ -15,8 +15,7 @@
 	</div>
 {% endblock %}
 
-{% block content %}
-    
+{% block content %}    
     <ul class="current-season">
         <li>{{ object.season }}</li>
         {% for grandprix in object.season.grandprixs.all %}
@@ -30,17 +29,26 @@
         {% endfor %}
     </ul>
 
-    {% show_winners object.name.id %}
+    {% show_winners object.name %}
 
-    <h2>{{ object.get_verbose_name.name }} {{ object.name }} {{ object.season }}</h2>
+    <article class="main">
+        <h2>{{ object.get_verbose_name.name }} {{ object.name }} {{ object.season }}</h2>
 
-    <p><img src="{{ object.country.photo.url }}" alt="{{ object.country }}" /> {{ object.country }}</p>
-    <p>{{ object.tracklen.track }}</p>
-    <p>{{ object.tracklen.length }} м</p>
-    
-    <ul>
-        {% for heat in object.heats.all %}
-            <li>{{ heat.date|date_local:"d F Y" }} <a href="{% url heat_detail heat.slug %}">{{ heat.get_type_display }}</a></li>
-        {% endfor %}
-    </ul>
+        <p>
+            <span class="flag {{ object.country.en_name|slugify }} left" title="{{ object.country }}"></span> {{ object.country }}
+        </p>
+        <p>{{ object.tracklen.track }}</p>
+        <p>{{ object.tracklen.length }} м</p>
+        <p>
+            <a href="{{ object.tracklen.track.googlemaps }}">Google Maps</a>
+        </p>
+        
+        <ul>
+            {% for heat in object.heats.all %}
+                <li>{{ heat.date|date_local:"j F"|lower }} <a href="{% url heat_detail heat.slug %}">{{ heat.get_type_display }}</a></li>
+            {% endfor %}
+        </ul>
+    </article>
 {% endblock %}
+
+{% block sidebar %}{% endblock %}

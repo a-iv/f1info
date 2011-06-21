@@ -1,5 +1,5 @@
 <div id="winners">
-	<h2>Победители</h2>
+	<h3>Победители Гран-При {{ grandprix }}</h3>
     <table class="results">
         <tr>
             <th>Год</th>
@@ -10,9 +10,13 @@
         </tr>
         {% for object in objects reversed %}
         <tr>
-            <td>{{ object.grandprix.season.yar }}</td>
+            <td>
+                <a href="{% url heat_detail object.slug %}">{{ object.grandprix.season.year }}</a>
+            </td>
 	        <td>{{ object.grandprix.tracklen.track }}</td>
-	        <td>{{ object.get_results.0.racer }}</td>
+	        <td>
+                <a href="{% url racer_detail object.get_results.0.racer.slug %}">{{ object.get_results.0.racer }}</a>
+            </td>
 	        <td>{{ object.get_results.0.team }}</td>
 	        <td>{{ object.get_results.0.get_time_display }}</td>
         </tr>

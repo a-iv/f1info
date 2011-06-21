@@ -25,9 +25,9 @@ def show_standings():
     return {'object': results}
 
 @register.inclusion_tag('f1info/tags/winners.html', takes_context=False)
-def show_winners(id):
-    heat = Heat.objects.filter(grandprix__name__id=id, type=Heat.RACE)
-    return {'objects': heat, }
+def show_winners(name):
+    heat = Heat.objects.filter(grandprix__name=name, type=Heat.RACE)
+    return {'objects': heat, 'grandprix': name, }
 
 @register.inclusion_tag('f1info/tags/today.html', takes_context=False)
 def show_today():
