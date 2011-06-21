@@ -687,7 +687,7 @@ class Retire(VerboseModel):
 
 class Result(VerboseModel):
     class Meta:
-        ordering = ['heat__date', 'position']
+        ordering = ['heat__date', 'delta', 'laps', 'position']
         verbose_name = u'Результат'
         verbose_name_plural = u'Результаты'
     heat = models.ForeignKey(Heat, verbose_name=u'Заезд', related_name='results')
@@ -721,7 +721,7 @@ class Result(VerboseModel):
 
     def get_delta_display(self):
         u'Отставание'
-        if self.delta == 0 and self.position == 1:
+        if self.delta <= 0 and self.delta is not None:
             return ''
         elif self.delta is None:
             if self.laps == 1:

@@ -727,3 +727,12 @@ table.winners td {
     border-bottom: 1px solid #eee;
 }
 */
+
+.dsq {
+    opacity: 0.5;
+    cursor: help;
+}
+
+.dsq abbr {
+    border-color: #000;
+}

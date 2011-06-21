@@ -53,10 +53,10 @@
 		            </tr>
                 </thead>
 		    {% endif %}
-	        <tr>
+	        <tr {% if result.dsq %}class="dsq" title="Дисквалификация"{% endif %}>
 	            {% if result.is_classified %}
 	                {% if result.dsq %}
-	            		<td class="center nc narrow">DSQ</td>
+	            		<td class="center nc narrow">{{ result.position }}</td>
 	           		{% else %}
 	                	<td class="center narrow">{{ result.position }}</td>
 	               	{% endif %}
@@ -65,17 +65,21 @@
 	            {% endif %}
 	            <td class="center narrow">{{ result.num }}</td>
 	            <td class="center narrow"><span class="flag {{ result.racer.country.en_name|slugify }}" title="{{ result.racer.country }}"></span></td>
-	            <td><a href="{% url racer_detail result.racer.slug %}">{{ result.racer }}</a></td>
+	            <td><a href="{% url racer_detail result.racer.slug %}" title="{{ result.racer }}">{{ result.racer }}</a></td>
 	            <td>{{ result.team }}</td>
 	            <td>{{ result.engine }}</td>
 	            <td class="center"><abbr title="{{ result.tyre }}">{{ result.tyre.name|slice:":1" }}</abbr></td>
 	            <td>
 	            	{% if object.type == 'R' %}
-		            	{% if result.position == 1 %}
-	            			{{ result.get_time_display }} 
-	        			{% else %}
-	        				{{ result.get_delta_display }}
-	    				{% endif %}
+                        {% if result.laps == 0 %}
+                            {% if result.delta > 0 %}
+                                {{ result.get_delta_display }}
+                            {% else %}
+    	            			{{ result.get_time_display }}
+                            {% endif %}
+                        {% else %}
+            				{{ result.get_delta_display }}
+                        {% endif %}
     				{% else %}
     					{{ result.get_time_display }}
     				{% endif %}
@@ -119,16 +123,16 @@
 				<th>Причина схода</th>
 			</tr>
 		    {% for result in object.get_fails %}
-		        <tr>
+		        <tr {% if result.dsq %}class="dsq" title="Дисквалификация"{% endif %}>
 		            {% if result.is_classified %}
 		                {% if result.dsq %}
-		            		<td class="center nc narrow">DSQ</td>
+		            		<td class="center nc narrow">DQ</td>
 		           		{% else %}
 		                	<td class="center narrow">{{ result.position }}</td>
 		               	{% endif %}
 		            {% else %}
 		            	{% if result.dsq %}
-		            		<td class="center nc narrow">DSQ</td>
+		            		<td class="center nc narrow">DQ</td>
 		           		{% else %}
 		                	<td class="center nc narrow">NC</td>
 		               	{% endif %}
