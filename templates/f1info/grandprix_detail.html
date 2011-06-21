@@ -4,7 +4,7 @@
 {% block title %}{{ object.get_verbose_name.name }} {{ object.name }} {{ object.season }} | F1Online.Ru{% endblock %}
 {% block content_title %}{% endblock %}
 
-{% block inner_breadcrumbs %}
+{% block breadcrumbs %}
 	<div id="breadcrumbs-wrap">
 		<div id="breadcrumbs">
 			<a href="/" class="home">F1Online.Ru</a> /
@@ -17,7 +17,9 @@
 
 {% block content %}    
     <ul class="current-season">
-        <li>{{ object.season }}</li>
+        <li>
+            <a href="{% url season_detail object.season.year %}">{{ object.season }}</a>
+        </li>
         {% for grandprix in object.season.grandprixs.all %}
             <li>
                 <span class="grandprix-counter">{{ forloop.counter }}</span>
@@ -38,7 +40,7 @@
             <span class="flag {{ object.country.en_name|slugify }} left" title="{{ object.country }}"></span> {{ object.country }}
         </p>
         <p>{{ object.tracklen.track }}</p>
-        <p>{{ object.tracklen.length }} м</p>
+        <p>{{ object.tracklen.convert_to_km }} км</p>
         <p>
             <a href="{{ object.tracklen.track.googlemaps }}">Google Maps</a>
         </p>

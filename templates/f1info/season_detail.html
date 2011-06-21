@@ -22,8 +22,6 @@
 		<a href="{% url season_detail object.get_next_season.slug %}">{{ object.get_next_season }}</a>
     {% endif %}
 
-
-
     <table class="sheudle">
         <colgroup>
             <col id="iter" />
@@ -55,8 +53,6 @@
     </table>
 
 
-
-    
     <h3>Личный зачет</h3>
     <table class="season">
    		<tr>
@@ -72,7 +68,6 @@
 	    	<th>Очки</th>
 	    	<th>&nbsp;</th>
     	</tr>
-    	
     	
     	{% for key,value in object.get_racer_table %}
     		{% if value.2.0 %}
@@ -144,4 +139,26 @@
 			{% endif %}
         {% endfor %}
     </table>
+    
+
+    <p>&nbsp;</p>
+    <h4>Победы пилотов</h4>
+    <table class="winners">
+        {% for winner in object.get_most_victories.0 %}
+            <tr>
+                <td>{{ winner.1 }}</td>
+                <td>{{ winner.0 }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <h4>Победы команд</h4>
+    <table class="winners">
+        {% for winner in object.get_most_victories.1 %}
+            <tr>
+                <td>{{ winner.1 }}</td>
+                <td>{{ winner.0 }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
 {% endblock %}

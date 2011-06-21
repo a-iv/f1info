@@ -645,8 +645,9 @@ ul.seasons li {
     border: 1px solid #f1ede4;
 	background: #f8f8f1;
 	float: right;
-	margin: 58px 0 0 30px;
-
+	margin: 58px 0 0 20px;
+    font-size: 12px;
+    line-height: 18px;
 }
 
 .get-best {
@@ -713,3 +714,16 @@ ul.seasons li {
 .wrapper {
     overflow: hidden;
 }
+
+/* Looks like shit
+table.winners {
+    padding: 4px;
+    border: 1px solid #eee;
+    background: #fff;
+}
+
+table.winners td {
+    padding: 4px 8px;
+    border-bottom: 1px solid #eee;
+}
+*/

@@ -486,6 +486,25 @@ class Season(VerboseModel):
         return teams
 
 
+    ### It needs to detect heat type from template ###
+    def get_most_victories(self):
+        racers = []
+        teams = []
+        count_racers = []
+        count_teams = []
+        for result in Result.objects.filter(heat__grandprix__season=self, position=1, dsq=False, heat__type=Heat.RACE):
+            racers.append(result.racer)
+            teams.append(result.team)
+        for racer in racers:
+            if (racers.count(racer), racer) not in count_racers:
+                count_racers.append((racers.count(racer), racer))
+        for team in teams:
+            if (teams.count(team), team) not in count_teams:
+                count_teams.append((teams.count(team), team))
+
+        return sorted(count_racers, reverse=True), sorted(count_teams, reverse=True)
+
+
     def __unicode__(self):
         return u'%d' % self.year
 
@@ -543,6 +562,9 @@ class TrackLen(VerboseModel):
     track = models.ForeignKey(Track, null=True)
     length = models.IntegerField(verbose_name=u'Длина трассы', default=0, blank=True)
     photo = models.ImageField(verbose_name=u'Схема', upload_to='upload/tracks/', null=True, blank=True)
+
+    def convert_to_km(self):
+        return float(self.length) / 1000
 
     def __unicode__(self):
         if self.track:
