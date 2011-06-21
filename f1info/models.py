@@ -638,7 +638,10 @@ class Heat(VerboseModel):
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
 
     def get_results(self):
-        return self.results.filter(models.Q(retire__reason=None) | models.Q(laps__lte=self.laps / 10 + 1))
+        if not self.results.filter(heat__type=Heat.RACE):
+            return self.results.filter(models.Q(retire__reason=None) | models.Q(laps__lte=self.laps / 10 + 1)).order_by('position')
+        else:
+            return self.results.filter(models.Q(retire__reason=None) | models.Q(laps__lte=self.laps / 10 + 1))
 
     def get_fails(self):
         return self.results.exclude(models.Q(retire__reason=None) | models.Q(laps__lte=self.laps / 10 + 1))
@@ -721,8 +724,13 @@ class Result(VerboseModel):
 
     def get_delta_display(self):
         u'Отставание'
-        if self.delta <= 0 and self.delta is not None:
+        if self.heat.type == Heat.RACE and self.delta <= 0 and self.delta is not None:
             return ''
+        elif self.heat.type != Heat.RACE and self.delta == 0:
+            if self.position == 1:
+                return ''
+            else:
+                return '+ %s' % self.delta
         elif self.delta is None:
             if self.laps == 1:
                 return '+%d %s' % (self.laps, u'круг')
@@ -732,7 +740,11 @@ class Result(VerboseModel):
                 return '+%d %s' % (self.laps, u'кругов')
             return ''
         else:
-            return '+%s' % time_to_str_gap(self.delta)
+            ### if some bug will be found in Results display - here's the reason below, lol
+            if self.delta < 0:
+                return '- %s' % abs(self.delta) ### bydlo-code
+            else:
+                return '+%s' % time_to_str_gap(self.delta)
     
     def get_lap_display(self):
         u'Круг схода'
