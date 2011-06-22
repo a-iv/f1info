@@ -8,6 +8,15 @@
 	<a href="{{ object.googlemaps }}">Google Maps</a><br/>
 	<a href="{{ object.website }}">{{ object.website }}</a>
 
+    <h3>Конфигурации трассы</h3>
+    <ul>
+        {% for tracklen in object.tracks.all %}
+            <li>{{ tracklen }}</li>
+        {% endfor %}
+    </ul>
+
+
+
 	{{ object.info|safe }}
 
 {% endblock %}

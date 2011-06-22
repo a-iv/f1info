@@ -559,7 +559,7 @@ class TrackLen(VerboseModel):
         ordering = ['track']
         verbose_name = u'Длина трассы'
         verbose_name_plural = u'Длины трассы'
-    track = models.ForeignKey(Track, null=True)
+    track = models.ForeignKey(Track, null=True, related_name='tracks')
     length = models.IntegerField(verbose_name=u'Длина трассы', default=0, blank=True)
     photo = models.ImageField(verbose_name=u'Схема', upload_to='upload/tracks/', null=True, blank=True)
 
