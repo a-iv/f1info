@@ -647,10 +647,11 @@ class Heat(VerboseModel):
         return self.results.exclude(models.Q(retire__reason=None) | models.Q(laps__lte=self.laps / 10 + 1))
       
     def get_speed(self):
-        if self.type == self.RACE:
-            return ((Decimal(self.grandprix.tracklen.length) * self.laps)/1000) / (self.time/3600)
-        else:
-            return (self.grandprix.tracklen.length/1000.0) / (float(self.time)/3600.0)
+        if self.time:
+            if self.type == self.RACE:
+                return ((Decimal(self.grandprix.tracklen.length) * self.laps)/1000) / (self.time/3600)
+            else:
+                return (self.grandprix.tracklen.length/1000.0) / (float(self.time)/3600.0)
 
     def get_race_length(self):
         return ((Decimal(self.grandprix.tracklen.length) * self.laps)/1000)
@@ -667,9 +668,9 @@ class Heat(VerboseModel):
         heat = Heat.objects.filter(time=record, type=self.type)[:1]
         if self.type == 'R':
             heat = Heat.objects.filter(time=record, type='B')[:1]
+        year = heat.get().grandprix.season.year
         driver = heat.get().get_results()[0].racer
         team = heat.get().get_results()[0].team
-        year = heat.get().grandprix.season.year
         return year, driver, team, time_to_str(record)
 
     def __unicode__(self):

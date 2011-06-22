@@ -21,12 +21,16 @@
             <a href="{% url season_detail object.season.year %}">{{ object.season }}</a>
         </li>
         {% for grandprix in object.season.grandprixs.all %}
-            <li>
+            <li {% if not grandprix.heats.all %}class="inactive"{% endif %}>
                 <span class="grandprix-counter">{{ forloop.counter }}</span>
                 <span class="flag {{ grandprix.country.en_name|slugify }}"></span>
+                {% if grandprix.heats.all %}
                 <a href="{% url grand_prix_detail grandprix.id %}" title="Гран-При {{ grandprix.name }} {{ grandprix.season }}" class="abbr">
                     <strong>{{ grandprix.name.abbr }}</strong>
                 </a>
+                {% else %}
+                    <strong class="abbr">{{ grandprix.name.abbr }}</strong>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>

@@ -379,7 +379,7 @@ table.season td, table.season th {
 	text-align: left;
 }
 
-a.abbr {
+.abbr {
     font-size: 9px;
     line-height: 18px;
 }
@@ -733,6 +733,6 @@ table.winners td {
     cursor: help;
 }
 
-.dsq abbr {
-    border-color: #000;
-}
+.inactive { opacity: 0.5; }
+
+.dsq abbr { border-color: #000; }
