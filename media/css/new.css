@@ -769,6 +769,10 @@ table.winners td {
     color: #c00000;
 }
 
+.calendar td.weekend a {
+    color: #c00000;
+}
+
 .calendar td a {
     font-weight: bold;
 }
@@ -777,6 +781,10 @@ table.winners td {
     background: #fff !important;
 	border-bottom: 2px solid #e5e4de;
 	color: #333;
+}
+
+.calendar td.active {
+    background: #efefe0;
 }
 
 .wide-column {
