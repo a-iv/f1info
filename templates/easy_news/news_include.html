@@ -1,6 +1,14 @@
+{% load attachment_tags %}
+
 <div class="news-list">
     {% if object_list %}
         {% for object in object_list %}
+            {% get_attachments for object as attachments %}
+	        {% with attachments.0 as attachment %}
+	            {% if attachment.image %}
+	                <img src="{{ attachment.mini.url }}" alt="{{ object.title }}" class="mini" />
+	            {% endif %}
+	        {% endwith %}
             <div class="news-date">{{ object.date|date:"d" }} {{ object.month|lower }} {{ object.date|date:"Y" }}</div>
             <div class="news-title"><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></div>
             <div class="news-short">{{ object.short|safe }}</div>

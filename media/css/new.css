@@ -105,7 +105,7 @@ img.top {
 	margin-bottom: 0;
 }
 
-.ex-news-item img {
+img.mini {
 	float: left;
 	margin: 0 6px 0 0;
 	padding: 1px;
@@ -757,8 +757,12 @@ table.winners td {
 }
 
 .calendar th, .calendar td {
-    padding: 4px 5px;
+    padding: 2px 4px;
     text-align: center;
+}
+
+.calendar td {
+    border: 2px solid #fff;
 }
 
 .calendar td.grey {

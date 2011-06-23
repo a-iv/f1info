@@ -20,7 +20,7 @@
 				{% get_attachments for object as attachments %}
 		        {% with attachments.0 as attachment %}
 		            {% if attachment.image %}
-		                <img src="{{ attachment.mini.url }}" alt="{{ object.title }}" />
+		                <img src="{{ attachment.mini.url }}" alt="{{ object.title }}" class="mini" />
 		            {% endif %}
 		        {% endwith %}
 				<span>{{ object.date|date:"d" }} {{ object.date|date_local:"F" }}</span>
