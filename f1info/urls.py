@@ -109,6 +109,5 @@ urlpatterns += patterns(
     (r'^sitemap.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     (r'^news/', include('easy_news.urls')),
     (r'^', include('pages.urls')),
-    url(r'^$', 'pages.views.details', name='pages-root'),
     url(r'^markitup/', include('markitup.urls'))
 )
