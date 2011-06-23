@@ -8,7 +8,7 @@
     {% for week in calendar %}
     <tr>
         {% for day in week %}
-            <td {% if not day.in_month %}class="grey"{% endif %}>
+            <td {% if not day.in_month %}class="grey"{% endif %}{% if day.weekend %}class="weekend"{% endif %}>
                 {% if day.news %}
                     <a href="{{ day.news.get_absolute_url }}">{{ day.day|date:"j" }}</a>
                 {% else %}

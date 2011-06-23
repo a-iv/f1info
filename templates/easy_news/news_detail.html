@@ -1,10 +1,27 @@
 {% extends "easy_news/base.html" %}
+{% load attachment_tags easy_news_tags %}
 
 {% block title %}{{ object.title }}{% endblock %}
-{% block content_title %}{{ object.title }}{% endblock %}
+{% block content_title %}{% endblock %}
+
+{% block sidebar %}
+    <aside class="right">
+        {% calendar object.date.year object.date.month %}
+    </aside>
+{% endblock %}
 
 {% block content %}
-    <div class="news-date">{{ object.date|date:"d" }} {{ object.month }} {{ object.date|date:"Y" }}</div>
-    <div class="news-text">{{ object.full|safe }}</div>
-    <div class="news-list"><a href="{% url news_list %}">Все новости</a></div>
+    <article class="wide-column">
+        {% get_attachments for object as attachment %}
+        {% with attachment.0 as image %}
+            {% if image.image %}
+                <img src="{{ image.top.url }}" alt="{{ object.title }}" title="{{ object.title }}" class="top" />
+            {% endif %}
+        {% endwith %}
+        <h1>{{ object.title }}</h1>
+        <div class="news-date">{{ object.date|date:"d" }} {{ object.month|lower }} {{ object.date|date:"Y" }}</div>
+        <div class="news-text">{{ object.full|safe }}</div>
+        <div class="news-list"><a href="{% url news_list %}">Все новости</a></div>
+    </article>
 {% endblock %}
+

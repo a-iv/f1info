@@ -77,7 +77,7 @@ a#logo:hover { background-position: 0 -35px; }
 
 #top-story p { color: #333; }
 
-#top-story img {
+img.top {
 	display: block;
 	float: left;
 	border: 1px solid #d9d9d9;
@@ -658,6 +658,9 @@ ul.seasons li {
 .main {
     padding: 0 20px 0 0;
     overflow: hidden;
+}
+
+.content {
     line-height: 18px;
 }
 
@@ -736,3 +739,47 @@ table.winners td {
 .inactive { opacity: 0.5; }
 
 .dsq abbr { border-color: #000; }
+
+
+
+
+
+/*** News calendar ***/
+
+.calendar {
+    background: #fff;
+	border: 1px solid #e5e4de;
+	border-collapse: separate;
+	padding: 4px 4px 8px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;                     
+}
+
+.calendar th, .calendar td {
+    padding: 4px 5px;
+    text-align: center;
+}
+
+.calendar td.grey {
+    color: #ccc;
+}
+
+.calendar td.weekend {
+    color: #c00000;
+}
+
+.calendar td a {
+    font-weight: bold;
+}
+
+.calendar th {
+    background: #fff !important;
+	border-bottom: 2px solid #e5e4de;
+	color: #333;
+}
+
+.wide-column {
+    width: 720px;
+}
+

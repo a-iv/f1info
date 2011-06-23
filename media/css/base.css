@@ -6,6 +6,7 @@ h1, h2, h3 {
 h1 { font-size: 22px;}
 h2 { font-size: 20px; color: #222; }
 h3 { font-size: 18px; color: #666; }
+p { margin: 0 0 16px; }
 a { color: #066A93; }
 a:hover { color: #aa0000; }
 .clear { clear: both; }
