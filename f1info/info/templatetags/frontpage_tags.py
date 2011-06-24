@@ -9,13 +9,11 @@ register = template.Library()
 
 @register.inclusion_tag('f1info/tags/nextgp.html', takes_context=False)
 def show_nextgp():
-    current = datetime.datetime.today()
+    today = datetime.datetime.today()
     try:
-        next = Heat.objects.filter(date__gte=current)[:1]
-        gp = GrandPrix.objects.filter(heats=next)
-        start = Heat.objects.filter(grandprix=gp)[0]
-        end = get_last(Heat.objects.filter(grandprix=gp))
-        return {'nextgp': next, 'current': current, 'start': start, 'end': end,}
+        next = Heat.objects.filter(date__gte=today)[0]
+        heats = next.grandprix.heats.exclude(type='B')
+        return {'nextgp': next, 'heats': heats, }
     except:
         pass
 

@@ -3,44 +3,41 @@
 <div class="block nextgp">
 	<a href="#" class="all">календарь »</a>
 	<h3>Следующий этап</h3>
-	
-	
-	
-	
 	<img src="/media/_img/bahrain.jpg" alt="" class="gp" />
 	
-	
-	
-	{% if start.grandprix.tracklen.photo %}
+	{% if heats.0.grandprix.tracklen.photo %}
 		<img src="{{ start.grandprix.tracklen.photo.url }}" alt="{{ object.grandprix.tracklen.track }}" width="100" style="float:right" />
 	{% endif %}
 	
-	
-	
-	
 	<div id="gpname">
-		<img src="{{ start.grandprix.country.photo.url }}" alt="{{ start.grandprix.country }}" />
-		Гран-При {{ start.grandprix.name }}
+		<img src="{{ heats.grandprix.country.photo.url }}" alt="{{ heats.grandprix.country }}" />
+		Гран-При {{ heats.0.grandprix.name }}
 	</div>
 	
-	
-	
-	<span class="small-grey">
-		{{ start.date|date:"j" }}&ndash;{{ end.date|date_local:"j F" }}: 
-		<span class="normal">{{ start.grandprix.tracklen.track }}</span>
-	</span>
-	
-	
 	<section id="heat-list">
-		{% for heat in start.grandprix.heats.all %}
+		{% for heat in heats %}
 			<p>
-				<em>{{ heat.date|date_local:"D" }}, <strong>{{ heat.date|date:"H:i" }}</strong></em>
-				<a href="{% url heat_detail heat.id %}">{{ heat.get_type_display }}</a>
+                {% if not heat.type == 'G' %}
+				    <em>{{ heat.date|date_local:"D" }}, <strong>{{ heat.date|date:"H:i" }}</strong></em>
+                {% endif %}
+                {% if heat.time %}
+				    <a href="{% url heat_detail heat.slug %}">{{ heat.get_type_display }}</a>
+                {% else %}
+                    <strong>{{ heat.get_type_display }}</strong>
+                {% endif %}
 			</p>
 		{% endfor %}
 		<span class="clock">Московское время</span>
 	</section>
+
+	<span class="small-grey">
+		{{ heats.0.date|date:"j" }}
+        {% if heats.0.date.month != heats.reverse.0.date.month %}
+            {{ heats.0.date|date_local:" F"|lower }}
+        {% endif %}
+        &ndash; {{ heats.reverse.0.date|date_local:"j F"|lower }}<br/> 
+		<span class="normal">{{ heats.0.grandprix.tracklen.track }}</span>
+	</span>
 	
 	{% show_standings %}
-	
 </div>
