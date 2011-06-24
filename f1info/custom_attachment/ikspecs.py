@@ -15,8 +15,8 @@ class ThumbDisplay(processors.Resize):
     height = 80
 
 class MiniDisplay(processors.Resize):
-    width = 55
-    height = 55
+    width = 48
+    height = 48
     crop = True
 
 class ArticlesDisplay(processors.Resize):
@@ -25,8 +25,7 @@ class ArticlesDisplay(processors.Resize):
     crop = True
 
 class TopDisplay(processors.Resize):
-    width = 370
-    height = 250
+    width = 320
 
 class HeatDisplay(processors.Resize):
     width = 266

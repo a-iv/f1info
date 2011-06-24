@@ -9,37 +9,37 @@
     <link rel="stylesheet" type="text/css" media="screen" href="/media/css/reset.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/media/css/base.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="/media/css/new.css" />
-    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="shortcut icon" href="/media/img/favicon.ico" />
     {% block head %}{% endblock %}
     {% chunk "end-of-head" %}
 </head>
 
 <body>
-    <div class="page wrapper">
-	    <header id="branding">
-		    <a href="/" id="logo">f1online.ru</a>
-		    <nav>{% block main_menu %}{% show_main_menu %}{% endblock %}</nav>
-	    </header>
-	
-	    <section>
-		    {% block main %}
-		    <article class="content">
-			    {% block sidebar %}
-				    <aside class="right">
-					    {% block sidebar_content %}{% endblock %}
-				    </aside>
-			    {% endblock %}
-			    {% block content_title %}<h1>{% block page_title %}{% endblock %}</h1>{% endblock %}
-			    {% block content %}{% endblock %}
-		    </article>
-		    {% endblock %}
-	    </section>	
+    <div id="branding">
+        <div class="page">
+	        <a href="/" id="logo">f1online.ru</a>
+	        {% block menu %}{% show_main_menu %}{% endblock %}
+        </div>
     </div>
-    <footer id="footer">
+
+    <div class="page">
+	    {% block main %}
+	    <div class="content">
+		    {% block sidebar %}
+			    <div class="right">
+				    {% block sidebar_content %}{% endblock %}
+			    </div>
+		    {% endblock %}
+		    {% block content_title %}<h1>{% block page_title %}{% endblock %}</h1>{% endblock %}
+		    {% block content %}{% endblock %}
+	    </div>
+	    {% endblock %}
+    </div>
+
+    <div id="footer">
         <div class="page">
             &copy; F1Online, 2011
         </div>
-    </footer>
-
+    </div>
 </body>
 </html>

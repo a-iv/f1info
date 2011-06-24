@@ -1,33 +1,43 @@
 @import url('flags.css');
 
 body {
-	font-family: Tahoma,Arial,Helvetica,sans-serif;
-	color: #000;
-	font-size: 12px;
-	background: url(/media/img/top-nav-bg.png) repeat-x top #fafafa;
+	background: #fff;
+    padding: 0;
 	margin: 0;
+	font-family: Tahoma,Arial,Helvetica,sans-serif;
+	font-size: 12px;
+	color: #000;
 }
 
 .page {
 	width: 980px;
 	margin: 0 auto;
+    overflow: hidden;
 }
 
 
 /*** Top navigation ***/
 #branding {
+    background: #fcfbf4;
 	height: 48px;
-	font-family: Georgia, "Times New Roman", serif;
-	margin-bottom: 24px;
+	margin-bottom: 16px;
+    border-bottom: 2px solid #666;
 }
 
 #branding ul {
+    float: left;
     padding: 0;
-    margin: 0;
+    margin: 0 0 0 20px;
     list-style: none;
+    line-height: 48px;
 }
 
-a#logo {
+#branding li {
+    float: left;
+    margin: 0 16px;
+}
+
+#logo {
 	width: 175px;
 	height: 35px;
 	background: url(/media/img/logo_new.png) no-repeat 0 0;
@@ -37,36 +47,26 @@ a#logo {
 	display: block;
 }
 
-a#logo:hover { background-position: 0 -35px; }
-
-#branding li {
-	float: left;
-}
-
-#branding nav a {
-	padding: 0 20px;
-	color: #333;
-	font-size: 13px;
-	line-height: 48px;
-}
+#logo:hover { background-position: 0 -35px; }
 
 /*** Breaking news ***/
 #breaking-news {
-	height: 258px;
-	padding-bottom: 10px;
-	margin-bottom: 10px;
+	height: 226px;
+	padding-bottom: 14px;
+	margin-bottom: 14px;
 	border-bottom: 1px solid #ebeae0;
 }
 
 #top-story {
-	width: 715px;
+	width: 720px;
 	float: left;
 	line-height: 18px;
 }
 
 #top-story h1 {
-	font-size: 19px;
-	margin: 8px 0 12px 0;
+	font-size: 18px;
+    line-height: 26px;
+	margin: 0 0 4px 0;
 }
 
 .story-date {
@@ -80,18 +80,18 @@ a#logo:hover { background-position: 0 -35px; }
 img.top {
 	display: block;
 	float: left;
-	border: 1px solid #d9d9d9;
-	padding: 3px;
-	margin: 0 12px 0 0;
-	-moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+	border: 1px solid #ccc;
+	padding: 4px;
+	margin: 0 16px 0 0;
+	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
 }
 
 #extra-news {
-	width: 250px;
+	width: 224px;
 	float: left;
-	margin-left: 10px;
+	margin-left: 16px;
 }
 
 .ex-news-item {
@@ -154,7 +154,7 @@ img.mini {
 	border-color: #ececec;
 	background: url(/media/img/news-bg.png) repeat-x top #fafafa;
 	float: left;
-	margin-right: 10px;
+	margin-right: 14px;
 	padding-bottom: 3px;
 }
 
@@ -186,9 +186,10 @@ a.news-item {
 
 /*** Next Grand Prix ***/
 .nextgp {
-	width: 300px;
+	width: 308px;
 	border-color: #f1e9e4;
 	background: url(/media/img/grandprix-bg.png) repeat-x top #fbf9f7;
+    margin-right: 14px;
 	float: left;
 }
 
@@ -323,11 +324,10 @@ a.full-standings-link img {
 
 /*** Last articles ***/
 .articles {
-	width: 238px;
+	width: 222px;
 	border-color: #f1ede4;
 	background: #f8f8f1;
 	float: left;
-	margin-left: 10px;
 }
 
 .articles h3 { color: #574A2D; }
@@ -677,10 +677,11 @@ ul.seasons li {
 
 #footer {
     clear: both;
-    margin-top: 32px;
-    height: 28px;
-    padding-top: 20px;
-    background: url(/media/img/footer-bg.png) repeat-x top #fafafa;
+    border-top: 2px solid #666;
+    padding-top: 18px;
+    margin-top: 16px;
+    height: 30px;
+    background: #fcfbf4;
 }
 
 .current-season {
