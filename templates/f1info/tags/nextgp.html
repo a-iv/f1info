@@ -35,7 +35,7 @@
         {% if heats.0.date.month != heats.reverse.0.date.month %}
             {{ heats.0.date|date_local:" F"|lower }}
         {% endif %}
-        &ndash; {{ heats.reverse.0.date|date_local:"j F"|lower }}<br/> 
+        &ndash; {{ heats.reverse.0.date|date_local:"j F Y"|lower }}<br/> 
 		<span class="normal">{{ heats.0.grandprix.tracklen.track }}</span>
 	</span>
 	

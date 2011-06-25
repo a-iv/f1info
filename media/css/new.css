@@ -1,7 +1,7 @@
 @import url('flags.css');
 
 body {
-	background: #fff;
+	background: #fcfcfc;
     padding: 0;
 	margin: 0;
 	font-family: Tahoma,Arial,Helvetica,sans-serif;
@@ -12,7 +12,6 @@ body {
 .page {
 	width: 980px;
 	margin: 0 auto;
-    overflow: hidden;
 }
 
 
@@ -372,7 +371,10 @@ table.season {
 	border: 1px solid #eee;
 	border-collapse: separate;
 	padding: 4px 4px 8px;
+    line-height: 14px;
 	-moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
 }
 
 table.season td, table.season th {
@@ -690,6 +692,7 @@ ul.seasons li {
     padding: 0 0 10px;
     margin: 0 0 20px;
     list-style: none;
+    line-height: normal;
     border-bottom: 1px solid #ddd;
 }
 

@@ -36,7 +36,7 @@ def show_today():
 
 @register.inclusion_tag('f1info/tags/twitters.html', takes_context=False)
 def show_twitter():
-    twitters = Racer.objects.exclude(twitter=None)
+    twitters = Racer.objects.exclude(twitter='')
     return {'twitters': twitters, }
 
 @register.inclusion_tag('f1info/tags/current_letter.html', takes_context=False)

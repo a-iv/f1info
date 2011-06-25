@@ -211,3 +211,4 @@ ATTACHMENT_IKSPECS = 'f1info.custom_attachment.ikspecs'
 MARKITUP_SET = 'markitup/sets/markdown'
 MARKITUP_FILTER = ('markdown.markdown', {'safe_mode': True})
 MARKITUP_AUTO_PREVIEW = False
+JQUERY_URL = '/media/js/jquery-1.3.2.min.js'

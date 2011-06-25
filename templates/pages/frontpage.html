@@ -4,11 +4,11 @@
 {% block content_title %}{% endblock %}
 
 {% block main %}
-	<section id="breaking-news">
+	<div id="breaking-news">
 		{% breaking_news %}
-	</section>
+	</div>
 	
-	<section id="second-line">
+	<div class="three-blocks clearfix">
 		{% show_nextgp %}
 		{% latest_news %}
 		<div class="block articles">
@@ -29,5 +29,17 @@
 	        	</div>
             {% endfor %}
 	    </div>
-	</section>
+	</div>
+
+    <div class="three-blocks clearfix">
+        <div class="block nextgp">
+            {% show_twitter %}
+        </div>
+        <div class="block news">
+            test
+        </div>
+        <div class="block articles">
+            {% show_today %}
+        </div>
+    </div>
 {% endblock %}
