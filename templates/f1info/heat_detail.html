@@ -139,7 +139,7 @@
 		            {% endif %}
 		            <td class="center narrow">{{ result.num }}</td>
 		            <td class="center narrow"><span class="flag {{ result.racer.country.en_name|slugify }}" title="{{ result.racer.country }}">{{ result.racer.country }}</span></td>
-		            <td><a href="{% url racer_detail result.racer.slug %}">{{ result.racer }}</a></td>
+		            <td><a href="{% url racer_detail result.racer.slug %}" title="{{ result.racer }}">{{ result.racer }}</a></td>
 		            <td>{{ result.team }}</td>
 		            <td>{{ result.engine }}</td>
 		            <td class="center"><abbr title="{{ result.tyre }}">{{ result.tyre.name|slice:":1" }}</abbr></td>

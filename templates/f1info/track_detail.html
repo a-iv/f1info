@@ -15,7 +15,19 @@
         {% endfor %}
     </ul>
 
+    <h3>Наибольшее количество побед</h3>
+    <ul>
+        {% for win in object.get_most_wins %}
+            <li>{{ win.1 }} &ndash; {{ win.0 }}</li>
+        {% endfor %}
+    </ul>
 
+    <h3>Наибольшее количество поул-позишн</h3>
+    <ul>
+        {% for pole in object.get_most_poles %}
+            <li>{{ pole.1 }} &ndash; {{ pole.0 }}</li>
+        {% endfor %}
+    </ul>
 
 	{{ object.info|safe }}
 

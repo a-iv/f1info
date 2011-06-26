@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 import datetime
 from django.db import models
-from django.core.cache import cache
 from decimal import Decimal
 from markitup.fields import MarkupField
 
@@ -496,13 +495,11 @@ class Season(VerboseModel):
             racers.append(result.racer)
             teams.append(result.team)
         for racer in racers:
-            if (racers.count(racer), racer) not in count_racers:
-                count_racers.append((racers.count(racer), racer))
+            count_racers.append((racers.count(racer), racer))
         for team in teams:
-            if (teams.count(team), team) not in count_teams:
-                count_teams.append((teams.count(team), team))
+            count_teams.append((teams.count(team), team))
 
-        return sorted(count_racers, reverse=True), sorted(count_teams, reverse=True)
+        return sorted(set(count_racers), reverse=True), sorted(set(count_teams), reverse=True)
 
 
     def __unicode__(self):
@@ -549,6 +546,30 @@ class Track(VerboseModel):
     googlemaps = models.CharField(verbose_name=u'Google Maps', max_length=300, default='', blank=True)
     website = models.CharField(verbose_name=u'Веб-сайт', max_length=100, null=True, blank=True)
     info = MarkupField(default='', null=True, blank=True)
+
+    def get_most(self, filter):
+        try:
+            racers = []
+            winners = []
+            for result in Result.objects.filter(**filter):
+                racers.append(result.racer)
+            for racer in racers:
+                winners.append((racers.count(racer), racer))
+            counter = sorted(set(winners), reverse=True)
+            temp = []
+            for wins in counter:
+                temp.append(wins[0])
+            return counter[:temp.count(temp[0])]
+        except IndexError:
+            pass
+
+    def get_most_wins(self):
+        filter = { 'position': 1, 'dsq': False, 'heat__type': 'R', 'heat__grandprix__tracklen__track': self }
+        return self.get_most(filter)
+
+    def get_most_poles(self):
+        filter = { 'position': 1, 'heat__type': 'G', 'heat__grandprix__tracklen__track': self }
+        return self.get_most(filter)
 
     def __unicode__(self):
         return u'%s' % (self.name)
