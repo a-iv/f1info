@@ -23,42 +23,69 @@
         {% for grandprix in object.season.grandprixs.all %}
             <li {% if not grandprix.heats.all %}class="inactive"{% endif %}>
                 <span class="grandprix-counter">{{ forloop.counter }}</span>
-                <span class="flag {{ grandprix.country.en_name|slugify }}"></span>
                 {% if grandprix.heats.all %}
                 <a href="{% url grand_prix_detail grandprix.id %}" title="Гран-При {{ grandprix.name }} {{ grandprix.season }}" class="abbr">
+                <span class="flag {{ grandprix.country.en_name|slugify }}"></span>
                     <strong>{{ grandprix.name.abbr }}</strong>
                 </a>
                 {% else %}
+                    <span class="flag {{ grandprix.country.en_name|slugify }}"></span>
                     <strong class="abbr">{{ grandprix.name.abbr }}</strong>
                 {% endif %}
             </li>
         {% endfor %}
     </ul>
 
-    {% show_winners object.name %}
+    <div id="winners">
+	    <h3>Победители Гран-При {{ object.name }}</h3>
+        <table class="results">
+            <tr>
+                <th>Год</th>
+                <th>Трасса</th>
+                <th>Гонщик</th>
+                <th>Команда</th>
+            </tr>
+            {% for result in object.get_winners reversed %}
+            <tr>
+                <td>
+                    <a href="{% url heat_detail result.heat.slug %}">{{ result.heat.grandprix.season }}</a>
+                </td>
+	            <td>{{ result.heat.grandprix.tracklen.track }}</td>
+	            <td>
+                    <a href="{% url racer_detail result.racer.slug %}">{{ result.racer }}</a>
+                </td>
+	            <td>{{ result.team }}</td>
+            </tr>
+	        {% endfor %}
+	    </table>
+    </div>
 
     <div class="main clearfix">
         <h2>{{ object.get_verbose_name.name }} {{ object.name }} {{ object.season }}</h2>
         <h3>{{ object.tracklen.track }}</h3>
+
+        {% if object.name.photo %}
+            <img src="{{ object.name.photo.url }}" class="border grandprix-photo"/>
+        {% endif %}
         
         <ul class="grandprix-info">
+            <li>
+                <img class="info" alt="Website" src="/media/img/website.png">
+                <a href="{{ object.tracklen.track.googlemaps }}">Google Maps</a>
+            </li>
             <li>
                 <strong>Длина трассы:</strong> {{ object.tracklen.convert_to_km }} км
             </li>
             <li>
-                <strong>Рекорд круга в квалификации:</strong> <a href="{% url heat_detail object.get_qual_record.heat.slug %}">{{ object.get_qual_record.get_time_display }}</a> &ndash; {{ object.get_qual_record.heat.grandprix.season.year }}, {{ object.get_qual_record.racer }}, {{ object.get_qual_record.team }}
+                <strong>Рекорд круга в квалификации:</strong><br/>
+                <a href="{% url heat_detail object.get_qual_record.heat.slug %}">{{ object.get_qual_record.get_time_display }}</a> &ndash; {{ object.get_qual_record.heat.grandprix.season.year }}, {{ object.get_qual_record.racer }}, {{ object.get_qual_record.team }}
             </li>
             <li>
-                <strong>Рекорд круга в гонке:</strong> <a href="{% url heat_detail object.get_race_record.heat.slug %}">{{ object.get_race_record.get_time_display }}</a> &ndash; {{ object.get_race_record.heat.grandprix.season.year }}, {{ object.get_race_record.racer }}, {{ object.get_race_record.team }}
+                <strong>Рекорд круга в гонке:</strong><br/>
+                <a href="{% url heat_detail object.get_race_record.heat.slug %}">{{ object.get_race_record.get_time_display }}</a> &ndash; {{ object.get_race_record.heat.grandprix.season.year }}, {{ object.get_race_record.racer }}, {{ object.get_race_record.team }}
             </li>
         </ul>
 
-        <p>
-            <a href="{{ object.tracklen.track.googlemaps }}">Google Maps</a>
-        </p>
-        {% if object.name.photo %}
-            <img src="{{ object.name.photo.url }}" class="border grandprix-photo"/>
-        {% endif %}
         <ul>
             {% for heat in object.heats.all %}
                 <li>{{ heat.date|date_local:"j F"|lower }} <a href="{% url heat_detail heat.slug %}">{{ heat.get_type_display }}</a></li>

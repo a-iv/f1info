@@ -22,11 +22,6 @@ def show_standings():
     results = Season.objects.get(year=2011)
     return {'object': results}
 
-@register.inclusion_tag('f1info/tags/winners.html', takes_context=False)
-def show_winners(name):
-    heat = Heat.objects.filter(grandprix__name=name, type=Heat.RACE)
-    return {'objects': heat, 'grandprix': name, }
-
 @register.inclusion_tag('f1info/tags/today.html', takes_context=False)
 def show_today():
     today = datetime.datetime.today()

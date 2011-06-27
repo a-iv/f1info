@@ -620,6 +620,9 @@ class GrandPrix(VerboseModel):
     country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='grandprixs', null=True, blank=True)
     tracklen = models.ForeignKey(TrackLen, verbose_name=u'Трасса', related_name='tracks', null=True, blank=True)
 
+    def get_winners(self):
+        return Result.objects.filter(position=1, heat__type=Heat.RACE, heat__grandprix__name=self.name)
+
     def get_track_record(self, filter):
         results = Heat.objects.filter(**filter)
         times = {}
