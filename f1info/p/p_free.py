@@ -255,9 +255,31 @@ def fp(opener, url):
 
 def main():
     opener = urllib2.build_opener()
+    fp(opener, 'http://www.formula1.com/results/season/2011/844/6821/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/844/6822/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/844/6824/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/846/6827/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/846/6828/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/846/6830/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/848/6833/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/848/6834/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/848/6836/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/850/6839/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/850/6840/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/850/6842/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/853/6845/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/853/6846/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/853/6848/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/855/6851/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/855/6852/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/855/6854/')
     fp(opener, 'http://www.formula1.com/results/season/2011/857/6857/')
     fp(opener, 'http://www.formula1.com/results/season/2011/857/6858/')
     fp(opener, 'http://www.formula1.com/results/season/2011/857/6860/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/860/6863/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/860/6864/')
+    fp(opener, 'http://www.formula1.com/results/season/2011/860/6866/')
+
 
 if __name__ == '__main__':
     main()
