@@ -37,24 +37,34 @@
 
     {% show_winners object.name %}
 
-    <article class="main">
+    <div class="main clearfix">
         <h2>{{ object.get_verbose_name.name }} {{ object.name }} {{ object.season }}</h2>
+        <h3>{{ object.tracklen.track }}</h3>
+        
+        <ul class="grandprix-info">
+            <li>
+                <strong>Длина трассы:</strong> {{ object.tracklen.convert_to_km }} км
+            </li>
+            <li>
+                <strong>Рекорд круга в квалификации:</strong> <a href="{% url heat_detail object.get_qual_record.heat.slug %}">{{ object.get_qual_record.get_time_display }}</a> &ndash; {{ object.get_qual_record.heat.grandprix.season.year }}, {{ object.get_qual_record.racer }}, {{ object.get_qual_record.team }}
+            </li>
+            <li>
+                <strong>Рекорд круга в гонке:</strong> <a href="{% url heat_detail object.get_race_record.heat.slug %}">{{ object.get_race_record.get_time_display }}</a> &ndash; {{ object.get_race_record.heat.grandprix.season.year }}, {{ object.get_race_record.racer }}, {{ object.get_race_record.team }}
+            </li>
+        </ul>
 
-        <p>
-            <span class="flag {{ object.country.en_name|slugify }} left" title="{{ object.country }}"></span> {{ object.country }}
-        </p>
-        <p>{{ object.tracklen.track }}</p>
-        <p>{{ object.tracklen.convert_to_km }} км</p>
         <p>
             <a href="{{ object.tracklen.track.googlemaps }}">Google Maps</a>
         </p>
-        
+        {% if object.name.photo %}
+            <img src="{{ object.name.photo.url }}" class="border grandprix-photo"/>
+        {% endif %}
         <ul>
             {% for heat in object.heats.all %}
                 <li>{{ heat.date|date_local:"j F"|lower }} <a href="{% url heat_detail heat.slug %}">{{ heat.get_type_display }}</a></li>
             {% endfor %}
         </ul>
-    </article>
+    </div>
 {% endblock %}
 
 {% block sidebar %}{% endblock %}

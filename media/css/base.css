@@ -1,26 +1,36 @@
-h1, h2, h3 {
+h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
-    margin: 10px 0;
+    margin: 12px 0;
 }
 
-h1 { font-size: 22px;}
-h2 { font-size: 20px; color: #222; }
+h1 { font-size: 22px; color: #222; }
+h2 { font-size: 20px; color: #333; }
 h3 { font-size: 18px; color: #666; }
+h4 { font-size: 16px; color: #666; }
+h5 { font-size: 15px; color: #777; }
+h6 { font-size: 14px; color: #888; }
+
 p { margin: 0 0 16px; }
-a { color: #066A93; }
+a { color: #066a93; }
 a:hover { color: #aa0000; }
-.clear { clear: both; }
+
+ul {
+    padding: 8px 22px;
+    margin: 0;
+    list-style: square;
+}
+
+ul.simple {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
 
 abbr {
 	border-bottom: 1px dotted #aaa;
 	cursor: help;
 }
 
-ul {
-    padding: 8px 26px;
-    margin: 0;
-    list-style: square;
-}
 
 
 
@@ -33,3 +43,4 @@ header, article, section, aside, figure, footer { display: block; }
 html[xmlns] .clearfix { display: block; }
 * html .clearfix { height: 1%; }
 
+.clear { clear: both; }

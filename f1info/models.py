@@ -599,6 +599,7 @@ class GPName(VerboseModel):
     name = models.CharField(verbose_name=u'Гран-При', max_length=100)
     en_name = models.CharField(verbose_name=u'English', max_length=100)
     abbr = models.CharField(verbose_name=u'Сокращённо', max_length=3, default='', blank=True)
+    photo = models.ImageField(verbose_name=u'Фото', upload_to='upload/grandprix/', null=True, blank=True)
 
     def __unicode__(self):
         return u'%s' % self.name
@@ -618,6 +619,23 @@ class GrandPrix(VerboseModel):
     slug = models.SlugField(verbose_name=u'Слаг', max_length=100, unique=True)
     country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='grandprixs', null=True, blank=True)
     tracklen = models.ForeignKey(TrackLen, verbose_name=u'Трасса', related_name='tracks', null=True, blank=True)
+
+    def get_track_record(self, filter):
+        results = Heat.objects.filter(**filter)
+        times = {}
+        for result in results:
+            times[result] = result.time
+        heat = min(times, key=times.get)
+        return heat.get_results()[0]
+
+    def get_qual_record(self):
+        filter = { 'type': 'Q', 'grandprix__tracklen': self.tracklen }
+        return self.get_track_record(filter)
+
+    def get_race_record(self):
+        filter = { 'type': 'B', 'grandprix__tracklen': self.tracklen }
+        return self.get_track_record(filter)
+
 
     def __unicode__(self):
         return u'%s: %s' % (self.season, self.name)
@@ -676,23 +694,6 @@ class Heat(VerboseModel):
 
     def get_race_length(self):
         return ((Decimal(self.grandprix.tracklen.length) * self.laps)/1000)
-
-    def get_track_record(self):
-        result = Heat.objects.filter(grandprix__tracklen=self.grandprix.tracklen, type=self.type)
-        if self.type == 'R':
-            result = Heat.objects.filter(grandprix__tracklen=self.grandprix.tracklen, type='B')
-        list = []
-        for item in result:
-            if item.time not in list:
-                list.append(item.time)
-        record = min(list)
-        heat = Heat.objects.filter(time=record, type=self.type)[:1]
-        if self.type == 'R':
-            heat = Heat.objects.filter(time=record, type='B')[:1]
-        year = heat.get().grandprix.season.year
-        driver = heat.get().get_results()[0].racer
-        team = heat.get().get_results()[0].team
-        return year, driver, team, time_to_str(record)
 
     def __unicode__(self):
         return u'%s - %s' % (self.grandprix, self.get_type_display())

@@ -6,7 +6,7 @@ body {
 	margin: 0;
 	font-family: Tahoma,Arial,Helvetica,sans-serif;
 	font-size: 12px;
-	color: #000;
+	color: #222;
 }
 
 .page {
@@ -76,17 +76,6 @@ body {
 }
 
 #top-story p { color: #333; }
-
-img.top {
-	display: block;
-	float: left;
-	border: 1px solid #ccc;
-	padding: 4px;
-	margin: 0 16px 0 0;
-	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
-	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
-	box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
-}
 
 #extra-news {
 	width: 224px;
@@ -438,14 +427,7 @@ img.info {
 
 img.driver-photo {
     width: 200px;
-    background: #fff;
-	display: block;
-	border: 1px solid #d9d9d9;
-	padding: 4px;
 	margin: 0 0 8px 0;
-	-moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
-	-webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
-	box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
 }
 
 #driver-details th {
@@ -798,5 +780,28 @@ table.winners td {
 
 .wide-column {
     width: 720px;
+}
+
+
+
+/*** Images style ***/
+
+img.border {
+    display: block;
+    background: #fff;
+    border: 1px solid #e5e4de;
+	padding: 3px;
+	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+}
+
+img.top {
+	float: left;
+	margin: 0 16px 0 0;
+}
+
+img.grandprix-photo {
+    float: right;
 }
 
