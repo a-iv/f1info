@@ -286,10 +286,16 @@ def grid(opener, url):
 
 def main():
     opener = urllib2.build_opener()
-
-
     #entrans(opener, 'http://statsf1.com/en/1952/suisse/engages.aspx')
-    grid(opener, 'http://statsf1.com/en/2011/canada/grille.aspx')
+
+    bestlap(opener, 'http://statsf1.com/en/2011/australie/grille.aspx')
+    bestlap(opener, 'http://statsf1.com/en/2011/malaisie/grille.aspx')
+    bestlap(opener, 'http://statsf1.com/en/2011/chine/grille.aspx')
+    bestlap(opener, 'http://statsf1.com/en/2011/turquie/grille.aspx')
+    bestlap(opener, 'http://statsf1.com/en/2011/espagne/grille.aspx')
+    bestlap(opener, 'http://statsf1.com/en/2011/monaco/grille.aspx')
+    bestlap(opener, 'http://statsf1.com/en/2011/canada/grille.aspx')
+    bestlap(opener, 'http://statsf1.com/en/2011/europe/grille.aspx')
 
 if __name__ == '__main__':
     main()

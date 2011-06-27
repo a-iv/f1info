@@ -472,12 +472,14 @@ def race(opener, url):
 def main():
     opener = urllib2.build_opener()
 
-
-
-    #index(opener, SITE + '/en/saisons.aspx')
-    #year(opener, 'http://statsf1.com/en/1968.aspx')
-    #race(opener, 'http://statsf1.com/en/1990/monaco/classement.aspx')
+    race(opener, 'http://statsf1.com/en/2011/australie/classement.aspx')
+    race(opener, 'http://statsf1.com/en/2011/malaisie/classement.aspx')
+    race(opener, 'http://statsf1.com/en/2011/chine/classement.aspx')
+    race(opener, 'http://statsf1.com/en/2011/turquie/classement.aspx')
+    race(opener, 'http://statsf1.com/en/2011/espagne/classement.aspx')
+    race(opener, 'http://statsf1.com/en/2011/monaco/classement.aspx')
     race(opener, 'http://statsf1.com/en/2011/canada/classement.aspx')
+    race(opener, 'http://statsf1.com/en/2011/europe/classement.aspx')
     
 if __name__ == '__main__':
     main()
