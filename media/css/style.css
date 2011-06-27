@@ -851,6 +851,33 @@ img.grandprix-photo {
 
 
 
+.weekend-schedule {
+    padding: 0;
+    list-style: none;
+    line-height: 24px;
+}
+
+.weekend-schedule span {
+    font-size: 10px;
+    color: #333;
+    float: left;
+    margin: 0 6px 0 0;
+}
+
+.heat-left { float: left; }
+.heat-left:after { content: "|\00a0" }
+.heat-left a { font-weight: bold; }
+
+
+
+
+
+
+
+
+
+
+
 /*** HTML5 tags ***/
 header, article, section, aside, figure, footer { display: block; }
 
