@@ -264,9 +264,18 @@ def qual(opener, url):
 
 def main():
     opener = urllib2.build_opener()
+
     #year(opener, 'http://statsf1.com/en/2010.aspx')
     #entrans(opener, 'http://statsf1.com/en/1952/suisse/engages.aspx')
+    qual(opener, 'http://statsf1.com/en/2011/australie/qualification.aspx')
+    qual(opener, 'http://statsf1.com/en/2011/malaisie/qualification.aspx')
+    qual(opener, 'http://statsf1.com/en/2011/chine/qualification.aspx')
+    qual(opener, 'http://statsf1.com/en/2011/turquie/qualification.aspx')
+    qual(opener, 'http://statsf1.com/en/2011/espagne/qualification.aspx')
+    qual(opener, 'http://statsf1.com/en/2011/monaco/qualification.aspx')
     qual(opener, 'http://statsf1.com/en/2011/canada/qualification.aspx')
+    qual(opener, 'http://statsf1.com/en/2011/europe/qualification.aspx')
+
 
 if __name__ == '__main__':
     main()
