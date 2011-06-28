@@ -88,21 +88,24 @@
 
 
         <h4>Расписание уик-энда</h4>
-        <ul class="weekend-schedule">
-            {% for heat in object.heats.all %}
-                <li {% if heat.type == 'Q' %}class="heat-left"{% endif %}{% if heat.type == 'R' %}class="heat-left"{% endif %}>
-                    {% if heat.type == 'B' %}
-                        <a href="{% url heat_detail heat.slug %}">{{ heat.get_type_display }}</a>
-                    {% else %}
-                        {% if heat.type == 'G' %}
-                            <a href="{% url heat_detail heat.slug %}">{{ heat.get_type_display }}</a>
-                        {% else %}
-                            <span>{{ heat.date|date_local:"j F"|lower }}</span> <a href="{% url heat_detail heat.slug %}">{{ heat.get_type_display }}</a>
+        <div class="weekend-schedule">
+            <ul class="dates">
+                {% for heat in object.heats.all %}
+                    {% if heat.type != 'B' %}
+                        {% if heat.type != 'G' %}
+                            <li>{{ heat.date|date_local:"j F"|lower }}</li>
                         {% endif %}
                     {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
+                {% endfor %}
+            </ul>
+            <ul class="events">
+                {% for heat in object.heats.all %}
+                    <li {% if heat.type == 'Q' %}class="heat-strong"{% endif %}{% if heat.type == 'R' %}class="heat-strong"{% endif %}>
+                        &nbsp;&nbsp;<a href="{% url heat_detail heat.slug %}">{{ heat.get_type_display }}</a>&nbsp;
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 {% endblock %}
 
