@@ -60,7 +60,7 @@
 	   		<th>Гонщик</th>
 	   		{% for grandprix in object.grandprixs.all %}
 	        	<th>
-                    <a href="{% url grand_prix_detail grandprix.id %}" title="Гран-При {{ grandprix.name }} {{ grandprix.season }}" class="abbr">{{ grandprix.name.abbr }}
+                    <a href="{% url grand_prix_detail grandprix.id %}" title="{{ grandprix.name }}" class="abbr">{{ grandprix.name.abbr }}
 	        			<span class="flag {{ grandprix.country.en_name|slugify }}"></span>
 	        		</a>
 	       		</th>
@@ -108,7 +108,7 @@
 	   		<th>Команда</th>
 	   		{% for grandprix in object.grandprixs.all %}
 	        	<th>
-                    <a href="{% url grand_prix_detail grandprix.id %}" title="Гран-При {{ grandprix.name }} {{ grandprix.season }}" class="abbr">{{ grandprix.name.abbr }}
+                    <a href="{% url grand_prix_detail grandprix.id %}" title="{{ grandprix }}" class="abbr">{{ grandprix.name.abbr }}
 	        			<span class="flag {{ grandprix.country.en_name|slugify }}"></span>
 	        		</a>
 	       		</th>

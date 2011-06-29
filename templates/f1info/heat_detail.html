@@ -18,7 +18,7 @@
 
 {% block content %}
 	<div id="result-detail">
-	    <h2>{{ object.get_verbose_name.grandprix }} {{ object.grandprix.name }} {{ object.grandprix.season.year }}</h2>
+	    <h2>{{ object.grandprix }}</h2>
 	    <h3>{{ object.get_type_display }}</h3>
 	    
 	    {% for result in object.get_results %}

@@ -650,7 +650,7 @@ class GrandPrix(VerboseModel):
         return self.get_track_record(filter)
 
     def __unicode__(self):
-        return u'%s: %s' % (self.season, self.name)
+        return u'Гран-При %s %s' % (self.name, self.season)
 
 class Heat(VerboseModel):
     class Meta:

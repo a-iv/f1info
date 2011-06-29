@@ -24,7 +24,7 @@
             <li {% if not grandprix.heats.all %}class="inactive"{% endif %}>
                 <span class="grandprix-counter">{{ forloop.counter }}</span>
                 {% if grandprix.heats.all %}
-                <a href="{% url grand_prix_detail grandprix.id %}" title="Гран-При {{ grandprix.name }} {{ grandprix.season }}" class="abbr">
+                <a href="{% url grand_prix_detail grandprix.id %}" title="{{ grandprix }}" class="abbr">
                 <span class="flag {{ grandprix.country.en_name|slugify }}"></span>
                     <strong>{{ grandprix.name.abbr }}</strong>
                 </a>
@@ -61,7 +61,7 @@
     </div>
 
     <div class="main clearfix">
-        <h2>{{ object.get_verbose_name.name }} {{ object.name }} {{ object.season }}</h2>
+        <h2>{{ object }}</h2>
         <div class="track-name">
             <h3>{{ object.tracklen.track }}</h3>
             <span class="google-maps">
