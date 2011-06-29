@@ -1,6 +1,4 @@
-.flag { background: url(/media/img/flags.png) no-repeat -16px 0; width: 16px; height: 11px; display: 
-block; 
-overflow: hidden; margin: 0 auto; padding: 0; text-indent: -9999px; }
+.flag { background: url(/media/img/flags.png) no-repeat -16px 0; width: 16px; height: 11px; display: block; overflow: hidden; margin: 0 auto; padding: 0; text-indent: -9999px; }
 .flag.left { float: left; margin: 4px 5px 0 0; }
 .flag.abu-dhabi { background-position: 0 0; }
 .flag.argentina { background-position: 0 -12px; }
@@ -51,3 +49,4 @@ overflow: hidden; margin: 0 auto; padding: 0; text-indent: -9999px; }
 .flag.uruguay { background-position: 0 -552px; }
 .flag.usa, .flag.usa-east, .flag.usa-west { background-position: 0 -564px; }
 .flag.venezuela { background-position: 0 -576px; }
+.flag.new-zeland { background-position: 0 -588px; }
