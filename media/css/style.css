@@ -900,7 +900,7 @@ img.grandprix-photo {
     font-size: 10px;
 }
 
-.dates, .events { margin-bottom: 6px; }
+.dates ul, .events ul { margin-bottom: 8px; }
 
 .heat-strong { float: left; }
 .heat-strong:after { content: "|" }

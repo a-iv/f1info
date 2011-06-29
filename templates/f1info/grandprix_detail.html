@@ -75,23 +75,29 @@
             {% endif %}
             <h4>Расписание уик-энда</h4>
             <div class="weekend-schedule">
+                <div class="dates">
                 {% for day in object.get_heats_by_date %}
-                    <ul class="dates">
+                <ul>
                     {% for event in day %}
                         {% if event.type != 'B' and event.type != 'G' %}
                             <li>{{ event.date|date_local:"j F"|lower }}</li>
                         {% endif %}
                     {% endfor %}
-                    </ul>
+                </ul>
+                {% endfor %}
+                </div>
 
-                    <ul class="events">
+                <div class="events">
+                {% for day in object.get_heats_by_date %}
+                <ul>
                     {% for event in day %}
                         <li {% if event.type == 'Q' or event.type == 'R' %}class="heat-strong"{% endif %}>
                             &nbsp;&nbsp;<a href="{% url heat_detail event.slug %}">{{ event.get_type_display }}</a>&nbsp;
                         </li>
                     {% endfor %}
-                    </ul>
+                </ul>
                 {% endfor %}
+                </div>
             </div>
         </div>
 
