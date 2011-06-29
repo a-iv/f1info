@@ -16,24 +16,11 @@
     	<div id="driver-img">
     		<img src="{{ object.photo.url }}" alt="{{ object }}" class="border driver-photo" />
     		<div style="font-size:11px;color:#999;text-align:center;">&copy; Photo copyright</div>
-    		{% if object.website %}
-    		<div class="info">
-				<img src="/media/img/website.png" alt="Website" class="info" />
-	    		{{ object.website|urlize }}
-    		</div>
-    		{% endif %}
-		    {% if object.twitter %}
-		    <div class="info">
-				<img src="/media/img/twitter.png" alt="Twitter" class="info" />
-	    		<a href="http://twitter.com/{{ object.twitter }}">{{ object.twitter }}</a>
-    		</div>
-    		{% endif %}
    		</div>
 	{% endif %}
 
     <div id="driver-details">
         <h1>{{ object.first_name }} {{ object.family_name }}</h1>
-        <h3>{{ object.en_first_name }} {{ object.en_family_name }}</h3>
 	    {% if object.get_racer_champion %}
 		    <ul class="cups">
 		        {% for year in object.get_racer_champion %}
@@ -41,6 +28,7 @@
 		        {% endfor %}
 		    </ul>
 	    {% endif %}
+        <h3>{{ object.en_first_name }} {{ object.en_family_name }}</h3>
 	
         <table>
 	        <tr>
@@ -143,6 +131,23 @@
 	        	<th>{{ object.get_verbose_name.get_fail_count }}</th>
 	        	<td>{{ object.get_fail_count }}</td>
 	        </tr>
+            
+            {% if object.website or object.twitter %}
+    		<tr>
+                <td colspan="2" class="interactive">
+                {% if object.website %}
+                    <span class="website">				    
+                        {{ object.website|urlize }}
+                    </span>
+        		{% endif %}
+		        {% if object.twitter %}
+                    <span class="twitter">
+	    		        <a href="http://twitter.com/{{ object.twitter }}">{{ object.twitter }}</a>
+                    </span>
+        		{% endif %}
+    		    </td>
+            </tr>
+            {% endif %}
         </table>
     </div>
     <section class="driver-info clear">

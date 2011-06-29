@@ -11,7 +11,7 @@
 	<h4>В этот день состоялась гонка:</h4>
     <ul>
         {% for heat in heats %}
-            <li><a href="{% url heat_detail heat.id %}">Гран-При {{ heat.grandprix.name }} {{ heat.grandprix.season }}</a></li>
+            <li><a href="{% url heat_detail heat.slug %}">Гран-При {{ heat.grandprix.name }} {{ heat.grandprix.season }}</a></li>
 	    {% endfor %}
 	</ul>
 </div>
