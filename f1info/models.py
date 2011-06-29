@@ -768,11 +768,11 @@ class Result(VerboseModel):
                 return '+ %s' % self.delta
         elif self.delta is None:
             if self.laps == 1:
-                return '+%d %s' % (self.laps, u'круг')
+                return '+ %d %s' % (self.laps, u'круг')
             elif 2 <= self.laps <= 4:
-                return '+%d %s' % (self.laps, u'круга')
+                return '+ %d %s' % (self.laps, u'круга')
             elif 5 <= self.laps < 100:
-                return '+%d %s' % (self.laps, u'кругов')
+                return '+ %d %s' % (self.laps, u'кругов')
             return ''
         else:
             ### if some bug will be found in Results display - here's the reason below, lol
