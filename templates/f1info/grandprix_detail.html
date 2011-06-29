@@ -91,16 +91,14 @@
         <div class="weekend-schedule">
             <ul class="dates">
                 {% for heat in object.heats.all %}
-                    {% if heat.type != 'B' %}
-                        {% if heat.type != 'G' %}
-                            <li>{{ heat.date|date_local:"j F"|lower }}</li>
-                        {% endif %}
+                    {% if heat.type != 'B' and heat.type != 'G' %}
+                        <li>{{ heat.date|date_local:"j F"|lower }}</li>
                     {% endif %}
                 {% endfor %}
             </ul>
             <ul class="events">
                 {% for heat in object.heats.all %}
-                    <li {% if heat.type == 'Q' %}class="heat-strong"{% endif %}{% if heat.type == 'R' %}class="heat-strong"{% endif %}>
+                    <li {% if heat.type == 'Q' or heat.type == 'R' %}class="heat-strong"{% endif %}>
                         &nbsp;&nbsp;<a href="{% url heat_detail heat.slug %}">{{ heat.get_type_display }}</a>&nbsp;
                     </li>
                 {% endfor %}
