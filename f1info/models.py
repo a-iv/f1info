@@ -620,6 +620,16 @@ class GrandPrix(VerboseModel):
     country = models.ForeignKey(Country, verbose_name=u'Страна', related_name='grandprixs', null=True, blank=True)
     tracklen = models.ForeignKey(TrackLen, verbose_name=u'Трасса', related_name='tracks', null=True, blank=True)
 
+    def get_heats_by_date(self):
+        dates = []
+        days = []
+        for heat in self.heats.all():
+            if heat.date.date() not in dates:
+                dates.append(heat.date.date())
+        for day in dates:
+            days.append(self.heats.filter(date__year=day.year, date__month=day.month, date__day=day.day))
+        return days
+
     def get_winners(self):
         return Result.objects.filter(position=1, heat__type=Heat.RACE, heat__grandprix__name=self.name)
 
@@ -638,7 +648,6 @@ class GrandPrix(VerboseModel):
     def get_race_record(self):
         filter = { 'type': 'B', 'grandprix__tracklen': self.tracklen }
         return self.get_track_record(filter)
-
 
     def __unicode__(self):
         return u'%s: %s' % (self.season, self.name)

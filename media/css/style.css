@@ -2,7 +2,9 @@
 
 /*** Basic styles ****/
 
-h1, h2, h3, h4, h5, h6 { font-weight: normal; margin: 12px 0; }
+h1, h2, h3, h4, h5, h6 { font-weight: normal; }
+h1, h2, h3 { margin: 12px 0; }
+h4, h5, h6 { margin: 10px 0; }
 h1 { font-size: 22px; color: #222; }
 h2 { font-size: 20px; color: #333; }
 h3 { font-size: 18px; color: #666; }
@@ -258,7 +260,7 @@ img.gp {
 
 span.clock {
 	display: block;
-	background: url(/media/img/clock.png) no-repeat left;
+	background: url(/media/img/icons.png) 0 -82px no-repeat;
 	padding: 0 0 0 16px;
 	line-height: 12px;
 	height: 12px;
@@ -318,7 +320,7 @@ table.teams { float: right; }
 a.full-standings-link {
 	display: block;
 	background: #fff;
-	padding: 1px 5px 3px;
+	padding: 1px 0 3px;
 	text-align: center;
 	overflow: hidden;
 	margin: 2px 0 0 0;
@@ -334,9 +336,10 @@ a.full-standings-link span {
 	text-decoration: underline;
 }
 
-a.full-standings-link img {
-	vertical-align: -2px;
+a.full-standings-link em {
 	margin: 0 2px 0 0;
+    padding: 0 10px 0 0;
+    background: url(/media/img/icons.png) 0 -65px no-repeat;
 }
 
 /*** Last articles ***/
@@ -447,10 +450,11 @@ img.flag { margin: 0 0 -1px 0; }
     line-height: 16px;
     padding-left: 20px;
     margin-right: 10px;
+    background: url(/media/img/icons.png) no-repeat;
 }
 
-.website { background: url(/media/img/website.png) no-repeat; }
-.twitter { background: url(/media/img/twitter.png) no-repeat; }
+.website { background-position: 0 0; }
+.twitter { background-position: -16px 0; }
 
 #driver-img {
     font-family: Tahoma,Arial,Helvetica,sans-serif;
@@ -551,9 +555,9 @@ ul.cups li {
 	float: left;
 	margin: 0 7px 0 0;
 	font-weight: normal;
-	font-size: 11px;
+	font-size: 10px;
     line-height: normal;
-	padding: 19px 0 0 0;
+	padding: 17px 0 0 0;
 	text-align: ceter;
 	background: url(/media/img/cup.png) no-repeat center top;
 }
@@ -839,31 +843,55 @@ img.top {
 }
 
 img.grandprix-photo {
-    float: right;
-    width: 240px;
+    width: 270px;
+}
+
+.grandprix-detail {
+    width: 280px;
+    float: left;
+    margin: 16px 16px 0 0;
 }
 
 
 .grandprix-info {
     list-style: none;
     padding: 0;
+    margin: 16px 0 0 0;
 }
 
 .grandprix-info li {
     margin: 3px 0;
 }
 
+.track-name {
+    overflow: hidden;
+}
+
+.track-name h3 {
+    float: left;
+    margin: 0 12px 0 0;
+}
+
+.google-maps {
+    float: left;
+    margin-top: 2px;
+    padding-left: 20px;
+    height: 16px;
+    line-height: 14px;
+    overflow: hidden;
+    background: url(/media/img/icons.png) 0 -32px no-repeat;
+    font-size: 11px;
+}
+
 .grandprix-info strong {
     color: #333;
 }
 
-
-
 .weekend-schedule ul {
     color: #555;
-    padding: 0;
+    padding: 0 0 0 1px;
     list-style: none;
-    line-height: 22px;
+    line-height: 20px;
 }
 
 .dates {
@@ -872,14 +900,7 @@ img.grandprix-photo {
     font-size: 10px;
 }
 
-/*** Browsers which don't support CSS3 will show a simple list ***/
-.weekend-schedule li:nth-of-type(2) { margin-bottom: 6px; }
-
-.weekend-schedule li:last-child,
-.weekend-schedule li:nth-last-of-type(2) { margin-top: 6px; }
-.weekend-schedule li:nth-last-of-type(3) { margin: 0; }
-.dates li:nth-last-of-type(2) { margin: 0; }
-
+.dates, .events { margin-bottom: 6px; }
 
 .heat-strong { float: left; }
 .heat-strong:after { content: "|" }

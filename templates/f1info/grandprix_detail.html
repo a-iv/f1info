@@ -62,17 +62,44 @@
 
     <div class="main clearfix">
         <h2>{{ object.get_verbose_name.name }} {{ object.name }} {{ object.season }}</h2>
-        <h3>{{ object.tracklen.track }}</h3>
+        <div class="track-name">
+            <h3>{{ object.tracklen.track }}</h3>
+            <span class="google-maps">
+                <a href="{{ object.tracklen.track.googlemaps }}">Google Maps</a>
+            </span>
+        </div>
 
-        {% if object.name.photo %}
-            <img src="{{ object.name.photo.url }}" class="border grandprix-photo"/>
-        {% endif %}
+        <div class="grandprix-detail">
+            {% if object.name.photo %}
+                <img src="{{ object.name.photo.url }}" class="grandprix-photo"/>
+            {% endif %}
+            <h4>Расписание уик-энда</h4>
+            <div class="weekend-schedule">
+                {% for day in object.get_heats_by_date %}
+                    <ul class="dates">
+                    {% for event in day %}
+                        {% if event.type != 'B' and event.type != 'G' %}
+                            <li>{{ event.date|date_local:"j F"|lower }}</li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+
+                    <ul class="events">
+                    {% for event in day %}
+                        <li {% if event.type == 'Q' or event.type == 'R' %}class="heat-strong"{% endif %}>
+                            &nbsp;&nbsp;<a href="{% url heat_detail event.slug %}">{{ event.get_type_display }}</a>&nbsp;
+                        </li>
+                    {% endfor %}
+                    </ul>
+                {% endfor %}
+            </div>
+        </div>
+
+
+
+
         
         <ul class="grandprix-info">
-            <li>
-                <img class="info" alt="Website" src="/media/img/website.png">
-                <a href="{{ object.tracklen.track.googlemaps }}">Google Maps</a>
-            </li>
             <li>
                 <strong>Длина трассы:</strong> {{ object.tracklen.convert_to_km }} км
             </li>
@@ -87,23 +114,7 @@
         </ul>
 
 
-        <h4>Расписание уик-энда</h4>
-        <div class="weekend-schedule">
-            <ul class="dates">
-                {% for heat in object.heats.all %}
-                    {% if heat.type != 'B' and heat.type != 'G' %}
-                        <li>{{ heat.date|date_local:"j F"|lower }}</li>
-                    {% endif %}
-                {% endfor %}
-            </ul>
-            <ul class="events">
-                {% for heat in object.heats.all %}
-                    <li {% if heat.type == 'Q' or heat.type == 'R' %}class="heat-strong"{% endif %}>
-                        &nbsp;&nbsp;<a href="{% url heat_detail heat.slug %}">{{ heat.get_type_display }}</a>&nbsp;
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
+
     </div>
 {% endblock %}
 
