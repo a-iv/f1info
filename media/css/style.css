@@ -454,7 +454,7 @@ img.flag { margin: 0 0 -1px 0; }
 }
 
 .website { background-position: 0 0; }
-.twitter { background-position: -16px 0; }
+.twitter { background-position: 0 -16px; }
 
 #driver-img {
     font-family: Tahoma,Arial,Helvetica,sans-serif;
