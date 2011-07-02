@@ -1,22 +1,46 @@
 <div id="fastest-lap">
 	<h5>Быстрейший круг</h5>
-	<table>
+	<table class="fastest-lap">
+        <colgroup>
+            <col id="num" />
+            <col id="nat" />
+            <col id="racer" />
+            <col id="team" />
+            <col id="engine" />
+            <col id="tyre" />
+            <col id="lap" />
+            <col id="time" />
+            <col id="speed" />
+        </colgroup>
+
 		<tr>
-			<th>Гонщик</th> 
+            <th>№</th>
+            <th>Нац.</th>
+			<th>Гонщик</th>
+            <th>Команда</th>
+            <th>Двигатель</th>
+            <th>Шины</th> 
             {% if objects.0.heat.laps %}
     			<th>Круг</th>
             {% endif %}
-			<th>Время</th>
+			<th class="center">Время</th>
 			<th>Средняя скорость</th>
 		</tr>
 		{% for object in objects %}
 		<tr>
-			<td>{{ object.racer }}</td>
+			<td class="center">{{ object.num }}</td>
+            <td class="center">
+                <span class="flag {{ object.racer.country.en_name|slugify }} left"></span>
+            </td>
+            <td>{{ object.racer }}</td>
+            <td>{{ object.team }}</td>
+            <td>{{ object.engine }}</td>
+            <td class="center"><abbr title="{{ object.tyre }}">{{ object.tyre.name|slice:":1" }}</abbr></td>
             {% if object.heat.laps %}
-			    <td>{{ object.heat.laps }}</td>
+			    <td class="center">{{ object.heat.laps }}</td>
             {% endif %}
 			<td>{{ object.get_time_display }}</td>
-			<td>{{ object.heat.get_speed|floatformat:"3" }} км/ч</td>
+			<td class="center">{{ object.heat.get_speed|floatformat:"3" }} км/ч</td>
 		</tr>
 		{% endfor %}
 	</table>

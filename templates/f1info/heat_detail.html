@@ -189,11 +189,38 @@
             {{ object.get_track_record.3 }}
         {% endif %}
         <p>&nbsp;</p>
-        <ul>
-        {% for heat in object.grandprix.heats.all %}
-            <li>{{ heat.date|date_local:"d.m.Y" }} <a href="{% url heat_detail heat.slug %}">{{ heat.get_type_display }}</a></li>
-        {% endfor %}
-        </ul>
+
+
+        <div class="weekend-schedule">
+            <div class="dates">
+            {% for day in object.grandprix.get_heats_by_date %}
+            <ul>
+                {% for event in day %}
+                    {% if event.type != 'B' and event.type != 'G' %}
+                        <li>{{ event.date|date_local:"j F"|lower }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+            {% endfor %}
+            </div>
+
+            <div class="events">
+            {% for day in object.grandprix.get_heats_by_date %}
+            <ul>
+                {% for event in day %}
+                    <li {% if event.type == 'Q' or event.type == 'R' %}class="heat-strong"{% endif %}>
+                        &nbsp;&nbsp;<a href="{% url heat_detail event.slug %}">{{ event.get_type_display }}</a>&nbsp;
+                    </li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+            </div>
+        </div>
+
+
+
+
+
         {{ object.id }}
 	</aside>
 {% endblock %}

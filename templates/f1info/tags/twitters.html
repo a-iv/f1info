@@ -1,6 +1,12 @@
 <h4><img src="/media/img/twitter.png" alt="twieer" />Пилоты Ф1 в твиттере</h4>
-<div id="twitter">
-	{% for twitter in twitters %}
-		{{ twitter }} &ndash; <a href="http://twitter.com/{{ twitter.twitter }}">{{ twitter.twitter }}</a><br/>
+<ul id="twitter-list">
+	{% for object in objects %}
+		<li>
+            <a href="http://twitter.com/{{ object.twitter }}">
+                <img src="{{ object.get_twitter_avatar }}" alt="" class="twitter-avatar" />
+                <span>{{ object }}</span>
+                {{ object.twitter }}
+            </a>
+        </li>
 	{% endfor %}
-</div>
+</ul>

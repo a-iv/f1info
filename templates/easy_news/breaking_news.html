@@ -10,7 +10,7 @@
 	            {% endif %}
 	        {% endwith %}
 			<h1><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h1>
-			<span class="story-date">{{ object.date|date:"d" }} {{ object.date|date_local:"F" }}&nbsp;&mdash;&nbsp;</span>{{ object.short }}
+			<span class="story-date">{{ object.date|date:"d" }} {{ object.date|date_local:"F"|lower }}&nbsp;&mdash;&nbsp;</span>{{ object.short }}
 		{% endwith %}
 	</article>
 	

@@ -3,6 +3,19 @@ import datetime
 from django.db import models
 from decimal import Decimal
 from markitup.fields import MarkupField
+from beautifulsoup import BeautifulSoup, Tag
+import urllib2
+
+def readurl(name, url):
+    data = open('debug.xml', 'r')
+    return BeautifulSoup(data.read())
+'''
+def readurl(opener, name, url):
+    opened = opener.open(url)
+    data = opened.read()
+    open('debug.html', 'w').write(data)
+    return BeautifulSoup(data)
+'''
 
 class VerboseModel(models.Model):
     class Meta:
@@ -293,6 +306,12 @@ class Racer(StatModel):
     photo = models.ImageField(verbose_name=u'Фото', upload_to='upload/drivers/', null=True, blank=True)
     info = MarkupField(default='', null=True, blank=True)
 
+    def get_twitter_avatar(self):
+        xml = 'http://www.twitter.com/users/' + self.twitter + '.xml'
+        soup = readurl('AVATAR', xml)
+        avatar = soup.find('avatar').contents[0]
+        return avatar
+
     def __unicode__(self):
         return u'%s %s' % (self.first_name, self.family_name)
 
@@ -351,14 +370,14 @@ class Season(VerboseModel):
     slug = models.SlugField(verbose_name=u'Слаг', max_length=4, blank=True)
 
     def get_next_season(self):
-	next = Season.objects.filter(id__gt=self.id)
-	if next:
-	    return next.order_by('year')[0]
+        next = Season.objects.filter(id__gt=self.id)
+        if next:
+            return next.order_by('year')[0]
 
     def get_prev_season(self):
-	prev = Season.objects.filter(id__lt=self.id)
-	if prev:
-	    return prev.order_by('-year')[0]
+        prev = Season.objects.filter(id__lt=self.id)
+        if prev:
+            return prev.order_by('-year')[0]
 
     def get_season_index(self):
         seasons = []
@@ -366,7 +385,6 @@ class Season(VerboseModel):
             if season not in seasons:
                 seasons.append(season)
         return seasons.index(self) + 1
-
 
     def get_racer_table(self):
         racers = []

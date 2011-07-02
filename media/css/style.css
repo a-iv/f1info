@@ -637,13 +637,43 @@ ul.seasons li {
 .results td:first-child { font-weight: bold; }
 .results td:last-child { white-space: normal; }
 .results td:nth-of-type(2) { font-style: italic; }
-.results td .flag { margin-top: 2px; }
+.results td .flag, .fastest-lap td .flag { margin-top: 2px; }
 
-.results #pos,
-.results #num,
-.results #nat { width: 22px; }
+table #pos,
+table #num,
+table #nat { width: 22px; }
 
 .results h4 { margin: 0; }
+
+
+.fastest-lap {
+	background: #fff;
+	border: 1px solid #e5e4de;
+	border-collapse: separate;
+	padding: 4px;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+
+.fastest-lap th, .fastest-lap td {
+    padding: 4px 6px;
+    border-bottom: none;
+    white-space: nowrap;
+    vertical-align: top;
+    line-height: 16px;
+}
+
+.fastest-lap th {
+    padding: 2px 5px;
+	border-bottom: 2px solid #e5e4de;
+	color: #333;
+    text-align: left;
+}
+
+.fastest-lap th:first-child {
+    text-align: left !important;
+}
 
 /*** End of Heat details ***/
 
@@ -659,12 +689,6 @@ ul.seasons li {
 	font-weight: normal;
 	margin: 10px 0;
 }
-
-#fastest-lap td, #fastest-lap th {
-	padding-left: 20px;
-	padding-right: 20px;
-	text-align: center;
-} 
 
 .event-info {
 	width: 266px;
@@ -789,35 +813,20 @@ table.winners td {
     text-align: center;
 }
 
-.calendar td {
-    border: 2px solid #fff;
-}
-
-.calendar td.grey {
-    color: #ccc;
-}
-
-.calendar td.weekend {
-    color: #c00000;
-}
-
-.calendar td.weekend a {
-    color: #c00000;
-}
-
-.calendar td a {
-    font-weight: bold;
-}
-
 .calendar th {
     background: #fff !important;
 	border-bottom: 2px solid #e5e4de;
 	color: #333;
 }
 
-.calendar td.active {
-    background: #efefe0;
-}
+.calendar td { border: 2px solid #fff; }
+.calendar td.grey { color: #ccc; }
+
+.calendar td.weekend,
+.calendar td.weekend a { color: #a00000; }
+
+.calendar td a { font-weight: bold; }
+.calendar td.active { background: #efefe0; }
 
 .wide-column {
     width: 720px;
@@ -908,10 +917,48 @@ img.grandprix-photo {
 
 
 
+/*** Twitter List ***/
 
+#twitter-list {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    overflow: auto;
+    height: 316px;
+}
 
+#twitter-list li {
+    margin: 0 0 3px 0;
+    padding: 0 3px 3px 0;
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+}
 
+#twitter-list a {
+    display: block;
+    font-size: 12px;
+    text-decoration: none;
+    padding: 3px 5px;
+}
 
+#twitter-list a:hover {
+    background: #fff;
+}
+
+#twitter-list a span {
+    display: block;
+    color: #333;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.twitter-avatar {
+    width: 36px;
+    height: 36px;
+    float: left;
+    margin: 0 5px 0 0;
+    border: 1px solid #000;
+}
 
 
 

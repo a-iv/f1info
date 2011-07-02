@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load utilities_tags %}
 
+{% block title %}Чемпионат мира {{ object }} | F1Online.Ru{% endblock %}
+{% block content_title %}{% endblock %}
+
 {% block inner_breadcrumbs %}
 	<div id="breadcrumbs-wrap">
 		<div id="breadcrumbs">
@@ -60,7 +63,7 @@
 	   		<th>Гонщик</th>
 	   		{% for grandprix in object.grandprixs.all %}
 	        	<th>
-                    <a href="{% url grand_prix_detail grandprix.id %}" title="{{ grandprix.name }}" class="abbr">{{ grandprix.name.abbr }}
+                    <a href="{% url grand_prix_detail grandprix.id %}" title="{{ grandprix }}" class="abbr">{{ grandprix.name.abbr }}
 	        			<span class="flag {{ grandprix.country.en_name|slugify }}"></span>
 	        		</a>
 	       		</th>
