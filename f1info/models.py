@@ -6,17 +6,6 @@ from markitup.fields import MarkupField
 from beautifulsoup import BeautifulSoup, Tag
 import urllib2
 
-def readurl(name, url):
-    data = open('debug.xml', 'r')
-    return BeautifulSoup(data.read())
-'''
-def readurl(opener, name, url):
-    opened = opener.open(url)
-    data = opened.read()
-    open('debug.html', 'w').write(data)
-    return BeautifulSoup(data)
-'''
-
 class VerboseModel(models.Model):
     class Meta:
         abstract = True
@@ -321,12 +310,6 @@ class Racer(StatModel):
 
     def letters(self):
         return Racer.objects.filter(family_name__istartswith=self.family_name[0])
-
-    def get_twitter_avatar(self):
-        xml = 'http://www.twitter.com/users/' + self.twitter + '.xml'
-        soup = readurl('AVATAR', xml)
-        avatar = soup.find('avatar').contents[0]
-        return avatar
 
     def __unicode__(self):
         return u'%s %s' % (self.first_name, self.family_name)

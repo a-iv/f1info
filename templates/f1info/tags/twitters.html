@@ -3,7 +3,6 @@
 	{% for object in objects %}
 		<li>
             <a href="http://twitter.com/{{ object.twitter }}">
-                <img src="{{ object.get_twitter_avatar }}" alt="" class="twitter-avatar" />
                 <span>{{ object }}</span>
                 {{ object.twitter }}
             </a>
