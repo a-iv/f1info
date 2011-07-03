@@ -6,7 +6,7 @@ from django.contrib.sitemaps import GenericSitemap
 from django.views.generic import list_detail
 from pages.models import Page
 from easy_news.models import News
-from f1info.models import Racer, Engine, Tyre, Team, Track, Season, GrandPrix, Heat
+from f1info.models import Racer, Engine, Tyre, Team, Track, Season, GrandPrix, Heat, get_alpha
 admin.autodiscover()
 
 handler500 # Pyflakes
@@ -29,7 +29,7 @@ sitemaps = {
 }
 
 racer_info = {
-    'queryset' : Racer.objects.all(),
+    'queryset' : get_alpha(Racer.objects.all()),
 }
 
 racer_ajax_list = {

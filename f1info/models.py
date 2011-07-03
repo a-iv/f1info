@@ -273,6 +273,19 @@ def time_to_str_gap(time):
     return result
 
 
+def get_alpha(racers):
+    list = []
+    for racer in racers:
+        list.append(racer.family_name[0])
+    alpha = set(list)
+
+    result = []
+    for letter in alpha:
+        result.append(racers.filter(family_name__istartswith=letter)[0].family_name)
+
+    return racers.filter(family_name__in=result)
+
+
 class Country(models.Model):
     class Meta:
         ordering = ['name']
@@ -305,6 +318,9 @@ class Racer(StatModel):
     twitter = models.CharField(verbose_name=u'Twitter', max_length=200, null=True, blank=True)
     photo = models.ImageField(verbose_name=u'Фото', upload_to='upload/drivers/', null=True, blank=True)
     info = MarkupField(default='', null=True, blank=True)
+
+    def letters(self):
+        return Racer.objects.filter(family_name__istartswith=self.family_name[0])
 
     def get_twitter_avatar(self):
         xml = 'http://www.twitter.com/users/' + self.twitter + '.xml'
