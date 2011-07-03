@@ -105,7 +105,7 @@
 	    {% endfor %}
 		
 		
-		{% if object.type == 'R' %}
+		{% if object.type == 'R' and object.get_fails %}
 			<tr>
 				<td colspan="9" class="not-classified">
 					<h4>Не классифицированы</h4>
