@@ -28,8 +28,12 @@ sitemaps = {
     'news': GenericSitemap(news_dict),
 }
 
-racer_info = {
+racer_list = {
     'queryset' : get_alpha(Racer.objects.all()),
+}
+
+racer_info = {
+    'queryset' : Racer.objects.all(),
 }
 
 racer_ajax_list = {
@@ -82,7 +86,7 @@ urlpatterns += patterns('',
 
 urlpatterns += patterns(
     '',
-    (r'^drivers/$', list_detail.object_list, racer_info),
+    (r'^drivers/$', list_detail.object_list, racer_list),
     (r'^engines/$', list_detail.object_list, engine_info),
     (r'^tyres/$', list_detail.object_list, tyre_info),
     (r'^teams/$', list_detail.object_list, team_info),
