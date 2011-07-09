@@ -1,17 +1,21 @@
 {% load attachment_tags %}
 
-<div class="news-list">
+<h1>Последние новости</h1>
+
+<div class="wide-column news-list">
     {% if object_list %}
         {% for object in object_list %}
-            {% get_attachments for object as attachments %}
-	        {% with attachments.0 as attachment %}
-	            {% if attachment.image %}
-	                <img src="{{ attachment.mini.url }}" alt="{{ object.title }}" class="mini" />
-	            {% endif %}
-	        {% endwith %}
-            <div class="news-date">{{ object.date|date:"d" }} {{ object.month|lower }} {{ object.date|date:"Y" }}</div>
-            <div class="news-title"><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></div>
-            <div class="news-short">{{ object.short|safe }}</div>
+            <div class="news-item">
+                <span class="date-small">{{ object.date|date:"j" }} {{ object.month|lower }} {{ object.date|date:"Y" }}</span>
+                {% get_attachments for object as attachments %}
+	            {% with attachments.0 as attachment %}
+	                {% if attachment.image %}
+	                    <img src="{{ attachment.mini.url }}" alt="{{ object.title }}" class="mini" />
+	                {% endif %}
+	            {% endwith %}
+                <strong><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></strong>            
+                <div class="news-short">{{ object.short|safe }}</div>
+            </div>
         {% endfor %}
     {% else %}
         <div class="news-empty">Нет новостей</div>

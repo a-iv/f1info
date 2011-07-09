@@ -1,8 +1,9 @@
 {% extends "easy_news/base.html" %}
-{% load attachment_tags easy_news_tags %}
+{% load attachment_tags easy_news_tags utilities_tags %}
 
 {% block title %}{{ object.title }}{% endblock %}
 {% block content_title %}{% endblock %}
+
 {% block head %}
     <script type="text/javascript" src="/media/js/jquery-1.3.2.min.js"></script>
     <script type="text/javascript">
@@ -24,17 +25,16 @@
 {% endblock %}
 
 {% block content %}
-    <article class="wide-column">
+    <div class="wide-column">
+        <h1>{{ object.title }}</h1>    
+        <span class="news-date">{{ object.date|date:"j" }} {{ object.date|date_local:"F"|lower }} {{ object.date|date:"Y" }}</span>
         {% get_attachments for object as attachment %}
         {% with attachment.0 as image %}
             {% if image.image %}
-                <img src="{{ image.top.url }}" alt="{{ object.title }}" title="{{ object.title }}" class="top" />
+                <img src="{{ image.top.url }}" alt="{{ object.title }}" title="{{ object.title }}" class="details border" />
             {% endif %}
         {% endwith %}
-        <h1>{{ object.title }}</h1>
-        <div class="news-date">{{ object.date|date:"d" }} {{ object.month|lower }} {{ object.date|date:"Y" }}</div>
         <div class="news-text">{{ object.full|safe }}</div>
-        <div class="news-list"><a href="{% url news_list %}">Все новости</a></div>
-    </article>
+    </div>
 {% endblock %}
 

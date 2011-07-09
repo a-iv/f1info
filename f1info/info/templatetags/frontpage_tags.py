@@ -7,6 +7,13 @@ import datetime
 
 register = template.Library()
 
+def timedelta(value, arg=None):
+    if value:
+        return int(value) + 3
+    else:
+        return ''
+register.filter('timedelta',timedelta)
+
 @register.inclusion_tag('f1info/tags/nextgp.html', takes_context=False)
 def show_nextgp():
     today = datetime.datetime.today()

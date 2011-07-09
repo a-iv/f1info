@@ -17,6 +17,7 @@
 {% endblock %}
 
 {% block content %}
+    {% spaceless %}
 	<div id="result-detail">
 	    <h2>{{ object.grandprix }}</h2>
 	    <h3>{{ object.get_type_display }}</h3>
@@ -154,6 +155,7 @@
 			{% show_fastest_lap object.grandprix %}
 		{% endif %}
     </div>
+    {% endspaceless %}
 {% endblock %}
 
 

@@ -2,7 +2,7 @@
 
 /*** Basic styles ****/
 
-h1, h2, h3, h4, h5, h6 { font-weight: normal; }
+h1, h2, h3, h4, h5, h6 { font-weight: normal; line-height: normal; }
 h1, h2, h3 { margin: 12px 0; }
 h4, h5, h6 { margin: 10px 0; }
 h1 { font-size: 22px; color: #222; }
@@ -105,6 +105,13 @@ body {
 	text-transform: lowercase;
 }
 
+.date-small {
+    font-size: 11px;
+    color: #666;
+    display: block;
+    margin-left: 58px;
+}
+
 #top-story p { color: #333; }
 
 #extra-news {
@@ -201,6 +208,17 @@ a.news-item {
 	text-transform: lowercase;
 	padding: 1px 2px 3px 5px;
 	color: #555;
+}
+
+.news-short {
+    margin-left: 58px;
+}
+
+.news-date {
+    display: block;
+    clear: both;
+    margin: -2px 0 12px 0;
+    font-size: 11px;
 }
 
 /*** Next Grand Prix ***/
@@ -839,6 +857,7 @@ table.winners td {
 
 .wide-column {
     width: 720px;
+    overflow: hidden;
 }
 
 
@@ -857,7 +876,12 @@ img.border {
 
 img.top {
 	float: left;
-	margin: 0 16px 0 0;
+	margin: 0 14px 0 0;
+}
+
+img.details {
+    float: right;
+    margin: 0 0 4px 14px;
 }
 
 img.grandprix-photo {
