@@ -39,6 +39,23 @@ body {
 	color: #222;
 }
 
+html, body {
+	height: 100%;
+}
+
+.wrapper {
+	min-height: 100%;
+	height: auto !important;
+	height: 100%;
+	margin-bottom: -66px !important;
+}
+
+.push {
+	clear: both;
+	height: 66px;
+}
+
+
 .page {
 	width: 980px;
 	margin: 0 auto;
@@ -201,13 +218,27 @@ a.news-item {
 	display: block;
 	border-bottom: 1px dotted #cdcdcd;
 	padding: 1px 2px 3px 2px;
+	white-space: nowrap;
+}
+
+.gr {
+	position: absolute;
+	width: 10px;
+	height: 100%;
+	top: 0;
+	left: -10px;
+	z-index: 10;
+	background: url(../img/news-grad.png) repeat-y;
 }
 
 .news span.date {
 	float: right;
 	text-transform: lowercase;
-	padding: 1px 2px 3px 5px;
+	padding: 1px 2px 3px 6px;
 	color: #555;
+	position: relative;
+	z-index: 10;
+	background: #fafafa;
 }
 
 .news-short {
@@ -232,8 +263,12 @@ a.news-item {
 
 img.gp {
 	display: block;
-	margin: 0 0 0 -1px;
 	border: 1px solid #f1e9e4;
+}
+
+img.track {
+	display: block;
+	margin: 8px 0 0 0;
 }
 
 #gpname {
@@ -791,10 +826,6 @@ table #nat { width: 22px; }
 
 #winners {
     float: right;
-}
-
-.wrapper {
-    overflow: hidden;
 }
 
 /* Looks like shit

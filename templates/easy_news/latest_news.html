@@ -7,8 +7,11 @@
 	    {% if latest_news %}
 	        {% for object in latest_news|slice:":18" %}
 	        	<div class="news-row">
-	            	<span class="date" title="{{ object.date|date_local:"j F Y"|lower }}">{{ object.date|date:"j M"|lower }}</span>
-	            	<a href="{{ object.get_absolute_url }}" class="news-item">{{ object.title }}</a>
+	            	<span class="date" title="{{ object.date|date_local:"j F Y"|lower }}">
+	            		<i class="gr"></i>
+	            		{{ object.date|date:"j M"|lower }}
+           			</span>
+	            	<a href="{{ object.get_absolute_url }}" title="{{ object.title }}" class="news-item">{{ object.title }}</a>
 	            </div>
 	        {% endfor %}
 	    {% else %}

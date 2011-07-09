@@ -3,18 +3,21 @@
 <div class="block nextgp">
 	<a href="#" class="all">календарь »</a>
 	<h3>Следующий этап</h3>
-	<img src="/media/_img/bahrain.jpg" alt="" class="gp" />
-	
-	{% if heats.0.grandprix.tracklen.photo %}
-		<img src="{{ start.grandprix.tracklen.photo.url }}" alt="{{ object.grandprix.tracklen.track }}" width="100" style="float:right" />
-	{% endif %}
+	<img src="{{ heats.0.grandprix.name.photo.url }}" class="gp"/>
 	
 	<div id="gpname">
-		<img src="{{ heats.grandprix.country.photo.url }}" alt="{{ heats.grandprix.country }}" />
+		<span class="flag {{ heats.0.grandprix.country.en_name|slugify }} left"></span>
 		Гран-При {{ heats.0.grandprix.name }}
 	</div>
 	
-	<section id="heat-list">
+	<div id="heat-list">
+		<span>
+			{{ heats.0.date|date:"j" }}
+	        {% if heats.0.date.month != heats.reverse.0.date.month %}
+	            {{ heats.0.date|date_local:" F"|lower }}
+	        {% endif %}
+	        &ndash; {{ heats.reverse.0.date|date_local:"j F Y"|lower }}
+        </span>
 		{% for heat in heats %}
 			<p>
                 {% if not heat.type == 'G' %}
@@ -28,15 +31,13 @@
 			</p>
 		{% endfor %}
 		<span class="clock">Московское время</span>
-	</section>
+	</div>
 
 	<span class="small-grey">
-		{{ heats.0.date|date:"j" }}
-        {% if heats.0.date.month != heats.reverse.0.date.month %}
-            {{ heats.0.date|date_local:" F"|lower }}
-        {% endif %}
-        &ndash; {{ heats.reverse.0.date|date_local:"j F Y"|lower }}<br/> 
-		<span class="normal">{{ heats.0.grandprix.tracklen.track }}</span>
+		<strong>{{ heats.0.grandprix.tracklen.track }}</strong>
+		{% if heats.0.grandprix.tracklen.photo %}
+		<img src="{{ heats.0.grandprix.tracklen.photo.url }}" alt="" class="track" />
+		{% endif %}
 	</span>
 	
 	{% show_standings %}
