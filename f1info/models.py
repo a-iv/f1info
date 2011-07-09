@@ -270,9 +270,9 @@ def get_alpha(racers):
 
     result = []
     for letter in alpha:
-        result.append(racers.filter(family_name__istartswith=letter)[0].family_name)
+        result.append(racers.filter(family_name__istartswith=letter)[0].id)
 
-    return racers.filter(family_name__in=result)
+    return racers.filter(id__in=result)
 
 
 class Country(models.Model):
