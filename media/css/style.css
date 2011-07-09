@@ -416,10 +416,10 @@ td.center { text-align: center; }
 td.nc { color: #666; }
 
 #driver-details {
-	margin-left: 242px;
+	float: left;
+	margin-left: 10px;
     padding-top: 8px;
 	font-size: 12px;
-    overflow: hidden;
 }
 
 #driver-details h1 { 
@@ -441,7 +441,10 @@ td.nc { color: #666; }
 	margin: 8px 0 0 0;
 }
 
-#driver-details td { padding: 0; }
+#driver-details td {
+	padding: 0;
+}
+
 img.flag { margin: 0 0 -1px 0; }
 
 
