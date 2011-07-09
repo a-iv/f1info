@@ -311,6 +311,13 @@ class Racer(StatModel):
     def letters(self):
         return Racer.objects.filter(family_name__istartswith=self.family_name[0])
 
+    def photo_check(self):
+        try:
+            if self.photo.size:
+                return self.photo
+        except:
+            pass
+
     def __unicode__(self):
         return u'%s %s' % (self.first_name, self.family_name)
 
