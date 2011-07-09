@@ -430,15 +430,17 @@ td.nc { color: #666; }
 }
 
 #driver-details h3 {
-    margin: 4px 0 2px;
-    font-size: 12px;
-    line-height: 12px;
+    margin: 4px 0 0;
+    font-size: 14px;
+    line-height: 14px;
     clear: both;
+    float: left;
 }
 
 #driver-details table {
 	line-height: 20px;
 	margin: 8px 0 0 0;
+    clear: both;
 }
 
 #driver-details td {
@@ -450,10 +452,11 @@ img.flag { margin: 0 0 -1px 0; }
 
 .website, .twitter {
     font-size: 11px;
-    line-height: 16px;
+    line-height: 15px;
     padding-left: 20px;
     margin-right: 10px;
     background: url(/media/img/icons.png) no-repeat;
+    float: left;
 }
 
 .website { background-position: 0 0; }
@@ -485,7 +488,7 @@ img.driver-photo {
 
 #driver-details td.interactive {
     background: #fafaf0;
-    padding: 2px 4px;
+    padding: 4px;
 }
 
 th img {
@@ -548,10 +551,11 @@ table.heat-detail td, table.heat-detail th {
 
 
 ul.cups {
-	margin: 0;
+	margin: 0 0 -2px 0;
 	padding: 0 0 0 8px;
 	list-style: none;
 	overflow: hidden;
+    float: left;
 }
 
 ul.cups li {
@@ -954,6 +958,7 @@ img.grandprix-photo {
     font-size: 13px;
     font-weight: bold;
 }
+
 
 .twitter-avatar {
     width: 36px;
