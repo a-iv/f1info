@@ -423,14 +423,14 @@ td.nc { color: #666; }
 }
 
 #driver-details h1 { 
-	font-size: 28px !important;
+	font-size: 24px !important;
+    line-height: 24px;
     margin: 0 !important;
-    line-height: 28px;
     float: left;
 }
 
 #driver-details h3 {
-    margin: 4px 0 0;
+    margin: 6px 0 0;
     font-size: 14px;
     line-height: 14px;
     clear: both;
@@ -439,8 +439,9 @@ td.nc { color: #666; }
 
 #driver-details table {
 	line-height: 20px;
-	margin: 8px 0 0 0;
+	margin: 6px 0 0 0;
     clear: both;
+    float: left;
 }
 
 #driver-details td {
@@ -452,9 +453,10 @@ img.flag { margin: 0 0 -1px 0; }
 
 .website, .twitter {
     font-size: 11px;
-    line-height: 15px;
+    line-height: 14px;
+   	height: 16px;
     padding-left: 20px;
-    margin-right: 10px;
+    margin-right: 16px;
     background: url(/media/img/icons.png) no-repeat;
     float: left;
 }
@@ -551,8 +553,8 @@ table.heat-detail td, table.heat-detail th {
 
 
 ul.cups {
-	margin: 0 0 -2px 0;
-	padding: 0 0 0 8px;
+	margin: 1px 0 -6px 0;
+	padding: 0 0 0 12px;
 	list-style: none;
 	overflow: hidden;
     float: left;
@@ -847,7 +849,7 @@ img.border {
     display: block;
     background: #fff;
     border: 1px solid #e5e4de;
-	padding: 3px;
+	padding: 4px;
 	-moz-box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 	-webkit-box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 	box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
