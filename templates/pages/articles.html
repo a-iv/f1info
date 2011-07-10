@@ -1,12 +1,15 @@
 {% extends 'pages/base.html' %}
 {% load pages_tags markitup_tags frontpage_tags %}
 
+{% block content_title %}{% endblock %}
+
 {% block content %}
     {% if False %}{% placeholder main_content with markItUpMarkdown %}{% endif %}
     {% get_content current_page "main_content" as main_content %}
     {{ main_content|render_markup|safe }}
 
-    <ul class="articles">
+    <ul class="wide-column">
+    <h1>Статьи</h1>
     {% for inner in current_page.get_children %}
         <li>
             <h2><a href="{{ inner.get_absolute_url }}">{{ inner.title }}</a></h2>
@@ -15,4 +18,4 @@
         </li>
     {% endfor %}
     </ul>
-{% endblock  %}
+{% endblock %}
