@@ -23,7 +23,13 @@
 		{% for heat in heats %}
 			<p>
                 {% if not heat.type == 'G' %}
-				    <em>{{ heat.date|date_local:"D" }}, <strong>{{ heat.date|date:"H"|timedelta }}:{{ heat.date|date:"i" }}</strong></em>
+				    <em>{{ heat.date|date_local:"D" }}, 
+                        {% if heat.type == 'R' %}
+                            <strong>16:00</strong>
+                        {% else %}
+                            <strong>{{ heat.date|date:"H"|timedelta }}:{{ heat.date|date:"i" }}</strong>
+                        {% endif %}
+                    </em>
                 {% endif %}
                 {% if heat.time %}
 				    <a href="{% url heat_detail heat.slug %}">{{ heat.get_type_display }}</a>
