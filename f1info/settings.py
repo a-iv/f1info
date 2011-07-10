@@ -39,7 +39,6 @@ SECRET_KEY = '_7y*-5^h4*^4b0=n%kwtw*1a(fd%!lq8xbx-#nc*8v5ba4-*te'
 MIDDLEWARE_CLASSES = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.doc.XViewMiddleware',
-    #'django.middleware.locale.LocaleMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
@@ -174,10 +173,17 @@ MENU_PROXY_RULES = [
         'ancestors_exclude': {'status': 0, },
     },
     {
+        'name': 'drivers',
+        'method': 'insert',
+        'proxy': 'menuproxy.proxies.StaticUrlProxy',
+        'url_text': '/drivers/',
+        'title_text': u'Пилоты',
+    },
+    {
         'name': 'results',
         'method': 'insert',
         'proxy': 'menuproxy.proxies.StaticUrlProxy',
-        'url_text': '/season/',
+        'url_text': '/seasons/',
         'title_text': u'Результаты',
     },
 ]

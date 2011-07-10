@@ -24,7 +24,7 @@
 		        <tr>
 		            <td class="pos">{{ forloop.counter }}</td>
 		            <td class="country"><span class="flag {{ team.country.en_name|slugify }}"></span></td>
-		            <td class="driver"><a href="{% url team_detail team.slug %}">{{ team }}</a></td>
+		            <td class="driver">{{ team }}</td>
 		            <td class="total">{{ team.counted_total|floatformat }}</td>
 		        </tr>
 		    {% endif %}

@@ -2,7 +2,7 @@
 
 {% block content %}
     <h2>Гонщики</h2>
-    <ul>
+    <ul class="racers-list">
         {% for object in object_list %}
             <li>
                 <strong>{{ object.family_name|slice:":1" }}</strong>

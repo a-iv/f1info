@@ -2,13 +2,14 @@
 
 {% if racers %}
 <div id="today">
-    <h4>Сегодня празднуют День рождения:</h4>
+    <h3>В этот день</h3>
+    <h5>Сегодня день рождения у:</h5>
     <ul>
         {% for racer in racers %}
             <li><a href="{% url racer_detail racer.slug %}">{{ racer }}</a></li>
 	    {% endfor %}
 	</ul>
-	<h4>В этот день состоялась гонка:</h4>
+	<h5>В этот день состоялась гонка:</h5>
     <ul>
         {% for heat in heats %}
             <li><a href="{% url heat_detail heat.slug %}">Гран-При {{ heat.grandprix.name }} {{ heat.grandprix.season }}</a></li>

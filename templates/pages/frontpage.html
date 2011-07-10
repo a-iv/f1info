@@ -12,7 +12,9 @@
 		{% show_nextgp %}
 		{% latest_news %}
 		<div class="block articles">
+			<!-- 
     		<a href="#" class="all">все статьи »</a>
+    		 -->
     		<h3>Статьи</h3>
             {% get_page articles as articles %}
             {% for article in articles.get_children|slice:":5" %}
@@ -29,17 +31,14 @@
 	        	</div>
             {% endfor %}
 	    </div>
+	    <div class="block articles today">
+            {% show_today %}
+        </div>
 	</div>
 
     <div class="three-blocks clearfix" style="display:none;">
         <div class="block nextgp">
             {% show_twitter %}
-        </div>
-        <div class="block news">
-            test
-        </div>
-        <div class="block articles">
-            {% show_today %}
         </div>
     </div>
 {% endblock %}

@@ -1,11 +1,16 @@
 {% extends 'pages/base.html' %}
 {% load pages_tags markitup_tags %}
 
+{% block content_title %}{% endblock %}
+
 {% block content %}
-    {% if False %}
-        {% placeholder summary with markItUpMarkdown %}
-        {% placeholder details with markItUpMarkdown %}
-    {% endif %}
-    {% get_content current_page "details" as details %}
-    {{ details|render_markup|safe }}
-{% endblock  %}
+	<div id="article" class="wide-column">
+		<h1>{{ current_page.title }}</h1>
+	    {% if False %}
+	        {% placeholder summary with markItUpMarkdown %}
+	        {% placeholder details with markItUpMarkdown %}
+	    {% endif %}
+	    {% get_content current_page "details" as details %}
+	    {{ details|render_markup|safe }}
+    </div>
+{% endblock %}

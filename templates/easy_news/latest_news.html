@@ -5,7 +5,7 @@
 		<a href="{% url news_list %}" class="all">все новости »</a>
 		<h3>Последние новости</h3>
 	    {% if latest_news %}
-	        {% for object in latest_news|slice:":18" %}
+	        {% for object in latest_news|slice:":20" %}
 	        	<div class="news-row">
 	            	<span class="date" title="{{ object.date|date_local:"j F Y"|lower }}">
 	            		<i class="gr"></i>
