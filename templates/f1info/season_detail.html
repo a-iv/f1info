@@ -64,9 +64,15 @@
 	   		<th>Гонщик</th>
 	   		{% for grandprix in object.grandprixs.all %}
 	        	<th>
+	        		{% if grandprix.heats.all.0.time %}
                     <a href="{% url grand_prix_detail grandprix.id %}" title="{{ grandprix }}" class="abbr">{{ grandprix.name.abbr }}
 	        			<span class="flag {{ grandprix.country.en_name|slugify }}"></span>
 	        		</a>
+	        		{% else %}
+	        		<div class="abbr inactive" title="{{ grandprix }}">{{ grandprix.name.abbr }}
+	        			<span class="flag {{ grandprix.country.en_name|slugify }}"></span>
+        			</div>
+	        		{% endif %}
 	       		</th>
 	    	{% endfor %}
 	    	<th>Очки</th>
