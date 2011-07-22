@@ -148,7 +148,7 @@ PAGE_TEMPLATES = (
 
 # django-config settings
 CONFIG_SITES = ['www.f1online.ru', ]
-CONFIG_REDIRECTS = ['f1online.ru', ]
+CONFIG_REDIRECTS = ['f1online.ru', 'f1daily.ru', 'www.f1daily.ru', ]
 CONFIG_APP_MEDIA = {
     'pages': [
         ('pages', 'pages',),

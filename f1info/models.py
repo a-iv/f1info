@@ -663,7 +663,10 @@ class GrandPrix(VerboseModel):
         for result in results:
             times[result] = result.time
         heat = min(times, key=times.get)
-        return heat.get_results()[0]
+        try:
+            return heat.get_results()[0]
+        except:
+            pass
 
     def get_qual_record(self):
         filter = { 'type': 'Q', 'grandprix__tracklen': self.tracklen }

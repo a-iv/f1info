@@ -23,7 +23,7 @@
         {% for grandprix in object.season.grandprixs.all %}
             <li {% if not grandprix.heats.all %}class="inactive"{% endif %}>
                 <span class="grandprix-counter">{{ forloop.counter }}</span>
-                {% if grandprix.heats.all.0.time %}
+                {% if grandprix.heats.all.reverse.0.time %}
                 <a href="{% url grand_prix_detail grandprix.id %}" title="{{ grandprix }}" class="abbr">
                 <span class="flag {{ grandprix.country.en_name|slugify }}"></span>
                     <strong>{{ grandprix.name.abbr }}</strong>
@@ -111,11 +111,19 @@
             </li>
             <li>
                 <strong>Рекорд круга в квалификации:</strong><br/>
-                <a href="{% url heat_detail object.get_qual_record.heat.slug %}">{{ object.get_qual_record.get_time_display }}</a> &ndash; {{ object.get_qual_record.heat.grandprix.season.year }}, {{ object.get_qual_record.racer }}, {{ object.get_qual_record.team }}
+                {% if object.get_qual_record %}
+                	<a href="{% url heat_detail object.get_qual_record.heat.slug %}">{{ object.get_qual_record.get_time_display }}</a> &ndash; {{ object.get_qual_record.heat.grandprix.season.year }}, {{ object.get_qual_record.racer }}, {{ object.get_qual_record.team }}
+            	{% else %}
+            		-
+            	{% endif %}
             </li>
             <li>
                 <strong>Рекорд круга в гонке:</strong><br/>
-                <a href="{% url heat_detail object.get_race_record.heat.slug %}">{{ object.get_race_record.get_time_display }}</a> &ndash; {{ object.get_race_record.heat.grandprix.season.year }}, {{ object.get_race_record.racer }}, {{ object.get_race_record.team }}
+                {% if object.get_race_record %}
+                	<a href="{% url heat_detail object.get_race_record.heat.slug %}">{{ object.get_race_record.get_time_display }}</a> &ndash; {{ object.get_race_record.heat.grandprix.season.year }}, {{ object.get_race_record.racer }}, {{ object.get_race_record.team }}
+            	{% else %}
+            		-
+            	{% endif %}
             </li>
         </ul>
 
